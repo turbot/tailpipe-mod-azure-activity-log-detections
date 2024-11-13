@@ -1,6 +1,6 @@
 mod "azure" {
   # hub metadata
-  title         = "Azure"
+  title         = "Azure Detections"
   description   = "Search your Azure activity logs for high risk actions using Tailpipe."
   color         = "#191717"
   #documentation = file("./docs/index.md")
@@ -9,7 +9,7 @@ mod "azure" {
   database      = var.database
 
   opengraph {
-    title       = "Tailpipe Mod for Azure"
+    title       = "Tailpipe Mod for Azure Detections"
     description = "Search your Azure activity logs for high risk actions using Tailpipe."
     #image       = "/images/mods/turbot/azure-social-graphic.png"
   }
