@@ -23,6 +23,10 @@ detection_benchmark "activity_log_detections" {
     detection.activity_logs_detect_kubernetes_cluster_create_delete,
     detection.activity_logs_detect_kubernetes_pods_delete
   ]
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    type = "Benchmark"
+  })
 }
 
 /*
