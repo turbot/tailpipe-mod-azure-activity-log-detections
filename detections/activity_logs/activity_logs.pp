@@ -9,19 +9,19 @@ detection_benchmark "activity_log_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Activity logs."
   type = "detection"
   children = [
-    detection.activity_logs_detect_virtual_networks_create_modify_delete,
-    detection.activity_logs_detect_vpn_connections_modify_delete,
-    detection.activity_logs_detect_network_security_groups_modify_delete,
     detection.activity_logs_detect_application_gateways_modify_delete,
     detection.activity_logs_detect_application_security_groups_modify_delete,
     detection.activity_logs_detect_container_registries_create_delete,
     detection.activity_logs_detect_firewalls_modify_delete,
     detection.activity_logs_detect_grant_permissions_detection,
-    detection.activity_logs_detect_keyvaults_modify_delete,
     detection.activity_logs_detect_keyvault_secrets_modify_delete,
-    detection.activity_logs_detect_virtual_networks_modify_delete,
+    detection.activity_logs_detect_keyvaults_modify_delete,
     detection.activity_logs_detect_kubernetes_clusters_create_delete,
-    detection.activity_logs_detect_kubernetes_pods_delete
+    detection.activity_logs_detect_kubernetes_pods_delete,
+    detection.activity_logs_detect_network_security_groups_modify_delete,
+    detection.activity_logs_detect_virtual_networks_create_modify_delete,
+    detection.activity_logs_detect_virtual_networks_modify_delete,
+    detection.activity_logs_detect_vpn_connections_modify_delete,
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
