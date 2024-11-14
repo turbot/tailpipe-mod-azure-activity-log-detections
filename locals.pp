@@ -11,8 +11,8 @@ locals {
     common_activity_logs_sql = <<-EOQ
     tp_timestamp as timestamp,
     operation_name as operation,
-    caller as actor,
     resource_id as resource,
+    caller as actor,
     tp_index::varchar as subscription_id,
     resource_group_name as resource_group,
     tp_id as source_id,

@@ -1,4 +1,4 @@
-mod "azure" {
+mod "azure_detections" {
   # hub metadata
   title         = "Azure Detections"
   description   = "Search your Azure activity logs for high risk actions using Tailpipe."
