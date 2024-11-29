@@ -28,7 +28,12 @@ detection_benchmark "activity_log_detections" {
     detection.activity_logs_detect_automation_webhook_create,
     detection.activity_logs_detect_automation_runbook_delete,
     detection.activity_logs_detect_automation_account_create,
-    detection.activity_logs_detect_automation_runbook_create_modify
+    detection.activity_logs_detect_automation_runbook_create_modify,
+    detection.activity_logs_detect_virtual_network_device_modify,
+    detection.activity_logs_detect_resource_group_delete,
+    detection.activity_logs_detect_network_watcher_delete,
+    detection.activity_logs_detect_storage_blob_container_access_modify,
+    detection.activity_logs_detect_diagnostic_settings_delete
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -299,6 +304,71 @@ detection "activity_logs_detect_automation_runbook_create_modify" {
     "https://github.com/hausec/PowerZure",
     "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
     "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_virtual_network_device_modify" {
+  title       = "Detect Virtual Network Device Modified"
+  description = "Detects the modification of Azure Virtual Network Device."
+  severity    = "low"
+  query       = query.activity_logs_detect_virtual_network_device_modify
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_resource_group_delete" {
+  title       = "Detect Resource Group Deleted"
+  description = "Detects the deletion of Azure Resource Group."
+  severity    = "low"
+  query       = query.activity_logs_detect_resource_group_delete
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_network_watcher_delete" {
+  title       = "Detect Network Watcher Deleted"
+  description = "Detects the deletion of Azure Network Watche."
+  severity    = "low"
+  query       = query.activity_logs_detect_network_watcher_delete
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-monitoring-overview"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_storage_blob_container_access_modify" {
+  title       = "Detect Storage Blob Container Access Modified"
+  description = "Detects the modification of Azure Storage Blob Container access."
+  severity    = "low"
+  query       = query.activity_logs_detect_storage_blob_container_access_modify
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-prevent"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_diagnostic_settings_delete" {
+  title       = "Detect Diagnostic Setting Deletion"
+  description = "Detects the deletion of Azure diagnostic setting."
+  severity    = "medium"
+  query       = query.activity_logs_detect_diagnostic_settings_delete
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings"
   ]
 
   tags = local.activity_log_detection_common_tags
@@ -643,6 +713,88 @@ query "activity_logs_detect_automation_runbook_create_modify" {
         'Microsoft.Automation/automationAccounts/runbooks/write',
         'Microsoft.Automation/automationAccounts/runbooks/publish/action',
       )
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_virtual_network_device_modify" {
+  sql = <<-EOQ
+    select
+     ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Network/networkInterfaces/tapConfigurations/write',
+        'Microsoft.Network/networkInterfaces/tapConfigurations/delete',
+        'Microsoft.Network/networkInterfaces/write',
+        'Microsoft.Network/networkInterfaces/delete',
+        'Microsoft.Network/networkInterfaces/join/action',
+        'Microsoft.Network/networkVirtualAppliances/delete',
+        'Microsoft.Network/networkVirtualAppliances/write',
+        'Microsoft.Network/virtualHubs/write',
+        'Microsoft.Network/virtualHubs/delete',
+        'Microsoft.Network/virtualRouters/write',
+        'Microsoft.Network/virtualRouters/delete'
+      )
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_resource_group_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Resources/subscriptions/resourcegroups/delete'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_network_watcher_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/networkWatchers/delete'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_storage_blob_container_access_modify" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Storage/storageAccounts/blobServices/containers/write'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_diagnostic_settings_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'microsoft.insights/diagnosticSettings/delete'
       and status = 'Succeeded'
     order by
       timestamp desc;
