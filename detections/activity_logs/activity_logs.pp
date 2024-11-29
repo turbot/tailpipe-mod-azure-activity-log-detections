@@ -22,6 +22,13 @@ detection_benchmark "activity_log_detections" {
     detection.activity_logs_detect_virtual_networks_create_modify_delete,
     detection.activity_logs_detect_virtual_networks_modify_delete,
     detection.activity_logs_detect_vpn_connections_modify_delete,
+    detection.activity_logs_detect_storage_account_key_regenerated,
+    detection.activity_logs_detect_event_hub_auth_rule_create_update,
+    detection.activity_logs_detect_event_hub_delete,
+    detection.activity_logs_detect_automation_webhook_create,
+    detection.activity_logs_detect_automation_runbook_delete,
+    detection.activity_logs_detect_automation_account_create,
+    detection.activity_logs_detect_automation_runbook_create_modify
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -187,6 +194,111 @@ detection "activity_logs_detect_kubernetes_pods_delete" {
 
   references = [
     "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_storage_account_key_regenerated" {
+  title       = "Detect Storage accounts key regenerated"
+  description = "Detects the regeneration of Storage accounts key."
+  severity    = "low"
+  query       = query.activity_logs_detect_storage_account_key_regenerated
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_event_hub_auth_rule_create_update" {
+  title       = "Detect Event Hubs Auth Rule Created or Updated"
+  description = "Detects when a Azure Event Hubs Auth Rule is created or updated."
+  severity    = "medium"
+  query       = query.activity_logs_detect_event_hub_auth_rule_create_update
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-shared-access-signature"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_event_hub_delete" {
+  title       = "Detect Event Hubs Deleted"
+  description = "Detects the deletion of Azure Event Hubs."
+  severity    = "medium"
+  query       = query.activity_logs_detect_event_hub_delete
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about",
+    "https://azure.microsoft.com/en-in/services/event-hubs/",
+    "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_automation_webhook_create" {
+  title       = "Detect Automation Account Webhook Created"
+  description = "Detects the creation of Azure Automation account webhook."
+  severity    = "low"
+  query       = query.activity_logs_detect_automation_webhook_create
+
+  references = [
+    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
+    "https://github.com/hausec/PowerZure",
+    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
+    "https://www.ciraltos.com/webhooks-and-azure-automation-runbooks/",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_automation_runbook_delete" {
+  title       = "Detect Automation Account Runbook Deleted"
+  description = "Detects the deletion of Azure Automation account runbook."
+  severity    = "low"
+  query       = query.activity_logs_detect_automation_runbook_delete
+
+  references = [
+    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
+    "https://github.com/hausec/PowerZure",
+    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
+    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_automation_account_create" {
+  title       = "Detect Automation Account Created"
+  description = "Detects the creation of Azure Automation account."
+  severity    = "low"
+  query       = query.activity_logs_detect_automation_account_create
+
+  references = [
+    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
+    "https://github.com/hausec/PowerZure",
+    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
+    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_automation_runbook_create_modify" {
+  title       = "Detect Automation Runbook Created or Modified"
+  description = "Detects the creation or modification of Azure Automation runbook."
+  severity    = "low"
+  query       = query.activity_logs_detect_automation_runbook_create_modify
+
+  references = [
+    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
+    "https://github.com/hausec/PowerZure",
+    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
+    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
   ]
 
   tags = local.activity_log_detection_common_tags
@@ -376,7 +488,7 @@ query "activity_logs_detect_keyvault_secrets_modify_delete" {
         'Microsoft.KeyVault/vaults/secrets/setSecret/action'
       )
       and status = 'Succeeded'
-    order by 
+    order by
       timestamp desc;
   EOQ
 }
@@ -426,6 +538,111 @@ query "activity_logs_detect_kubernetes_pods_delete" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Kubernetes/connectedClusters/pods/delete'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_storage_account_key_regenerated" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Storage/storageAccounts/regenerateKey/action'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_event_hub_auth_rule_create_update" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.EventHub/namespaces/authorizationRules/write'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_event_hub_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.EventHub/namespaces/eventhubs/delete'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_automation_webhook_create" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Automation/automationAccounts/webhooks/action',
+        'Microsoft.Automation/automationAccounts/webhooks/write'
+      )
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_automation_runbook_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Automation/automationAccounts/runbooks/delete'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_automation_account_create" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Automation/automationAccounts/write'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_automation_runbook_create_modify" {
+  sql = <<-EOQ
+    select
+     ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Automation/automationAccounts/runbooks/draft/write',
+        'Microsoft.Automation/automationAccounts/runbooks/write',
+        'Microsoft.Automation/automationAccounts/runbooks/publish/action',
+      )
       and status = 'Succeeded'
     order by
       timestamp desc;
