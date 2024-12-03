@@ -33,7 +33,12 @@ detection_benchmark "activity_log_detections" {
     detection.activity_logs_detect_resource_group_delete,
     detection.activity_logs_detect_network_watcher_delete,
     detection.activity_logs_detect_storage_blob_container_access_modify,
-    detection.activity_logs_detect_diagnostic_settings_delete
+    detection.activity_logs_detect_diagnostic_settings_delete,
+    detection.activity_logs_detect_virtual_machine_command_execution,
+    detection.activity_logs_detect_dns_zone_modify_delete,
+    detection.activity_logs_detect_firewall_policies_modify_delete,
+    detection.activity_logs_detect_firewall_rules_modify_delete,
+    detection.activity_logs_detect_frontdoor_firewall_policies_delete
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -369,6 +374,73 @@ detection "activity_logs_detect_diagnostic_settings_delete" {
 
   references = [
     "https://docs.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_virtual_machine_command_execution" {
+  title       = "Detect Virtual Machine Command Execution"
+  description = "Detects the command execution virtual machine"
+  severity    = "medium"
+  query       = query.activity_logs_detect_virtual_machine_command_execution
+
+  references = [
+    "https://adsecurity.org/?p=4277",
+    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
+    "https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#virtual-machine-contributor",
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_dns_zone_modify_delete" {
+  title       = "Detect DNS Zone Modified or Deleted"
+  description = "Detects when a DNS zone is modified or deleted."
+  severity    = "medium"
+  query       = query.activity_logs_detect_dns_zone_modify_delete
+
+  references = [
+    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_firewall_policies_modify_delete" {
+  title       = "Detect Firewall Policy Modified or Deleted"
+  description = "Detects when a firewall policy  is modified or deleted."
+  severity    = "medium"
+  query       = query.activity_logs_detect_firewall_policies_modify_delete
+
+  references = [
+    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_firewall_rules_modify_delete" {
+  title       = "Detect Firewall Rule Modified or Deleted"
+  description = "Detects when a firewall Rules  is modified or deleted."
+  severity    = "medium"
+  query       = query.activity_logs_detect_firewall_rules_modify_delete
+
+  references = [
+    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
+  ]
+
+  tags = local.activity_log_detection_common_tags
+}
+
+detection "activity_logs_detect_frontdoor_firewall_policies_delete" {
+  title       = "Detect Front Door WAF  Policy Deletion"
+  description = "Detects the deletion of Front Door WAF policy."
+  severity    = "low"
+  query       = query.activity_logs_detect_frontdoor_firewall_policies_delete
+
+  references = [
+    "https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#networking"
   ]
 
   tags = local.activity_log_detection_common_tags
@@ -798,5 +870,108 @@ query "activity_logs_detect_diagnostic_settings_delete" {
       and status = 'Succeeded'
     order by
       timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_virtual_machine_command_execution" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Compute/virtualMachines/runCommand/action'
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_dns_zone_modify_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Network/dnsZones/delete',
+        'Microsoft.Network/dnsZones/write'
+      )
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_keyvault_keys_modify_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Network/dnsZones/delete',
+        'Microsoft.Network/dnsZones/write'
+      )
+      and status = 'Succeeded'
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_policies_modify_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Network/firewallPolicies/write',
+        'Microsoft.Network/firewallPolicies/delete',
+        'Microsoft.Network/firewallPolicies/join/action',
+        'Microsoft.Network/firewallPolicies/certificates/action'
+      )
+      and
+        status = 'Succeeded'
+    order by
+      timestamp DESC;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_rules_modify_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name in (
+        'Microsoft.Network/firewallPolicies/ruleCollectionGroups/write',
+        'Microsoft.Network/firewallPolicies/ruleCollectionGroups/delete',
+        'Microsoft.Network/firewallPolicies/ruleGroups/write',
+        'Microsoft.Network/firewallPolicies/ruleGroups/delete'
+      )
+      and
+        status = 'Succeeded'
+    order by
+      timestamp DESC;
+  EOQ
+}
+
+query "activity_logs_detect_frontdoor_firewall_policies_delete" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/frontDoorWebApplicationFirewallPolicies/delete'
+      and
+        status = 'Succeeded'
+    order by
+      timestamp DESC;
   EOQ
 }
