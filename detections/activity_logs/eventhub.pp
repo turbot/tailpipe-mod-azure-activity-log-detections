@@ -49,7 +49,7 @@ query "activity_logs_detect_event_hub_auth_rule_create_update" {
       azure_activity_log
     where
       operation_name = 'Microsoft.EventHub/namespaces/authorizationRules/write'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -63,7 +63,7 @@ query "activity_logs_detect_event_hub_delete" {
       azure_activity_log
     where
       operation_name = 'Microsoft.EventHub/namespaces/eventhubs/delete'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

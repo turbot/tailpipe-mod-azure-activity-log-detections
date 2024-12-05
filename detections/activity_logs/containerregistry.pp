@@ -28,18 +28,17 @@ detection "activity_logs_detect_container_registries_create_delete" {
 
 query "activity_logs_detect_container_registries_create_delete" {
   sql = <<-EOQ
-    SELECT
+    select
       ${local.common_activity_logs_sql}
-    FROM
+    from
       azure_activity_log
-    WHERE
-      operation_name IN (
+    where
+      operation_name in (
         'Microsoft.ContainerRegistry/registries/write',
         'Microsoft.ContainerRegistry/registries/delete'
       )
-      AND
-        status = 'Succeeded'
-    ORDER BY
-      timestamp DESC;
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
   EOQ
 }

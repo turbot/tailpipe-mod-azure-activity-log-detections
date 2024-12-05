@@ -52,7 +52,7 @@ query "activity_logs_detect_keyvaults_modify_delete" {
         'Microsoft.KeyVault/vaults/accessPolicies/write',
         'Microsoft.KeyVault/vaults/deploy/action'
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -75,7 +75,7 @@ query "activity_logs_detect_keyvault_secrets_modify_delete" {
         'Microsoft.KeyVault/vaults/secrets/restore/action',
         'Microsoft.KeyVault/vaults/secrets/setSecret/action'
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

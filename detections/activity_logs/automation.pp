@@ -90,7 +90,7 @@ query "activity_logs_detect_automation_webhook_create" {
         'Microsoft.Automation/automationAccounts/webhooks/action',
         'Microsoft.Automation/automationAccounts/webhooks/write'
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -104,7 +104,7 @@ query "activity_logs_detect_automation_runbook_delete" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Automation/automationAccounts/runbooks/delete'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -118,7 +118,7 @@ query "activity_logs_detect_automation_account_create" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Automation/automationAccounts/write'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -136,7 +136,7 @@ query "activity_logs_detect_automation_runbook_create_modify" {
         'Microsoft.Automation/automationAccounts/runbooks/write',
         'Microsoft.Automation/automationAccounts/runbooks/publish/action',
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

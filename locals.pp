@@ -19,4 +19,8 @@ locals {
     status as event_status,
     *
     EOQ
+
+    activity_logs_detection_where_conditions = <<-EOQ
+    and status = 'Succeeded'
+  EOQ
 }

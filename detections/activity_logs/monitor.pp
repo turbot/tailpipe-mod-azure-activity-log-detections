@@ -33,7 +33,7 @@ query "activity_logs_detect_diagnostic_settings_delete" {
       azure_activity_log
     where
       operation_name = 'microsoft.insights/diagnosticSettings/delete'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

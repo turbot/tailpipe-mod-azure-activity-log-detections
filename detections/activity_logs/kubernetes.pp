@@ -52,7 +52,7 @@ query "activity_logs_detect_kubernetes_clusters_create_delete" {
         'Microsoft.Kubernetes/connectedClusters/write',
         'Microsoft.Kubernetes/connectedClusters/delete'
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -66,7 +66,7 @@ query "activity_logs_detect_kubernetes_pods_delete" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Kubernetes/connectedClusters/pods/delete'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

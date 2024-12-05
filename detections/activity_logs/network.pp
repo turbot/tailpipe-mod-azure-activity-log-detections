@@ -172,54 +172,51 @@ detection "activity_logs_detect_dns_zone_modify_delete" {
 
 query "activity_logs_detect_application_gateways_modify_delete" {
   sql = <<-EOQ
-    SELECT
+    select
       ${local.common_activity_logs_sql}
-    FROM
+    from
       azure_activity_log
-    WHERE
-      operation_name IN (
+    where
+      operation_name in (
         'Microsoft.Network/applicationGateways/write',
         'Microsoft.Network/applicationGateways/delete'
       )
-      AND
-        status = 'Succeeded'
-    ORDER BY
-      timestamp DESC;
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
   EOQ
 }
 
 query "activity_logs_detect_application_security_groups_modify_delete" {
   sql = <<-EOQ
-    SELECT
+    select
       ${local.common_activity_logs_sql}
-    FROM
+    from
       azure_activity_log
-    WHERE
-      operation_name IN (
+    where
+      operation_name in (
         'Microsoft.Network/applicationSecurityGroups/write',
         'Microsoft.Network/applicationSecurityGroups/delete'
       )
-      AND
-        status = 'Succeeded'
-    ORDER BY
-      timestamp DESC;
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
   EOQ
 }
 
 query "activity_logs_detect_firewalls_modify_delete" {
   sql = <<-EOQ
-    SELECT
+    select
       ${local.common_activity_logs_sql}
-    FROM
+    from
       azure_activity_log
-    WHERE
-      operation_name IN (
+    where
+      operation_name in (
         'Microsoft.Network/azureFirewalls/write',
         'Microsoft.Network/azureFirewalls/delete'
       )
-      AND
-        status = 'Succeeded'
-    ORDER BY
+      ${local.activity_logs_detection_where_conditions}
+    order by
       timestamp DESC;
   EOQ
 }
@@ -227,11 +224,11 @@ query "activity_logs_detect_firewalls_modify_delete" {
 
 query "activity_logs_detect_network_security_groups_modify_delete" {
   sql = <<-EOQ
-    SELECT
+    select
       ${local.common_activity_logs_sql}
-    FROM
+    from
       azure_activity_log
-    WHERE
+    where
       operation_name IN (
         'Microsoft.Network/networkSecurityGroups/Write',
         'Microsoft.Network/networkSecurityGroups/Delete',
@@ -239,13 +236,11 @@ query "activity_logs_detect_network_security_groups_modify_delete" {
         'Microsoft.Network/networkSecurityGroups/securityRules/DELETE',
         'Microsoft.Network/networkSecurityGroups/join/action',
       )
-      AND
-        status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     ORDER BY
       timestamp DESC;
   EOQ
 }
-
 
 query "activity_logs_detect_virtual_networks_create_modify_delete" {
   sql = <<-EOQ
@@ -258,8 +253,7 @@ query "activity_logs_detect_virtual_networks_create_modify_delete" {
         'Microsoft.Network/virtualNetworks/write',
         'Microsoft.Network/virtualNetworks/delete'
       )
-      and
-        status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -276,8 +270,7 @@ query "activity_logs_detect_vpn_connections_modify_delete" {
         'microsoft.network/vpnGateways/vpnConnections/write',
         'microsoft.network/vpnGateways/vpnConnections/delete'
       )
-      and
-        status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -285,21 +278,20 @@ query "activity_logs_detect_vpn_connections_modify_delete" {
 
 query "activity_logs_detect_virtual_networks_modify_delete" {
   sql = <<-EOQ
-    SELECT
+    select
       ${local.common_activity_logs_sql}
-    FROM
+    from
       azure_activity_log
-    WHERE
+    where
       operation_name IN (
         'Microsoft.Network/virtualNetworks/write',
         'Microsoft.Network/virtualNetworks/delete',
         'Microsoft.Network/virtualNetworkGateways/write',
         'Microsoft.Network/virtualNetworkGateways/delete'
       )
-      AND
-        status = 'Succeeded'
-    ORDER BY
-      timestamp DESC;
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
   EOQ
 }
 
@@ -323,7 +315,7 @@ query "activity_logs_detect_virtual_network_device_modify" {
         'Microsoft.Network/virtualRouters/write',
         'Microsoft.Network/virtualRouters/delete'
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -337,7 +329,7 @@ query "activity_logs_detect_network_watcher_delete" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Network/networkWatchers/delete'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -356,8 +348,7 @@ query "activity_logs_detect_firewall_policies_modify_delete" {
         'Microsoft.Network/firewallPolicies/join/action',
         'Microsoft.Network/firewallPolicies/certificates/action'
       )
-      and
-        status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp DESC;
   EOQ
@@ -376,8 +367,7 @@ query "activity_logs_detect_firewall_rules_modify_delete" {
         'Microsoft.Network/firewallPolicies/ruleGroups/write',
         'Microsoft.Network/firewallPolicies/ruleGroups/delete'
       )
-      and
-        status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp DESC;
   EOQ
@@ -394,7 +384,7 @@ query "activity_logs_detect_dns_zone_modify_delete" {
         'Microsoft.Network/dnsZones/delete',
         'Microsoft.Network/dnsZones/write'
       )
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

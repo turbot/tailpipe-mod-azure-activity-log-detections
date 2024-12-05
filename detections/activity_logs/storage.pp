@@ -47,7 +47,7 @@ query "activity_logs_detect_storage_account_key_regenerated" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Storage/storageAccounts/regenerateKey/action'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -61,7 +61,7 @@ query "activity_logs_detect_storage_blob_container_access_modify" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Storage/storageAccounts/blobServices/containers/write'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

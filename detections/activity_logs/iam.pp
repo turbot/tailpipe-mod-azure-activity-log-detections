@@ -33,7 +33,7 @@ query "activity_logs_detect_grant_permissions_detection" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Authorization/roleAssignments/write'
-      and status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ

@@ -33,8 +33,7 @@ query "activity_logs_detect_frontdoor_firewall_policies_delete" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Network/frontDoorWebApplicationFirewallPolicies/delete'
-      and
-        status = 'Succeeded'
+      ${local.activity_logs_detection_where_conditions}
     order by
       timestamp DESC;
   EOQ
