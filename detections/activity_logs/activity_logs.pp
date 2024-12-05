@@ -4,10 +4,11 @@ locals {
   }
 }
 
-detection_benchmark "activity_log_detections" {
-  title = "Activity Log Detections"
+benchmark "activity_log_detections" {
+  title       = "Activity Log Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Activity logs."
-  type = "detection"
+  type        = "detection"
+
   children = [
     detection.activity_logs_detect_application_gateways_modify_delete,
     detection.activity_logs_detect_application_security_groups_modify_delete,
@@ -173,10 +174,6 @@ detection "activity_logs_detect_storage_account_key_regenerated" {
   severity    = "low"
   query       = query.activity_logs_detect_storage_account_key_regenerated
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -185,10 +182,6 @@ detection "activity_logs_detect_event_hub_auth_rule_create_update" {
   description = "Detects when a Azure Event Hubs Auth Rule is created or updated."
   severity    = "medium"
   query       = query.activity_logs_detect_event_hub_auth_rule_create_update
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-shared-access-signature"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -199,12 +192,6 @@ detection "activity_logs_detect_event_hub_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_event_hub_delete
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about",
-    "https://azure.microsoft.com/en-in/services/event-hubs/",
-    "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -213,13 +200,6 @@ detection "activity_logs_detect_automation_webhook_create" {
   description = "Detects the creation of Azure Automation account webhook."
   severity    = "low"
   query       = query.activity_logs_detect_automation_webhook_create
-
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://www.ciraltos.com/webhooks-and-azure-automation-runbooks/",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -230,13 +210,6 @@ detection "activity_logs_detect_automation_runbook_delete" {
   severity    = "low"
   query       = query.activity_logs_detect_automation_runbook_delete
 
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -245,13 +218,6 @@ detection "activity_logs_detect_automation_account_create" {
   description = "Detects the creation of Azure Automation account."
   severity    = "low"
   query       = query.activity_logs_detect_automation_account_create
-
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -262,13 +228,6 @@ detection "activity_logs_detect_automation_runbook_create_modify" {
   severity    = "low"
   query       = query.activity_logs_detect_automation_runbook_create_modify
 
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -277,10 +236,6 @@ detection "activity_logs_detect_virtual_network_device_modify" {
   description = "Detects the modification of Azure Virtual Network Device."
   severity    = "low"
   query       = query.activity_logs_detect_virtual_network_device_modify
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -291,10 +246,6 @@ detection "activity_logs_detect_resource_group_delete" {
   severity    = "low"
   query       = query.activity_logs_detect_resource_group_delete
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -303,10 +254,6 @@ detection "activity_logs_detect_network_watcher_delete" {
   description = "Detects the deletion of Azure Network Watche."
   severity    = "low"
   query       = query.activity_logs_detect_network_watcher_delete
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-monitoring-overview"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -317,10 +264,6 @@ detection "activity_logs_detect_storage_blob_container_access_modify" {
   severity    = "low"
   query       = query.activity_logs_detect_storage_blob_container_access_modify
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-prevent"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -329,10 +272,6 @@ detection "activity_logs_detect_diagnostic_settings_delete" {
   description = "Detects the deletion of Azure diagnostic setting."
   severity    = "medium"
   query       = query.activity_logs_detect_diagnostic_settings_delete
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -343,12 +282,6 @@ detection "activity_logs_detect_virtual_machine_command_execution" {
   severity    = "medium"
   query       = query.activity_logs_detect_virtual_machine_command_execution
 
-  references = [
-    "https://adsecurity.org/?p=4277",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#virtual-machine-contributor",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -357,10 +290,6 @@ detection "activity_logs_detect_dns_zone_modify_delete" {
   description = "Detects when a DNS zone is modified or deleted."
   severity    = "medium"
   query       = query.activity_logs_detect_dns_zone_modify_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -371,10 +300,6 @@ detection "activity_logs_detect_firewall_policies_modify_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_firewall_policies_modify_delete
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -384,10 +309,6 @@ detection "activity_logs_detect_firewall_rules_modify_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_firewall_rules_modify_delete
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -396,10 +317,6 @@ detection "activity_logs_detect_frontdoor_firewall_policies_delete" {
   description = "Detects the deletion of Front Door WAF policy."
   severity    = "low"
   query       = query.activity_logs_detect_frontdoor_firewall_policies_delete
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#networking"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
