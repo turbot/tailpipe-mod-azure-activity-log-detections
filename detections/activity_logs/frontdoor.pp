@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_frontdoor_detections" {
+benchmark "activity_logs_frontdoor_detections" {
   title = "Activity Log Front Door Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Front Door activity logs."
   type = "detection"
@@ -17,10 +17,6 @@ detection "activity_logs_detect_frontdoor_firewall_policies_delete" {
   description = "Detects the deletion of Front Door WAF policy."
   severity    = "low"
   query       = query.activity_logs_detect_frontdoor_firewall_policies_delete
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#networking"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

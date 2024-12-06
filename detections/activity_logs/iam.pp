@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_iam_detections" {
+benchmark "activity_logs_iam_detections" {
   title = "Activity Log IAM Detections"
   description = "This detection benchmark contains recommendations when scanning Azure IAM activity logs."
   type = "detection"
@@ -18,9 +18,6 @@ detection "activity_logs_detect_grant_permissions_detection" {
   severity    = "medium"
   query       = query.activity_logs_detect_grant_permissions_detection
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

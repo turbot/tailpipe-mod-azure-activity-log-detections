@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_event_hub_detections" {
+benchmark "activity_logs_event_hub_detections" {
   title = "Activity Log Event Hub Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Event Hub activity logs."
   type = "detection"
@@ -19,10 +19,6 @@ detection "activity_logs_detect_event_hub_auth_rule_create_update" {
   severity    = "medium"
   query       = query.activity_logs_detect_event_hub_auth_rule_create_update
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-shared-access-signature"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -31,12 +27,6 @@ detection "activity_logs_detect_event_hub_delete" {
   description = "Detects the deletion of Azure Event Hubs."
   severity    = "medium"
   query       = query.activity_logs_detect_event_hub_delete
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about",
-    "https://azure.microsoft.com/en-in/services/event-hubs/",
-    "https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-features",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

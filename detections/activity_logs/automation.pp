@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_automation_detections" {
+benchmark "activity_logs_automation_detections" {
   title = "Activity Log Automation Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Automation activity logs."
   type = "detection"
@@ -21,13 +21,6 @@ detection "activity_logs_detect_automation_webhook_create" {
   severity    = "low"
   query       = query.activity_logs_detect_automation_webhook_create
 
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://www.ciraltos.com/webhooks-and-azure-automation-runbooks/",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -36,13 +29,6 @@ detection "activity_logs_detect_automation_runbook_delete" {
   description = "Detects the deletion of Azure Automation account runbook."
   severity    = "low"
   query       = query.activity_logs_detect_automation_runbook_delete
-
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -53,13 +39,6 @@ detection "activity_logs_detect_automation_account_create" {
   severity    = "low"
   query       = query.activity_logs_detect_automation_account_create
 
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -68,13 +47,6 @@ detection "activity_logs_detect_automation_runbook_create_modify" {
   description = "Detects the creation or modification of Azure Automation runbook."
   severity    = "low"
   query       = query.activity_logs_detect_automation_runbook_create_modify
-
-  references = [
-    "https://powerzure.readthedocs.io/en/latest/Functions/operational.html#create-backdoor",
-    "https://github.com/hausec/PowerZure",
-    "https://posts.specterops.io/attacking-azure-azure-ad-and-introducing-powerzure-ca70b330511a",
-    "https://azure.microsoft.com/en-in/blog/azure-automation-runbook-management/",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

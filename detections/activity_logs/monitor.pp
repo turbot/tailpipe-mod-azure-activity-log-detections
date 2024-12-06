@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_monitor_detections" {
+benchmark "activity_logs_monitor_detections" {
   title = "Activity Log Monitor Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Monitor activity logs."
   type = "detection"
@@ -18,9 +18,6 @@ detection "activity_logs_detect_diagnostic_settings_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_diagnostic_settings_delete
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/azure-monitor/platform/diagnostic-settings"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

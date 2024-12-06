@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_kubernetes_detections" {
+benchmark "activity_logs_kubernetes_detections" {
   title = "Activity Log Kubernetes Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Kubernetes activity logs."
   type = "detection"
@@ -19,12 +19,6 @@ detection "activity_logs_detect_kubernetes_clusters_create_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_kubernetes_clusters_create_delete
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-    "https://www.microsoft.com/security/blog/2021/03/23/secure-containerized-environments-with-updated-threat-matrix-for-kubernetes/",
-    "https://www.microsoft.com/security/blog/2020/04/02/attack-matrix-kubernetes/"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -33,10 +27,6 @@ detection "activity_logs_detect_kubernetes_pods_delete" {
   description = "Detects the deletion of Azure Kubernetes Pods."
   severity    = "medium"
   query       = query.activity_logs_detect_kubernetes_pods_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

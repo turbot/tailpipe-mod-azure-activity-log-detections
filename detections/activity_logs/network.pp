@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_network_detections" {
+benchmark "activity_logs_network_detections" {
   title = "Activity Log Network Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Network activity logs."
   type = "detection"
@@ -29,10 +29,6 @@ detection "activity_logs_detect_application_gateways_modify_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_application_gateways_modify_delete
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -41,10 +37,6 @@ detection "activity_logs_detect_application_security_groups_modify_delete" {
   description = "Detects modifications or deletions of an application gateway, providing insight into potential unauthorized changes or critical updates to application delivery and security configurations."
   severity    = "medium"
   query       = query.activity_logs_detect_application_security_groups_modify_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -55,10 +47,6 @@ detection "activity_logs_detect_firewalls_modify_delete" {
   description = "Detects the creation, modification, or deletion of a firewall, highlighting potential changes that could impact network security and access controls."
   severity    = "medium"
   query       = query.activity_logs_detect_firewalls_modify_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -96,10 +84,6 @@ detection "activity_logs_detect_virtual_networks_modify_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_virtual_networks_modify_delete
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -109,10 +93,6 @@ detection "activity_logs_detect_virtual_network_device_modify" {
   description = "Detects the modification of Azure Virtual Network Device."
   severity    = "low"
   query       = query.activity_logs_detect_virtual_network_device_modify
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -124,10 +104,6 @@ detection "activity_logs_detect_network_watcher_delete" {
   severity    = "low"
   query       = query.activity_logs_detect_network_watcher_delete
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/network-watcher/network-watcher-monitoring-overview"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -136,10 +112,6 @@ detection "activity_logs_detect_firewall_policies_modify_delete" {
   description = "Detects when a firewall policy  is modified or deleted."
   severity    = "medium"
   query       = query.activity_logs_detect_firewall_policies_modify_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
@@ -150,10 +122,6 @@ detection "activity_logs_detect_firewall_rules_modify_delete" {
   severity    = "medium"
   query       = query.activity_logs_detect_firewall_rules_modify_delete
 
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations"
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -162,10 +130,6 @@ detection "activity_logs_detect_dns_zone_modify_delete" {
   description = "Detects when a DNS zone is modified or deleted."
   severity    = "medium"
   query       = query.activity_logs_detect_dns_zone_modify_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations#microsoftkubernetes"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_storage_detections" {
+benchmark "activity_logs_storage_detections" {
   title = "Activity Log Storage Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Storage activity logs."
   type = "detection"
@@ -19,10 +19,6 @@ detection "activity_logs_detect_storage_account_key_regenerated" {
   severity    = "low"
   query       = query.activity_logs_detect_storage_account_key_regenerated
 
-  references = [
-    "https://docs.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal",
-  ]
-
   tags = local.activity_log_detection_common_tags
 }
 
@@ -31,10 +27,6 @@ detection "activity_logs_detect_storage_blob_container_access_modify" {
   description = "Detects the modification of Azure Storage Blob Container access."
   severity    = "low"
   query       = query.activity_logs_detect_storage_blob_container_access_modify
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/storage/blobs/anonymous-read-access-prevent"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

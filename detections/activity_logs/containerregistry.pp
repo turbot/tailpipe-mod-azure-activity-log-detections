@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_container_registry_detections" {
+benchmark "activity_logs_container_registry_detections" {
   title = "Activity Log Container Registry Detections"
   description = "This detection benchmark contains recommendations when scanning Azure  Container Registry activity logs."
   type = "detection"
@@ -17,10 +17,6 @@ detection "activity_logs_detect_container_registries_create_delete" {
   description = "Detects the creation or deletion of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
   severity    = "low"
   query       = query.activity_logs_detect_container_registries_create_delete
-
-  references = [
-    "https://learn.microsoft.com/en-us/azure/role-based-access-control/resource-provider-operations",
-  ]
 
   tags = local.activity_log_detection_common_tags
 }

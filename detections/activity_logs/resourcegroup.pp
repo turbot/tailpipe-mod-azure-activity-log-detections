@@ -1,4 +1,4 @@
-detection_benchmark "activity_logs_resource_group_detections" {
+benchmark "activity_logs_resource_group_detections" {
   title = "Activity Log Resource Group Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Resource Group activity logs."
   type = "detection"
@@ -17,10 +17,6 @@ detection "activity_logs_detect_resource_group_delete" {
   description = "Detects the deletion of Azure Resource Group."
   severity    = "low"
   query       = query.activity_logs_detect_resource_group_delete
-
-  references = [
-    "https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal"
-  ]
 
   tags = local.activity_log_detection_common_tags
 }
