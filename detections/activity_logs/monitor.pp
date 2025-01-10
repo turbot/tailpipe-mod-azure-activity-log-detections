@@ -1,28 +1,35 @@
-benchmark "activity_logs_monitor_detections" {
-  title = "Activity Log Monitor Detections"
-  description = "This detection benchmark contains recommendations when scanning Azure Monitor activity logs."
-  type = "detection"
-  children = [
-    detection.activity_logs_detect_diagnostic_settings_delete,
-  ]
-
-  tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+locals {
+  activity_log_monitor_detection_common_tags = merge(local.activity_log_detection_common_tags, {
     service = "Azure/Monitor"
   })
 }
 
-detection "activity_logs_detect_diagnostic_settings_delete" {
-  title       = "Detect Diagnostic Setting Deletion"
-  description = "Detects the deletion of Azure diagnostic setting."
-  severity    = "medium"
-  query       = query.activity_logs_detect_diagnostic_settings_delete
+benchmark "activity_logs_monitor_detections" {
+  title       = "Monitor Detections"
+  description = "This detection benchmark contains recommendations when scanning Azure Monitor activity logs."
+  type        = "detection"
+  children = [
+    detection.activity_logs_detect_diagnostic_settings_deletions,
+  ]
 
-
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    type    = "Benchmark"
+  })
 }
 
-query "activity_logs_detect_diagnostic_settings_delete" {
+detection "activity_logs_detect_diagnostic_settings_deletions" {
+  title       = "Detect Diagnostic Setting Deletions"
+  description = "Detects the deletion of Azure diagnostic setting."
+  severity    = "medium"
+  query       = query.activity_logs_detect_diagnostic_settings_deletions
+
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+query "activity_logs_detect_diagnostic_settings_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

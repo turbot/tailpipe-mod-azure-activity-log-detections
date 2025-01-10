@@ -1,291 +1,357 @@
-benchmark "activity_logs_network_detections" {
-  title = "Activity Log Network Detections"
-  description = "This detection benchmark contains recommendations when scanning Azure Network activity logs."
-  type = "detection"
-  children = [
-    detection.activity_logs_detect_application_gateways_modify_delete,
-    detection.activity_logs_detect_application_security_groups_modify_delete,
-    detection.activity_logs_detect_firewalls_modify_delete,
-    detection.activity_logs_detect_network_security_groups_modify_delete,
-    detection.activity_logs_detect_virtual_networks_create_modify_delete,
-    detection.activity_logs_detect_virtual_networks_modify_delete,
-    detection.activity_logs_detect_vpn_connections_modify_delete,
-    detection.activity_logs_detect_virtual_network_device_modify,
-    detection.activity_logs_detect_network_watcher_delete,
-    detection.activity_logs_detect_firewall_policies_modify_delete,
-    detection.activity_logs_detect_firewall_rules_modify_delete,
-    detection.activity_logs_detect_dns_zone_modify_delete,
-  ]
-
-  tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+locals {
+  activity_log_network_detection_common_tags = merge(local.activity_log_detection_common_tags, {
     service = "Azure/Network"
   })
 }
 
-detection "activity_logs_detect_application_gateways_modify_delete" {
-  title       = "Detect Application Gateways Modified or Deleted"
-  description = "Detects when a application gateway is modified or deleted."
-  severity    = "medium"
-  query       = query.activity_logs_detect_application_gateways_modify_delete
+benchmark "activity_logs_network_detections" {
+  title       = "Network Detections"
+  description = "This detection benchmark contains recommendations when scanning Azure Network activity logs."
+  type        = "detection"
+  children = [
+    detection.activity_logs_detect_application_gateways_deletions,
+    detection.activity_logs_detect_application_security_groups_deletions,
+    detection.activity_logs_detect_firewalls_updates,
+    detection.activity_logs_detect_firewalls_deletions,
+    detection.activity_logs_detect_network_security_groups_updates,
+    detection.activity_logs_detect_network_security_groups_deletions,
+    detection.activity_logs_detect_virtual_networks_modified,
+    detection.activity_logs_detect_virtual_networks_deletions,
+    detection.activity_logs_detect_vpn_connections_updates,
+    detection.activity_logs_detect_vpn_connections_deletions,
+    detection.activity_logs_detect_network_watchers_deletions,
+    detection.activity_logs_detect_firewall_policies_updates,
+    detection.activity_logs_detect_firewall_policies_deletions,
+    detection.activity_logs_detect_firewall_rules_updates,
+    detection.activity_logs_detect_firewall_rules_deletions,
+    detection.activity_logs_detect_dns_zones_deletions
+  ]
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    type    = "Benchmark"
+  })
 }
 
-detection "activity_logs_detect_application_security_groups_modify_delete" {
-  title       = "Detect Application Security Groups Modified or Deleted"
-  description = "Detects modifications or deletions of an application gateway, providing insight into potential unauthorized changes or critical updates to application delivery and security configurations."
-  severity    = "medium"
-  query       = query.activity_logs_detect_application_security_groups_modify_delete
+# Detections
 
-  tags = local.activity_log_detection_common_tags
+detection "activity_logs_detect_application_gateways_deletions" {
+  title       = "Detect Application Gateways Deletions"
+  description = "Detect Azure Application Gateways to check for deletions that may disrupt application traffic delivery."
+  severity    = "medium"
+  query       = query.activity_logs_detect_application_gateways_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-
-detection "activity_logs_detect_firewalls_modify_delete" {
-  title       = "Detect Firewalls Modified or Deleted"
-  description = "Detects the creation, modification, or deletion of a firewall, highlighting potential changes that could impact network security and access controls."
+detection "activity_logs_detect_application_security_groups_deletions" {
+  title       = "Detect Application Security Groups Deletions"
+  description = "Detect Azure Application Security Groups to check for deletions that may impact security or disrupt application delivery."
   severity    = "medium"
-  query       = query.activity_logs_detect_firewalls_modify_delete
+  query       = query.activity_logs_detect_application_security_groups_deletions
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-detection "activity_logs_detect_virtual_networks_create_modify_delete" {
-  title       = "Detect Virtual Networks Created, Modified or Deleted"
-  description = "Detects Azure Activity Log events for virtual network creation, updates, or deletion, highlighting unauthorized or critical modifications in the Azure environment."
+detection "activity_logs_detect_firewalls_updates" {
+  title       = "Detect Firewalls Updates"
+  description = "Detect Azure Firewalls to check for write operations that may indicate configuration changes impacting network security."
+  severity    = "medium"
+  query       = query.activity_logs_detect_firewalls_updates
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+detection "activity_logs_detect_firewalls_deletions" {
+  title       = "Detect Firewalls Deletions"
+  description = "Detect Azure Firewalls to check for deletions that may leave your network vulnerable."
   severity    = "high"
-  query       = query.activity_logs_detect_virtual_networks_create_modify_delete
+  query       = query.activity_logs_detect_firewalls_deletions
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-detection "activity_logs_detect_vpn_connections_modify_delete" {
-  title       = "Detect VPN Connections Modified or Deleted"
-  description = "Detects Azure Activity Log events for VPN connection modifications or deletions, offering insight into possible unauthorized changes or critical network adjustments."
+detection "activity_logs_detect_network_security_groups_updates" {
+  title       = "Detect Network Security Groups Updates"
+  description = "Detect Azure Network Security Groups to check for write operations that may impact security rules and network posture."
   severity    = "medium"
-  query       = query.activity_logs_detect_vpn_connections_modify_delete
+  query       = query.activity_logs_detect_network_security_groups_updates
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-detection "activity_logs_detect_network_security_groups_modify_delete" {
-  title       = "Detect Network Security Groups Modified or Deleted"
-  description = "Detects Azure Activity Log events involving modifications or deletions of network security group configurations, including NSGs and associated security rules, helping to monitor changes that could impact network security posture."
+detection "activity_logs_detect_network_security_groups_deletions" {
+  title       = "Detect Network Security Groups Deletions"
+  description = "Detect Azure Network Security Groups to check for deletions that may disrupt traffic filtering and increase risk of exposure."
+  severity    = "high"
+  query       = query.activity_logs_detect_network_security_groups_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+detection "activity_logs_detect_virtual_networks_modified" {
+  title       = "Detect Virtual Networks Modified"
+  description = "Detect Azure Virtual Networks to check for configuration updates that may impact connectivity and security."
   severity    = "medium"
-  query       = query.activity_logs_detect_network_security_groups_modify_delete
+  query       = query.activity_logs_detect_virtual_networks_modified
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-detection "activity_logs_detect_virtual_networks_modify_delete" {
-  title       = "Detect Virtual Networks Modified or Deleted"
-  description = "Detects modifications or deletions of a Virtual Network in Azure, providing visibility into changes that may affect network structure and connectivity."
+detection "activity_logs_detect_virtual_networks_deletions" {
+  title       = "Detect Virtual Networks Deletions"
+  description = "Detect Azure Virtual Networks to check for deletions that may disrupt connectivity or result in loss of critical configurations."
+  severity    = "high"
+  query       = query.activity_logs_detect_virtual_networks_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+detection "activity_logs_detect_vpn_connections_updates" {
+  title       = "Detect VPN Connections Updates"
+  description = "Detect Azure VPN Connections to check for write operations that may alter network connectivity or introduce risks."
   severity    = "medium"
-  query       = query.activity_logs_detect_virtual_networks_modify_delete
+  query       = query.activity_logs_detect_vpn_connections_updates
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
+detection "activity_logs_detect_vpn_connections_deletions" {
+  title       = "Detect VPN Connections Deletions"
+  description = "Detect Azure VPN Connections to check for deletions that may disrupt network connectivity."
+  severity    = "high"
+  query       = query.activity_logs_detect_vpn_connections_deletions
 
-detection "activity_logs_detect_virtual_network_device_modify" {
-  title       = "Detect Virtual Network Device Modified"
-  description = "Detects the modification of Azure Virtual Network Device."
-  severity    = "low"
-  query       = query.activity_logs_detect_virtual_network_device_modify
-
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-
-detection "activity_logs_detect_network_watcher_delete" {
-  title       = "Detect Network Watcher Deleted"
-  description = "Detects the deletion of Azure Network Watche."
-  severity    = "low"
-  query       = query.activity_logs_detect_network_watcher_delete
-
-  tags = local.activity_log_detection_common_tags
-}
-
-detection "activity_logs_detect_firewall_policies_modify_delete" {
-  title       = "Detect Firewall Policy Modified or Deleted"
-  description = "Detects when a firewall policy  is modified or deleted."
+detection "activity_logs_detect_network_watchers_deletions" {
+  title       = "Detect Network Watchers Deletions"
+  description = "Detect Azure Network Watchers to check for deletions that may reduce network monitoring capabilities."
   severity    = "medium"
-  query       = query.activity_logs_detect_firewall_policies_modify_delete
+  query       = query.activity_logs_detect_network_watchers_deletions
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-detection "activity_logs_detect_firewall_rules_modify_delete" {
-  title       = "Detect Firewall Rule Modified or Deleted"
-  description = "Detects when a firewall Rules  is modified or deleted."
+detection "activity_logs_detect_firewall_policies_updates" {
+  title       = "Detect Firewall Policies Updates"
+  description = "Detect Azure Firewall Policies to check for write operations that may impact network security configurations."
   severity    = "medium"
-  query       = query.activity_logs_detect_firewall_rules_modify_delete
+  query       = query.activity_logs_detect_firewall_policies_updates
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-detection "activity_logs_detect_dns_zone_modify_delete" {
-  title       = "Detect DNS Zone Modified or Deleted"
-  description = "Detects when a DNS zone is modified or deleted."
+detection "activity_logs_detect_firewall_policies_deletions" {
+  title       = "Detect Firewall Policies Deletions"
+  description = "Detect Azure Firewall Policies to check for deletions that may leave the network unprotected."
+  severity    = "high"
+  query       = query.activity_logs_detect_firewall_policies_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+detection "activity_logs_detect_firewall_rules_updates" {
+  title       = "Detect Firewall Rules Updates"
+  description = "Detect Azure Firewall Rules to check for write operations that may change network traffic filtering."
   severity    = "medium"
-  query       = query.activity_logs_detect_dns_zone_modify_delete
+  query       = query.activity_logs_detect_firewall_rules_updates
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
-query "activity_logs_detect_application_gateways_modify_delete" {
+detection "activity_logs_detect_firewall_rules_deletions" {
+  title       = "Detect Firewall Rules Deletions"
+  description = "Detect Azure Firewall Rules to check for deletions that may expose the network to unfiltered traffic."
+  severity    = "high"
+  query       = query.activity_logs_detect_firewall_rules_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+detection "activity_logs_detect_dns_zones_deletions" {
+  title       = "Detect DNS Zones Deletions"
+  description = "Detect Azure DNS Zones to check for deletions that may disrupt domain name resolution and availability."
+  severity    = "high"
+  query       = query.activity_logs_detect_dns_zones_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+# Queries
+
+query "activity_logs_detect_application_gateways_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/applicationGateways/write',
-        'Microsoft.Network/applicationGateways/delete'
-      )
+      operation_name = 'Microsoft.Network/applicationGateways/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_application_security_groups_modify_delete" {
+query "activity_logs_detect_application_security_groups_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/applicationSecurityGroups/write',
-        'Microsoft.Network/applicationSecurityGroups/delete'
-      )
+      operation_name = 'Microsoft.Network/applicationSecurityGroups/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_firewalls_modify_delete" {
+query "activity_logs_detect_firewalls_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/azureFirewalls/write',
-        'Microsoft.Network/azureFirewalls/delete'
-      )
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp DESC;
-  EOQ
-}
-
-
-query "activity_logs_detect_network_security_groups_modify_delete" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name IN (
-        'Microsoft.Network/networkSecurityGroups/Write',
-        'Microsoft.Network/networkSecurityGroups/Delete',
-        'Microsoft.Network/networkSecurityGroups/securityRules/WRITE',
-        'Microsoft.Network/networkSecurityGroups/securityRules/DELETE',
-        'Microsoft.Network/networkSecurityGroups/join/action',
-      )
-      ${local.activity_logs_detection_where_conditions}
-    ORDER BY
-      timestamp DESC;
-  EOQ
-}
-
-query "activity_logs_detect_virtual_networks_create_modify_delete" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name in (
-        'Microsoft.Network/virtualNetworks/write',
-        'Microsoft.Network/virtualNetworks/delete'
-      )
+      operation_name = 'Microsoft.Network/azureFirewalls/write'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_vpn_connections_modify_delete" {
+query "activity_logs_detect_firewalls_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name IN (
-        'microsoft.network/vpnGateways/vpnConnections/write',
-        'microsoft.network/vpnGateways/vpnConnections/delete'
-      )
+      operation_name = 'Microsoft.Network/azureFirewalls/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_virtual_networks_modify_delete" {
+query "activity_logs_detect_network_security_groups_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name IN (
-        'Microsoft.Network/virtualNetworks/write',
-        'Microsoft.Network/virtualNetworks/delete',
-        'Microsoft.Network/virtualNetworkGateways/write',
-        'Microsoft.Network/virtualNetworkGateways/delete'
-      )
+      operation_name = 'Microsoft.Network/networkSecurityGroups/write'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_virtual_network_device_modify" {
+query "activity_logs_detect_network_security_groups_deletions" {
   sql = <<-EOQ
     select
-     ${local.common_activity_logs_sql}
+      ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/networkInterfaces/tapConfigurations/write',
-        'Microsoft.Network/networkInterfaces/tapConfigurations/delete',
-        'Microsoft.Network/networkInterfaces/write',
-        'Microsoft.Network/networkInterfaces/delete',
-        'Microsoft.Network/networkInterfaces/join/action',
-        'Microsoft.Network/networkVirtualAppliances/delete',
-        'Microsoft.Network/networkVirtualAppliances/write',
-        'Microsoft.Network/virtualHubs/write',
-        'Microsoft.Network/virtualHubs/delete',
-        'Microsoft.Network/virtualRouters/write',
-        'Microsoft.Network/virtualRouters/delete'
-      )
+      operation_name = 'Microsoft.Network/networkSecurityGroups/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_network_watcher_delete" {
+query "activity_logs_detect_virtual_networks_modified" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/virtualNetworks/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_virtual_networks_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/virtualNetworks/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+query "activity_logs_detect_vpn_connections_updates" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/vpnGateways/vpnConnections/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_vpn_connections_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/vpnGateways/vpnConnections/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_network_watchers_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -299,55 +365,70 @@ query "activity_logs_detect_network_watcher_delete" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_policies_modify_delete" {
+query "activity_logs_detect_firewall_policies_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/firewallPolicies/write',
-        'Microsoft.Network/firewallPolicies/delete',
-        'Microsoft.Network/firewallPolicies/join/action',
-        'Microsoft.Network/firewallPolicies/certificates/action'
-      )
+      operation_name = 'Microsoft.Network/firewallPolicies/write'
       ${local.activity_logs_detection_where_conditions}
     order by
-      timestamp DESC;
+      timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_firewall_rules_modify_delete" {
+query "activity_logs_detect_firewall_policies_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/firewallPolicies/ruleCollectionGroups/write',
-        'Microsoft.Network/firewallPolicies/ruleCollectionGroups/delete',
-        'Microsoft.Network/firewallPolicies/ruleGroups/write',
-        'Microsoft.Network/firewallPolicies/ruleGroups/delete'
-      )
+      operation_name = 'Microsoft.Network/firewallPolicies/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
-      timestamp DESC;
+      timestamp desc;
   EOQ
 }
 
-query "activity_logs_detect_dns_zone_modify_delete" {
+query "activity_logs_detect_firewall_rules_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.Network/dnsZones/delete',
-        'Microsoft.Network/dnsZones/write'
-      )
+      operation_name = 'Microsoft.Network/firewallPolicies/ruleGroups/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_rules_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/firewallPolicies/ruleGroups/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_dns_zones_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/dnsZones/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;

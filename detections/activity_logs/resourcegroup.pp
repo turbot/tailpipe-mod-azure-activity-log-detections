@@ -1,27 +1,34 @@
-benchmark "activity_logs_resource_group_detections" {
-  title = "Activity Log Resource Group Detections"
-  description = "This detection benchmark contains recommendations when scanning Azure Resource Group activity logs."
-  type = "detection"
-  children = [
-    detection.activity_logs_detect_resource_group_delete
-  ]
-
-  tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+locals {
+  activity_log_resource_group_detection_common_tags = merge(local.activity_log_detection_common_tags, {
     service = "Azure/ResourceGroup"
   })
 }
 
-detection "activity_logs_detect_resource_group_delete" {
-  title       = "Detect Resource Group Deleted"
-  description = "Detects the deletion of Azure Resource Group."
-  severity    = "low"
-  query       = query.activity_logs_detect_resource_group_delete
+benchmark "activity_logs_resource_group_detections" {
+  title       = "Resource Group Detections"
+  description = "This detection benchmark contains recommendations when scanning Azure Resource Group activity logs."
+  type        = "detection"
+  children = [
+    detection.activity_logs_detect_resource_group_deletions
+  ]
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    type    = "Benchmark"
+  })
 }
 
-query "activity_logs_detect_resource_group_delete" {
+detection "activity_logs_detect_resource_group_deletions" {
+  title       = "Detect Resource Group Deletions"
+  description = "Detects the deletion of Azure Resource Group, providing visibility into significant changes that may impact resources."
+  severity    = "low"
+  query       = query.activity_logs_detect_resource_group_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+query "activity_logs_detect_resource_group_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

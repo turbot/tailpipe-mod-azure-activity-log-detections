@@ -1,28 +1,35 @@
-benchmark "activity_logs_iam_detections" {
-  title = "Activity Log IAM Detections"
-  description = "This detection benchmark contains recommendations when scanning Azure IAM activity logs."
-  type = "detection"
-  children = [
-    detection.activity_logs_detect_grant_permissions_detection,
-  ]
-
-  tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+locals {
+  activity_log_iam_detection_common_tags = merge(local.activity_log_detection_common_tags, {
     service = "Azure/IAM"
   })
 }
 
-detection "activity_logs_detect_grant_permissions_detection" {
-  title       = "Detect Permission Granted to an Account"
-  description = "Identifies IPs from which users grant access to others on Azure resources and alerts on access granted from previously unrecognized IP addresses, helping to flag potential unauthorized access attempts."
-  severity    = "medium"
-  query       = query.activity_logs_detect_grant_permissions_detection
+benchmark "activity_logs_iam_detections" {
+  title       = "IAM Detections"
+  description = "This detection benchmark contains recommendations when scanning Azure IAM activity logs."
+  type        = "detection"
+  children = [
+    detection.activity_logs_detect_authorization_role_assignments_writes,
+  ]
 
-
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    type    = "Benchmark"
+  })
 }
 
-query "activity_logs_detect_grant_permissions_detection" {
+detection "activity_logs_detect_authorization_role_assignments_writes" {
+  title       = "Detect Authorization Role Assignments Writes"
+  description = "Detects the granting of permissions to an account, providing visibility into significant changes that may impact security."
+  severity    = "medium"
+  query       = query.activity_logs_detect_authorization_role_assignments_writes
+
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
+}
+
+query "activity_logs_detect_authorization_role_assignments_writes" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

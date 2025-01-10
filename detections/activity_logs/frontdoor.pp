@@ -1,24 +1,31 @@
+locals {
+  activity_log_frontdoor_detection_common_tags = merge(local.activity_log_detection_common_tags, {
+    service = "Azure/FrontDoor"
+  })
+}
+
 benchmark "activity_logs_frontdoor_detections" {
-  title = "Activity Log Front Door Detections"
+  title       = "Front Door Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Front Door activity logs."
-  type = "detection"
+  type        = "detection"
   children = [
     detection.activity_logs_detect_frontdoor_firewall_policies_delete
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
     type    = "Benchmark"
-    service = "Azure/FrontDoor"
   })
 }
 
 detection "activity_logs_detect_frontdoor_firewall_policies_delete" {
-  title       = "Detect Front Door WAF  Policy Deletion"
-  description = "Detects the deletion of Front Door WAF policy."
+  title       = "Detect Front Door WAF Policy Deletions"
+  description = "Detects the deletions of Front Door WAF policies, providing insight into changes that may impact security."
   severity    = "low"
   query       = query.activity_logs_detect_frontdoor_firewall_policies_delete
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
 query "activity_logs_detect_frontdoor_firewall_policies_delete" {

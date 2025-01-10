@@ -1,16 +1,16 @@
 locals {
-  activity_log_detection_common_tags = {
-    service  = "Azure/Monitor"
-  }
+  activity_log_detection_common_tags = merge(local.azure_detections_common_tags, {
+    service = "Azure/ActivityLog"
+  })
 }
 
 benchmark "activity_logs" {
-  title       = "Activity Log Detections"
+  title       = "Activity Logs Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Activity logs."
   type = "detection"
   children = [
     benchmark.activity_logs_automation_detections,
-    benchmark.activity_logs_compute_detections,
+    # benchmark.activity_logs_compute_detections,
     benchmark.activity_logs_container_registry_detections,
     benchmark.activity_logs_event_hub_detections,
     benchmark.activity_logs_frontdoor_detections,

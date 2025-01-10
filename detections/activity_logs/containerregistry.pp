@@ -1,38 +1,42 @@
-benchmark "activity_logs_container_registry_detections" {
-  title = "Activity Log Container Registry Detections"
-  description = "This detection benchmark contains recommendations when scanning Azure  Container Registry activity logs."
-  type = "detection"
-  children = [
-    detection.activity_logs_detect_container_registries_create_delete,
-  ]
-
-  tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+locals {
+  activity_log_container_registry_detection_common_tags = merge(local.activity_log_detection_common_tags, {
     service = "Azure/ContainerRegistry"
   })
 }
 
-detection "activity_logs_detect_container_registries_create_delete" {
-  title       = "Detect Container Registries Created or Deleted"
-  description = "Detects the creation or deletion of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
-  severity    = "low"
-  query       = query.activity_logs_detect_container_registries_create_delete
+benchmark "activity_logs_container_registry_detections" {
+  title       = "Container Registry Detections"
+  description = "This detection benchmark contains recommendations when scanning Azure Container Registry activity logs."
+  type        = "detection"
+  children = [
+    detection.activity_logs_detect_container_registries_create_deletions,
+  ]
 
-  tags = local.activity_log_detection_common_tags
+  tags = merge(local.activity_log_container_registry_detection_common_tags, {
+    type = "Benchmark"
+  })
+}
+
+detection "activity_logs_detect_container_registries_create_deletions" {
+  title       = "Detect Container Registries Deletions"
+  description = "Detects the deletion of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
+  severity    = "low"
+  query       = query.activity_logs_detect_container_registries_create_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = ""
+  })
 }
 
 
-query "activity_logs_detect_container_registries_create_delete" {
+query "activity_logs_detect_container_registries_create_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
     from
       azure_activity_log
     where
-      operation_name in (
-        'Microsoft.ContainerRegistry/registries/write',
-        'Microsoft.ContainerRegistry/registries/delete'
-      )
+      operation_name = 'Microsoft.ContainerRegistry/registries/delete'
       ${local.activity_logs_detection_where_conditions}
     order by
       timestamp desc;
