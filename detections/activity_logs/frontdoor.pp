@@ -9,26 +9,26 @@ benchmark "activity_logs_frontdoor_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Front Door activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_frontdoor_firewall_policies_delete
+    detection.activity_logs_detect_frontdoor_firewall_policy_deletions
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+    type = "Benchmark"
   })
 }
 
-detection "activity_logs_detect_frontdoor_firewall_policies_delete" {
+detection "activity_logs_detect_frontdoor_firewall_policy_deletions" {
   title       = "Detect Front Door WAF Policy Deletions"
-  description = "Detects the deletions of Front Door WAF policies, providing insight into changes that may impact security."
+  description = "Detect the deletions of Front Door WAF policies, providing insight into changes that may impact security."
   severity    = "low"
-  query       = query.activity_logs_detect_frontdoor_firewall_policies_delete
+  query       = query.activity_logs_detect_frontdoor_firewall_policy_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = ""
   })
 }
 
-query "activity_logs_detect_frontdoor_firewall_policies_delete" {
+query "activity_logs_detect_frontdoor_firewall_policy_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

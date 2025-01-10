@@ -19,7 +19,7 @@ benchmark "activity_logs_automation_detections" {
 
 detection "activity_logs_detect_automation_runbook_deletions" {
   title       = "Detect Automation Account Runbook Deletions"
-  description = "Detects the deletion of Azure Automation account runbook, providing visibility into significant changes that may impact automation and orchestration."
+  description = "Detect the deletions of Azure Automation account runbook, providing visibility into significant changes that may impact automation and orchestration."
   severity    = "low"
   query       = query.activity_logs_detect_automation_runbook_deletions
 

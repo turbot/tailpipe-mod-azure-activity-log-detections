@@ -9,7 +9,7 @@ benchmark "activity_logs_iam_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure IAM activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_authorization_role_assignments_writes,
+    detection.activity_logs_detect_authorization_role_assignment_updations,
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -17,11 +17,11 @@ benchmark "activity_logs_iam_detections" {
   })
 }
 
-detection "activity_logs_detect_authorization_role_assignments_writes" {
-  title       = "Detect Authorization Role Assignments Writes"
-  description = "Detects the granting of permissions to an account, providing visibility into significant changes that may impact security."
+detection "activity_logs_detect_authorization_role_assignment_updations" {
+  title       = "Detect Authorization Role Assignment Updations"
+  description = "Detect when Azure role assignments are updated, providing visibility into significant changes that may impact security."
   severity    = "medium"
-  query       = query.activity_logs_detect_authorization_role_assignments_writes
+  query       = query.activity_logs_detect_authorization_role_assignment_updations
 
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -29,7 +29,7 @@ detection "activity_logs_detect_authorization_role_assignments_writes" {
   })
 }
 
-query "activity_logs_detect_authorization_role_assignments_writes" {
+query "activity_logs_detect_authorization_role_assignment_updations" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

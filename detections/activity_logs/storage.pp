@@ -14,7 +14,6 @@ benchmark "activity_logs_storage_detections" {
 
   tags = merge(local.activity_log_detection_common_tags, {
     type    = "Benchmark"
-    service = "Azure/Storage"
   })
 }
 

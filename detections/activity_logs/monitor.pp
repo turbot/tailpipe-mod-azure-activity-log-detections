@@ -9,7 +9,7 @@ benchmark "activity_logs_monitor_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Monitor activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_diagnostic_settings_deletions,
+    detection.activity_logs_detect_diagnostic_setting_deletions,
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -17,11 +17,11 @@ benchmark "activity_logs_monitor_detections" {
   })
 }
 
-detection "activity_logs_detect_diagnostic_settings_deletions" {
+detection "activity_logs_detect_diagnostic_setting_deletions" {
   title       = "Detect Diagnostic Setting Deletions"
   description = "Detects the deletion of Azure diagnostic setting."
   severity    = "medium"
-  query       = query.activity_logs_detect_diagnostic_settings_deletions
+  query       = query.activity_logs_detect_diagnostic_setting_deletions
 
 
   tags = merge(local.activity_log_detection_common_tags, {
@@ -29,7 +29,7 @@ detection "activity_logs_detect_diagnostic_settings_deletions" {
   })
 }
 
-query "activity_logs_detect_diagnostic_settings_deletions" {
+query "activity_logs_detect_diagnostic_setting_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

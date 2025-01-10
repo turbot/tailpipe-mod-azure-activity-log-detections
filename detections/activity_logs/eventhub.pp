@@ -9,7 +9,7 @@ benchmark "activity_logs_event_hub_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Event Hub activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_event_hub_auth_rule_creations,
+    detection.activity_logs_detect_event_hub_auth_rule_updations,
     detection.activity_logs_detect_event_hub_deletions,
   ]
 
@@ -18,11 +18,11 @@ benchmark "activity_logs_event_hub_detections" {
   })
 }
 
-detection "activity_logs_detect_event_hub_auth_rule_creations" {
-  title       = "Detect Event Hubs Auth Rule Creations"
-  description = "Detects when a Azure Event Hubs Auth Rule is created, providing visibility into significant changes that may impact security."
+detection "activity_logs_detect_event_hub_auth_rule_updations" {
+  title       = "Detect Event Hub Auth Rule Updations"
+  description = "Detect when a Azure Event HubsAuth Rules are updated, providing visibility into significant changes that may impact security."
   severity    = "medium"
-  query       = query.activity_logs_detect_event_hub_auth_rule_creations
+  query       = query.activity_logs_detect_event_hub_auth_rule_updations
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = ""
@@ -30,8 +30,8 @@ detection "activity_logs_detect_event_hub_auth_rule_creations" {
 }
 
 detection "activity_logs_detect_event_hub_deletions" {
-  title       = "Detect Event Hubs Deletions"
-  description = "Detects the deletion of Azure Event Hubs, providing visibility into significant changes that may impact security."
+  title       = "Detect Event Hub Deletions"
+  description = "Detect the deletions of Azure Event Hub, providing visibility into significant changes that may impact security."
   severity    = "medium"
   query       = query.activity_logs_detect_event_hub_deletions
 
@@ -40,7 +40,7 @@ detection "activity_logs_detect_event_hub_deletions" {
   })
 }
 
-query "activity_logs_detect_event_hub_auth_rule_creations" {
+query "activity_logs_detect_event_hub_auth_rule_updations" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

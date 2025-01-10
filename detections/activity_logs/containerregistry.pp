@@ -9,7 +9,7 @@ benchmark "activity_logs_container_registry_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Container Registry activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_container_registries_create_deletions,
+    detection.activity_logs_detect_container_registry_deletions,
   ]
 
   tags = merge(local.activity_log_container_registry_detection_common_tags, {
@@ -17,19 +17,18 @@ benchmark "activity_logs_container_registry_detections" {
   })
 }
 
-detection "activity_logs_detect_container_registries_create_deletions" {
-  title       = "Detect Container Registries Deletions"
-  description = "Detects the deletion of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
+detection "activity_logs_detect_container_registry_deletions" {
+  title       = "Detect Container Registry Deletions"
+  description = "Detect the deletions of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
   severity    = "low"
-  query       = query.activity_logs_detect_container_registries_create_deletions
+  query       = query.activity_logs_detect_container_registry_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = ""
   })
 }
 
-
-query "activity_logs_detect_container_registries_create_deletions" {
+query "activity_logs_detect_container_registry_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
