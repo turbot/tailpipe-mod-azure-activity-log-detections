@@ -5,7 +5,7 @@ mod "azure_detections" {
   color         = "#191717"
   #documentation = file("./docs/index.md")
   #icon          = "/images/mods/turbot/azure.svg"
-  categories    = ["azure", "security"]
+  categories    = ["azure", "dashboard", "detections", "public cloud"]
   database      = var.database
 
   opengraph {
