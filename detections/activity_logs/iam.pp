@@ -4,12 +4,12 @@ locals {
   })
 }
 
-benchmark "activity_logs_iam_detections" {
+benchmark "iam_detections" {
   title       = "IAM Detections"
   description = "This detection benchmark contains recommendations when scanning Azure IAM activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_iam_authorization_role_assignment_updates,
+    detection.detect_iam_authorization_role_assignment_updates,
   ]
 
   tags = merge(local.iam_common_tags, {
@@ -17,12 +17,12 @@ benchmark "activity_logs_iam_detections" {
   })
 }
 
-detection "activity_logs_detect_iam_authorization_role_assignment_updates" {
+detection "detect_iam_authorization_role_assignment_updates" {
   title           = "Detect IAM Authorization Role Assignment Updates"
   description     = "Detect when Azure role assignments are updated, providing visibility into significant changes that may impact security."
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_iam_authorization_role_assignment_updates
+  query           = query.detect_iam_authorization_role_assignment_updates
 
 
   tags = merge(local.iam_common_tags, {
@@ -30,7 +30,7 @@ detection "activity_logs_detect_iam_authorization_role_assignment_updates" {
   })
 }
 
-query "activity_logs_detect_iam_authorization_role_assignment_updates" {
+query "detect_iam_authorization_role_assignment_updates" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

@@ -21,7 +21,7 @@ benchmark "mitre_v151_ta0003_t1078_001" {
   type          = "detection"
   documentation = file("./mitre_v151/docs/ta0003_t1078_001.md")
   children = [
-    detection.activity_logs_detect_event_hub_auth_rule_updates,
+    detection.detect_event_hub_auth_rule_updates,
   ]
 }
 
@@ -30,10 +30,10 @@ benchmark "mitre_v151_ta0003_t1078_004" {
   type          = "detection"
   documentation = file("./mitre_v151/docs/ta0003_t1078_004.md")
   children = [
-    detection.activity_logs_detect_iam_authorization_role_assignment_updates,
-    detection.activity_logs_detect_keyvault_secret_restore_operations,
-    detection.activity_logs_detect_keyvault_vault_access_policy_updates,
-    detection.activity_logs_detect_sql_role_assignment_changes,
-    detection.activity_logs_detect_compute_vm_role_assignment_changes,
+    detection.detect_iam_authorization_role_assignment_updates,
+    detection.detect_keyvault_secret_restore_operations,
+    detection.detect_keyvault_vault_access_policy_updates,
+    detection.detect_sql_role_assignment_changes,
+    detection.detect_compute_vm_role_assignment_changes,
   ]
 }

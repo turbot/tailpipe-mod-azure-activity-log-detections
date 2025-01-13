@@ -4,14 +4,14 @@ locals {
   })
 }
 
-benchmark "activity_logs_compute_detections" {
+benchmark "compute_detections" {
   title       = "Compute Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Compute activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_compute_vm_role_assignment_changes,
-    detection.activity_logs_detect_compute_disk_deletions,
-    detection.activity_logs_detect_compute_snapshot_deletions,
+    detection.detect_compute_vm_role_assignment_changes,
+    detection.detect_compute_disk_deletions,
+    detection.detect_compute_snapshot_deletions,
   ]
 
   tags = merge(local.compute_common_tags, {
@@ -19,43 +19,43 @@ benchmark "activity_logs_compute_detections" {
   })
 }
 
-detection "activity_logs_detect_compute_vm_role_assignment_changes" {
+detection "detect_compute_vm_role_assignment_changes" {
   title           = "Detect Compute VM Role Assignment Changes"
   description     = "Detect Azure Virtual Machines to check for role assignment changes, which may impact security and access controls."
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_compute_vm_role_assignment_changes
+  query           = query.detect_compute_vm_role_assignment_changes
 
   tags = merge(local.compute_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 
-detection "activity_logs_detect_compute_disk_deletions" {
+detection "detect_compute_disk_deletions" {
   title           = "Detect Compute Disk Deletions"
   description     = "Detect Azure Managed Disks to check for deletions that may lead to data loss or operational impact."
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_compute_disk_deletions
+  query           = query.detect_compute_disk_deletions
 
   tags = merge(local.compute_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "activity_logs_detect_compute_snapshot_deletions" {
+detection "detect_compute_snapshot_deletions" {
   title           = "Detect Compute Snapshot Deletions"
   description     = "Detect Azure Managed Disk Snapshots to check for deletions that may indicate malicious activity or result in data loss."
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_compute_snapshot_deletions
+  query           = query.detect_compute_snapshot_deletions
 
   tags = merge(local.compute_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "activity_logs_detect_compute_vm_role_assignment_changes" {
+query "detect_compute_vm_role_assignment_changes" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -70,7 +70,7 @@ query "activity_logs_detect_compute_vm_role_assignment_changes" {
   EOQ
 }
 
-query "activity_logs_detect_compute_disk_deletions" {
+query "detect_compute_disk_deletions" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -84,7 +84,7 @@ query "activity_logs_detect_compute_disk_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_compute_snapshot_deletions" {
+query "detect_compute_snapshot_deletions" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

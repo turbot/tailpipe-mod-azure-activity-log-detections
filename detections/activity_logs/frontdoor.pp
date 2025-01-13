@@ -4,12 +4,12 @@ locals {
   })
 }
 
-benchmark "activity_logs_frontdoor_detections" {
+benchmark "frontdoor_detections" {
   title       = "Front Door Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Front Door activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_frontdoor_firewall_policy_deletions
+    detection.detect_frontdoor_firewall_policy_deletions
   ]
 
   tags = merge(local.frontdoor_common_tags, {
@@ -17,19 +17,19 @@ benchmark "activity_logs_frontdoor_detections" {
   })
 }
 
-detection "activity_logs_detect_frontdoor_firewall_policy_deletions" {
+detection "detect_frontdoor_firewall_policy_deletions" {
   title           = "Detect Front Door Policy Deletions"
   description     = "Detect the deletions of Front Door policies, providing insight into changes that may impact security."
   severity        = "low"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_frontdoor_firewall_policy_deletions
+  query           = query.detect_frontdoor_firewall_policy_deletions
 
   tags = merge(local.frontdoor_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "activity_logs_detect_frontdoor_firewall_policy_deletions" {
+query "detect_frontdoor_firewall_policy_deletions" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

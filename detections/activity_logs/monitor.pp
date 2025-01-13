@@ -4,12 +4,12 @@ locals {
   })
 }
 
-benchmark "activity_logs_monitor_detections" {
+benchmark "monitor_detections" {
   title       = "Monitor Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Monitor activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_diagnostic_setting_deletions,
+    detection.detect_diagnostic_setting_deletions,
   ]
 
   tags = merge(local.monitor_common_tags, {
@@ -17,12 +17,12 @@ benchmark "activity_logs_monitor_detections" {
   })
 }
 
-detection "activity_logs_detect_diagnostic_setting_deletions" {
+detection "detect_diagnostic_setting_deletions" {
   title           = "Detect Diagnostic Setting Deletions"
   description     = "Detects the deletion of Azure diagnostic settings, providing visibility into significant changes that may impact monitoring and alerting."
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_diagnostic_setting_deletions
+  query           = query.detect_diagnostic_setting_deletions
 
 
   tags = merge(local.monitor_common_tags, {
@@ -30,7 +30,7 @@ detection "activity_logs_detect_diagnostic_setting_deletions" {
   })
 }
 
-query "activity_logs_detect_diagnostic_setting_deletions" {
+query "detect_diagnostic_setting_deletions" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

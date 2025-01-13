@@ -20,7 +20,7 @@ benchmark "mitre_v151_ta0040_t1565_001" {
   type          = "detection"
   documentation = file("./mitre_v151/docs/ta0040_t1565_001.md")
   children = [
-    detection.activity_logs_detect_keyvault_secret_updates,
-    detection.activity_logs_detect_diagnostic_setting_deletions,
+    detection.detect_keyvault_secret_updates,
+    detection.detect_diagnostic_setting_deletions,
   ]
 }

@@ -4,13 +4,13 @@ locals {
   })
 }
 
-benchmark "activity_logs_event_hub_detections" {
+benchmark "event_hub_detections" {
   title       = "Event Hub Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Event Hub activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_event_hub_auth_rule_updates,
-    detection.activity_logs_detect_event_hub_deletions,
+    detection.detect_event_hub_auth_rule_updates,
+    detection.detect_event_hub_deletions,
   ]
 
   tags = merge(local.event_hub_registry_common_tags, {
@@ -18,31 +18,31 @@ benchmark "activity_logs_event_hub_detections" {
   })
 }
 
-detection "activity_logs_detect_event_hub_auth_rule_updates" {
+detection "detect_event_hub_auth_rule_updates" {
   title           = "Detect Event Hub Auth Rule Updates"
   description     = "Detect when a Azure Event HubsAuth Rules are updated, providing visibility into significant changes that may impact security."
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_event_hub_auth_rule_updates
+  query           = query.detect_event_hub_auth_rule_updates
 
   tags = merge(local.event_hub_registry_common_tags, {
     mitre_attack_ids = "TA0003:T1078.001"
   })
 }
 
-detection "activity_logs_detect_event_hub_deletions" {
+detection "detect_event_hub_deletions" {
   title           = "Detect Event Hub Deletions"
   description     = "Detect the deletions of Azure Event Hub, providing visibility into significant changes that may impact security."
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.activity_logs_detect_event_hub_deletions
+  query           = query.detect_event_hub_deletions
 
   tags = merge(local.event_hub_registry_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "activity_logs_detect_event_hub_auth_rule_updates" {
+query "detect_event_hub_auth_rule_updates" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -56,7 +56,7 @@ query "activity_logs_detect_event_hub_auth_rule_updates" {
   EOQ
 }
 
-query "activity_logs_detect_event_hub_deletions" {
+query "detect_event_hub_deletions" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
