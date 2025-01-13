@@ -1,40 +1,91 @@
-# benchmark "activity_logs_compute_detections" {
-#   title = "Compute Detections"
-#   description = "This detection benchmark contains recommendations when scanning Azure Compute activity logs."
-#   type = "detection"
-#   children = [
-#     detection.activity_logs_detect_virtual_machine_command_execution
-#   ]
+benchmark "activity_logs_compute_detections" {
+  title = "Compute Detections"
+  description = "This detection benchmark contains recommendations when scanning Azure Compute activity logs."
+  type = "detection"
+  children = [
+    detection.activity_logs_detect_vm_role_assignment_changes,
+    detection.activity_logs_detect_disk_deletions,
+    detection.activity_logs_detect_snapshot_deletions,
+  ]
 
-#   tags = merge(local.activity_log_detection_common_tags, {
-#     type    = "Benchmark"
-#     service = "Azure/Compute"
-#   })
-# }
+  tags = merge(local.activity_log_detection_common_tags, {
+    type    = "Benchmark"
+    service = "Azure/Compute"
+  })
+}
 
-# detection "activity_logs_detect_virtual_machine_command_execution" {
-#   title       = "Detect Virtual Machine Command Execution"
-#   description = "Detects the command execution virtual machine"
-#   severity    = "medium"
-#   query       = query.activity_logs_detect_virtual_machine_command_execution
+detection "activity_logs_detect_vm_role_assignment_changes" {
+  title       = "Detect Role Assignment Changes on Virtual Machines"
+  description = "Detect Azure Virtual Machines to check for role assignment changes, which may impact security and access controls."
+  severity    = "medium"
+  query       = query.activity_logs_detect_vm_role_assignment_changes
 
-#   tags = merge(local.activity_log_detection_common_tags, {
-# mitre_attack_ids = ""
-# })
-# }
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = "TA0003:T1078.004"
+  })
+}
 
-# query "activity_logs_detect_virtual_machine_command_execution" {
-#   sql = <<-EOQ
-#     select
-#       ${local.common_activity_logs_sql}
-#     from
-#       azure_activity_log
-#     where
-#       operation_name = 'Microsoft.Compute/virtualMachines/runCommand/action'
-#       ${local.activity_logs_detection_where_conditions}
-#     order by
-#       timestamp desc;
-#   EOQ
-# }
+detection "activity_logs_detect_disk_deletions" {
+  title       = "Detect Disk Deletions"
+  description = "Detect Azure Managed Disks to check for deletions that may lead to data loss or operational impact."
+  severity    = "high"
+  query       = query.activity_logs_detect_disk_deletions
 
-## These logs appear when Running a custom script to install software on a VM or to run a script on a VM
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = "TA0040:T1485"
+  })
+}
+
+detection "activity_logs_detect_snapshot_deletions" {
+  title       = "Detect Snapshot Deletions"
+  description = "Detect Azure Managed Disk Snapshots to check for deletions that may indicate malicious activity or result in data loss."
+  severity    = "high"
+  query       = query.activity_logs_detect_snapshot_deletions
+
+  tags = merge(local.activity_log_detection_common_tags, {
+    mitre_attack_ids = "TA0040:T1485"
+  })
+}
+
+query "activity_logs_detect_vm_role_assignment_changes" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Authorization/roleAssignments/write'
+      and resource_type = 'Microsoft.Compute/virtualMachines'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_disk_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Compute/disks/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_snapshot_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Compute/snapshots/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}

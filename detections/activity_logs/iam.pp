@@ -25,7 +25,7 @@ detection "activity_logs_detect_authorization_role_assignment_updations" {
 
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 

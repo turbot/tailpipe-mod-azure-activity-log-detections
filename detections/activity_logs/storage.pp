@@ -24,7 +24,7 @@ detection "activity_logs_detect_storage_account_keys_regenerated" {
   query       = query.activity_logs_detect_storage_account_keys_regenerated
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0006:T1552.001"
   })
 }
 

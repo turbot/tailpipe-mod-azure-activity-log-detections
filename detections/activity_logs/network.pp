@@ -41,7 +41,7 @@ detection "activity_logs_detect_application_gateway_deletions" {
   query       = query.activity_logs_detect_application_gateway_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -52,7 +52,7 @@ detection "activity_logs_detect_application_security_group_deletions" {
   query       = query.activity_logs_detect_application_security_group_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -63,7 +63,7 @@ detection "activity_logs_detect_firewall_updates" {
   query       = query.activity_logs_detect_firewall_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -74,7 +74,7 @@ detection "activity_logs_detect_firewall_deletions" {
   query       = query.activity_logs_detect_firewall_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -85,7 +85,7 @@ detection "activity_logs_detect_network_security_group_updates" {
   query       = query.activity_logs_detect_network_security_group_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -96,7 +96,7 @@ detection "activity_logs_detect_network_security_group_deletions" {
   query       = query.activity_logs_detect_network_security_group_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -107,7 +107,7 @@ detection "activity_logs_detect_virtual_networks_modified" {
   query       = query.activity_logs_detect_virtual_networks_modified
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -118,7 +118,7 @@ detection "activity_logs_detect_virtual_network_deletions" {
   query       = query.activity_logs_detect_virtual_network_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -129,7 +129,7 @@ detection "activity_logs_detect_vpn_connection_updates" {
   query       = query.activity_logs_detect_vpn_connection_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -140,7 +140,7 @@ detection "activity_logs_detect_vpn_connection_deletions" {
   query       = query.activity_logs_detect_vpn_connection_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -151,7 +151,7 @@ detection "activity_logs_detect_network_watcher_deletions" {
   query       = query.activity_logs_detect_network_watcher_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -162,7 +162,7 @@ detection "activity_logs_detect_firewall_policy_updates" {
   query       = query.activity_logs_detect_firewall_policy_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -173,7 +173,7 @@ detection "activity_logs_detect_firewall_policy_deletions" {
   query       = query.activity_logs_detect_firewall_policy_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -184,7 +184,7 @@ detection "activity_logs_detect_firewall_rule_updates" {
   query       = query.activity_logs_detect_firewall_rule_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -195,7 +195,7 @@ detection "activity_logs_detect_firewall_rule_deletions" {
   query       = query.activity_logs_detect_firewall_rule_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -206,232 +206,6 @@ detection "activity_logs_detect_dns_zone_deletions" {
   query       = query.activity_logs_detect_dns_zone_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
-}
-
-# Queries
-
-query "activity_logs_detect_application_gateway_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/applicationGateways/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_application_security_group_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/applicationSecurityGroups/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_firewall_updates" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/azureFirewalls/write'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_firewall_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/azureFirewalls/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_network_security_group_updates" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/networkSecurityGroups/write'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_network_security_group_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/networkSecurityGroups/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_virtual_networks_modified" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/virtualNetworks/write'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_virtual_network_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/virtualNetworks/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_vpn_connection_updates" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/vpnGateways/vpnConnections/write'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_vpn_connection_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/vpnGateways/vpnConnections/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_network_watcher_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/networkWatchers/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_firewall_policy_updates" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/firewallPolicies/write'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_firewall_policy_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/firewallPolicies/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_firewall_rule_updates" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/firewallPolicies/ruleGroups/write'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_firewall_rule_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/firewallPolicies/ruleGroups/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "activity_logs_detect_dns_zone_deletions" {
-  sql = <<-EOQ
-    select
-      ${local.common_activity_logs_sql}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/dnsZones/delete'
-      ${local.activity_logs_detection_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
 }

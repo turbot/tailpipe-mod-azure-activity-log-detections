@@ -4,8 +4,8 @@ locals {
   })
 }
 
-benchmark "activity_logs" {
-  title       = "Activity Logs Detections"
+benchmark "activity_log" {
+  title       = "Activity Log Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Activity logs."
   type = "detection"
   children = [

@@ -24,7 +24,7 @@ detection "activity_logs_detect_frontdoor_firewall_policy_deletions" {
   query       = query.activity_logs_detect_frontdoor_firewall_policy_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 

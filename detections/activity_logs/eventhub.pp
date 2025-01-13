@@ -25,7 +25,7 @@ detection "activity_logs_detect_event_hub_auth_rule_updations" {
   query       = query.activity_logs_detect_event_hub_auth_rule_updations
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0003:T1078.001"
   })
 }
 
@@ -36,7 +36,7 @@ detection "activity_logs_detect_event_hub_deletions" {
   query       = query.activity_logs_detect_event_hub_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 

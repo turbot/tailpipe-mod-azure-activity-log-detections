@@ -19,13 +19,13 @@ benchmark "activity_logs_monitor_detections" {
 
 detection "activity_logs_detect_diagnostic_setting_deletions" {
   title       = "Detect Diagnostic Setting Deletions"
-  description = "Detects the deletion of Azure diagnostic setting."
+  description = "Detects the deletion of Azure diagnostic settings, providing visibility into significant changes that may impact monitoring and alerting."
   severity    = "medium"
   query       = query.activity_logs_detect_diagnostic_setting_deletions
 
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1565.001"
   })
 }
 

@@ -21,6 +21,8 @@ benchmark "activity_logs_keyvault_detections" {
   })
 }
 
+# Detections
+
 detection "activity_logs_detect_keyvault_vault_deletions" {
   title       = "Detect Key Vault Deletions"
   description = "Detect Azure Key Vault vaults to check for deletions, which may lead to data or service loss."
@@ -28,7 +30,7 @@ detection "activity_logs_detect_keyvault_vault_deletions" {
   query       = query.activity_logs_detect_keyvault_vault_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -39,7 +41,7 @@ detection "activity_logs_detect_keyvault_vault_access_policy_updates" {
   query       = query.activity_logs_detect_keyvault_vault_access_policy_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 
@@ -50,7 +52,7 @@ detection "activity_logs_detect_keyvault_secret_updates" {
   query       = query.activity_logs_detect_keyvault_secret_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1565.001"
   })
 }
 
@@ -61,7 +63,7 @@ detection "activity_logs_detect_keyvault_secret_deletions" {
   query       = query.activity_logs_detect_keyvault_secret_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 
@@ -72,9 +74,11 @@ detection "activity_logs_detect_keyvault_secret_restore_operations" {
   query       = query.activity_logs_detect_keyvault_secret_restore_operations
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = ""
+    mitre_attack_ids = "TA0003:T1537"
   })
 }
+
+# Queries
 
 query "activity_logs_detect_keyvault_vault_deletions" {
   sql = <<-EOQ
