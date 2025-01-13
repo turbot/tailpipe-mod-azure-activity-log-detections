@@ -9,69 +9,69 @@ benchmark "activity_logs_network_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Network activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_application_gateway_deletions,
-    detection.activity_logs_detect_application_security_group_deletions,
-    detection.activity_logs_detect_firewall_updates,
-    detection.activity_logs_detect_firewall_deletions,
+    detection.activity_logs_detect_network_application_gateway_deletions,
+    detection.activity_logs_detect_network_application_security_group_deletions,
+    detection.activity_logs_detect_network_firewall_updates,
+    detection.activity_logs_detect_network_firewall_deletions,
     detection.activity_logs_detect_network_security_group_updates,
     detection.activity_logs_detect_network_security_group_deletions,
-    detection.activity_logs_detect_virtual_networks_modified,
+    detection.activity_logs_detect_virtual_network_updates,
     detection.activity_logs_detect_virtual_network_deletions,
     detection.activity_logs_detect_vpn_connection_updates,
-    detection.activity_logs_detect_vpn_connection_deletions,
+    detection.activity_logs_detect_network_vpn_connection_deletions,
     detection.activity_logs_detect_network_watcher_deletions,
-    detection.activity_logs_detect_firewall_policy_updates,
-    detection.activity_logs_detect_firewall_policy_deletions,
-    detection.activity_logs_detect_firewall_rule_updates,
-    detection.activity_logs_detect_firewall_rule_deletions,
-    detection.activity_logs_detect_dns_zone_deletions
+    detection.activity_logs_detect_network_firewall_policy_updates,
+    detection.activity_logs_detect_network_firewall_policy_deletions,
+    detection.activity_logs_detect_network_firewall_rule_updates,
+    detection.activity_logs_detect_network_firewall_rule_deletions,
+    detection.activity_logs_detect_network_dns_zone_deletions
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+    type = "Benchmark"
   })
 }
 
 # Detections
 
-detection "activity_logs_detect_application_gateway_deletions" {
-  title       = "Detect Application Gateway Deletions"
+detection "activity_logs_detect_network_application_gateway_deletions" {
+  title       = "Detect Network Application Gateway Deletions"
   description = "Detect Azure Application Gateway to check for deletions that may disrupt application traffic delivery."
   severity    = "medium"
-  query       = query.activity_logs_detect_application_gateway_deletions
+  query       = query.activity_logs_detect_network_application_gateway_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "activity_logs_detect_application_security_group_deletions" {
-  title       = "Detect Application Security Group Deletions"
+detection "activity_logs_detect_network_application_security_group_deletions" {
+  title       = "Detect Network Application Security Group Deletions"
   description = "Detect Azure Application Security Group to check for deletions that may impact security or disrupt application delivery."
   severity    = "medium"
-  query       = query.activity_logs_detect_application_security_group_deletions
+  query       = query.activity_logs_detect_network_application_security_group_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "activity_logs_detect_firewall_updates" {
-  title       = "Detect Firewall Updates"
+detection "activity_logs_detect_network_firewall_updates" {
+  title       = "Detect Network Firewall Updates"
   description = "Detect Azure Firewall to check for write operations that may indicate configuration changes impacting network security."
   severity    = "medium"
-  query       = query.activity_logs_detect_firewall_updates
+  query       = query.activity_logs_detect_network_firewall_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "activity_logs_detect_firewall_deletions" {
-  title       = "Detect Firewall Deletions"
+detection "activity_logs_detect_network_firewall_deletions" {
+  title       = "Detect Network Firewall Deletions"
   description = "Detect Azure Firewall to check for deletions that may leave your network vulnerable."
   severity    = "high"
-  query       = query.activity_logs_detect_firewall_deletions
+  query       = query.activity_logs_detect_network_firewall_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
@@ -100,11 +100,11 @@ detection "activity_logs_detect_network_security_group_deletions" {
   })
 }
 
-detection "activity_logs_detect_virtual_networks_modified" {
-  title       = "Detect Virtual Networks Modified"
+detection "activity_logs_detect_virtual_network_updates" {
+  title       = "Detect Virtual Network Updates"
   description = "Detect Azure Virtual Networks to check for configuration updates that may impact connectivity and security."
   severity    = "medium"
-  query       = query.activity_logs_detect_virtual_networks_modified
+  query       = query.activity_logs_detect_virtual_network_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -133,11 +133,11 @@ detection "activity_logs_detect_vpn_connection_updates" {
   })
 }
 
-detection "activity_logs_detect_vpn_connection_deletions" {
+detection "activity_logs_detect_network_vpn_connection_deletions" {
   title       = "Detect VPN Connection Deletions"
   description = "Detect Azure VPN Connection to check for deletions that may disrupt network connectivity."
   severity    = "high"
-  query       = query.activity_logs_detect_vpn_connection_deletions
+  query       = query.activity_logs_detect_network_vpn_connection_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
@@ -155,55 +155,55 @@ detection "activity_logs_detect_network_watcher_deletions" {
   })
 }
 
-detection "activity_logs_detect_firewall_policy_updates" {
-  title       = "Detect Firewall Policy Updates"
+detection "activity_logs_detect_network_firewall_policy_updates" {
+  title       = "Detect Network Firewall Policy Updates"
   description = "Detect Azure Firewall Policy to check for write operations that may impact network security configurations."
   severity    = "medium"
-  query       = query.activity_logs_detect_firewall_policy_updates
+  query       = query.activity_logs_detect_network_firewall_policy_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "activity_logs_detect_firewall_policy_deletions" {
-  title       = "Detect Firewall Policy Deletions"
+detection "activity_logs_detect_network_firewall_policy_deletions" {
+  title       = "Detect Network Firewall Policy Deletions"
   description = "Detect Azure Firewall Policy to check for deletions that may leave the network unprotected."
   severity    = "high"
-  query       = query.activity_logs_detect_firewall_policy_deletions
+  query       = query.activity_logs_detect_network_firewall_policy_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "activity_logs_detect_firewall_rule_updates" {
-  title       = "Detect Firewall Rule Updates"
+detection "activity_logs_detect_network_firewall_rule_updates" {
+  title       = "Detect Network Firewall Rule Updates"
   description = "Detect Azure Firewall Rule to check for write operations that may change network traffic filtering."
   severity    = "medium"
-  query       = query.activity_logs_detect_firewall_rule_updates
+  query       = query.activity_logs_detect_network_firewall_rule_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "activity_logs_detect_firewall_rule_deletions" {
-  title       = "Detect Firewall Rule Deletions"
+detection "activity_logs_detect_network_firewall_rule_deletions" {
+  title       = "Detect Network Firewall Rule Deletions"
   description = "Detect Azure Firewall Rule to check for deletions that may expose the network to unfiltered traffic."
   severity    = "high"
-  query       = query.activity_logs_detect_firewall_rule_deletions
+  query       = query.activity_logs_detect_network_firewall_rule_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "activity_logs_detect_dns_zone_deletions" {
-  title       = "Detect DNS Zone Deletions"
+detection "activity_logs_detect_network_dns_zone_deletions" {
+  title       = "Detect Network DNS Zone Deletions"
   description = "Detect Azure DNS Zone to check for deletions that may disrupt domain name resolution and availability."
   severity    = "high"
-  query       = query.activity_logs_detect_dns_zone_deletions
+  query       = query.activity_logs_detect_network_dns_zone_deletions
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
@@ -212,7 +212,7 @@ detection "activity_logs_detect_dns_zone_deletions" {
 
 # Queries
 
-query "activity_logs_detect_application_gateway_deletions" {
+query "activity_logs_detect_network_application_gateway_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -226,7 +226,7 @@ query "activity_logs_detect_application_gateway_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_application_security_group_deletions" {
+query "activity_logs_detect_network_application_security_group_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -240,7 +240,7 @@ query "activity_logs_detect_application_security_group_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_updates" {
+query "activity_logs_detect_network_firewall_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -254,7 +254,7 @@ query "activity_logs_detect_firewall_updates" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_deletions" {
+query "activity_logs_detect_network_firewall_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -296,7 +296,7 @@ query "activity_logs_detect_network_security_group_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_virtual_networks_modified" {
+query "activity_logs_detect_virtual_network_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -338,7 +338,7 @@ query "activity_logs_detect_vpn_connection_updates" {
   EOQ
 }
 
-query "activity_logs_detect_vpn_connection_deletions" {
+query "activity_logs_detect_network_vpn_connection_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -366,7 +366,7 @@ query "activity_logs_detect_network_watcher_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_policy_updates" {
+query "activity_logs_detect_network_firewall_policy_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -380,7 +380,7 @@ query "activity_logs_detect_firewall_policy_updates" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_policy_deletions" {
+query "activity_logs_detect_network_firewall_policy_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -394,7 +394,7 @@ query "activity_logs_detect_firewall_policy_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_rule_updates" {
+query "activity_logs_detect_network_firewall_rule_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -408,7 +408,7 @@ query "activity_logs_detect_firewall_rule_updates" {
   EOQ
 }
 
-query "activity_logs_detect_firewall_rule_deletions" {
+query "activity_logs_detect_network_firewall_rule_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -422,7 +422,7 @@ query "activity_logs_detect_firewall_rule_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_dns_zone_deletions" {
+query "activity_logs_detect_network_dns_zone_deletions" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

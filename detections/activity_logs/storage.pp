@@ -9,11 +9,13 @@ benchmark "activity_logs_storage_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Storage activity logs."
   type        = "detection"
   children = [
-    detection.activity_logs_detect_storage_account_keys_regenerated
+    detection.activity_logs_detect_storage_account_keys_regenerated,
+    detection.activity_logs_detect_lifecycle_policy_updates,
+    detection.activity_logs_detect_storage_account_deletions,
   ]
 
   tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+    type = "Benchmark"
   })
 }
 
@@ -28,11 +30,11 @@ detection "activity_logs_detect_storage_account_keys_regenerated" {
   })
 }
 
-detection "activity_logs_detect_lifecycle_policy_modifications" {
-  title       = "Detect Azure Storage Lifecycle Policy Modifications"
+detection "activity_logs_detect_lifecycle_policy_updates" {
+  title       = "Detect Azure Storage Lifecycle Policy Updates"
   description = "Detect changes to Azure Storage lifecycle policies, which could result in data destruction by setting rules that trigger unintended deletions."
   severity    = "high"
-  query       = query.activity_logs_detect_lifecycle_policy_modifications
+  query       = query.activity_logs_detect_lifecycle_policy_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485.001"
@@ -64,7 +66,7 @@ query "activity_logs_detect_storage_account_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_lifecycle_policy_modifications" {
+query "activity_logs_detect_lifecycle_policy_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

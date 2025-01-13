@@ -18,8 +18,8 @@ benchmark "activity_logs_frontdoor_detections" {
 }
 
 detection "activity_logs_detect_frontdoor_firewall_policy_deletions" {
-  title       = "Detect Front Door WAF Policy Deletions"
-  description = "Detect the deletions of Front Door WAF policies, providing insight into changes that may impact security."
+  title       = "Detect Front Door Policy Deletions"
+  description = "Detect the deletions of Front Door policies, providing insight into changes that may impact security."
   severity    = "low"
   query       = query.activity_logs_detect_frontdoor_firewall_policy_deletions
 

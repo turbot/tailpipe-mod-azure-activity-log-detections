@@ -10,14 +10,14 @@ benchmark "activity_logs_sql_detections" {
   type        = "detection"
   children = [
     detection.activity_logs_detect_sql_server_deletions,
-    detection.activity_logs_detect_sql_firewall_rule_modifications,
+    detection.activity_logs_detect_sql_firewall_rule_updates,
     detection.activity_logs_detect_sql_database_deletions,
     detection.activity_logs_detect_sql_role_assignment_changes,
-    detection.activity_logs_detect_sql_tde_disabling
+    detection.activity_logs_detect_sql_tde_updates
   ]
 
   tags = merge(local.activity_log_sql_detection_common_tags, {
-    type    = "Benchmark"
+    type = "Benchmark"
   })
 }
 
@@ -32,11 +32,11 @@ detection "activity_logs_detect_sql_server_deletions" {
   })
 }
 
-detection "activity_logs_detect_sql_firewall_rule_modifications" {
-  title       = "Detect SQL Server Firewall Rule Modifications"
-  description = "Detect Azure SQL Servers to check for firewall rule modifications, which may expose the server to unauthorized connections."
+detection "activity_logs_detect_sql_firewall_rule_updates" {
+  title       = "Detect SQL Server Firewall Rule Updates"
+  description = "Detect Azure SQL Servers to check for firewall rule updates, which may expose the server to unauthorized connections."
   severity    = "medium"
-  query       = query.activity_logs_detect_sql_firewall_rule_modifications
+  query       = query.activity_logs_detect_sql_firewall_rule_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -65,18 +65,18 @@ detection "activity_logs_detect_sql_role_assignment_changes" {
   })
 }
 
-detection "activity_logs_detect_sql_tde_disabling" {
-  title       = "Detect SQL Database TDE Disabling"
-  description = "Detect Azure SQL Databases to check for Transparent Data Encryption (TDE) disabling, which may expose sensitive data."
+detection "activity_logs_detect_sql_tde_updates" {
+  title       = "Detect SQL Database TDE Updates"
+  description = "Detect Azure SQL Databases to check for Transparent Data Encryption (TDE) updates, which may expose sensitive data."
   severity    = "high"
-  query       = query.activity_logs_detect_sql_tde_disabling
+  query       = query.activity_logs_detect_sql_tde_updates
 
   tags = merge(local.activity_log_detection_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "activity_logs_detect_sql_tde_disabling" {
+query "activity_logs_detect_sql_tde_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}
@@ -119,7 +119,7 @@ query "activity_logs_detect_sql_database_deletions" {
   EOQ
 }
 
-query "activity_logs_detect_sql_firewall_rule_modifications" {
+query "activity_logs_detect_sql_firewall_rule_updates" {
   sql = <<-EOQ
     select
       ${local.common_activity_logs_sql}

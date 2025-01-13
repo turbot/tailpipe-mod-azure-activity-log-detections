@@ -24,7 +24,7 @@ benchmark "activity_logs_keyvault_detections" {
 # Detections
 
 detection "activity_logs_detect_keyvault_vault_deletions" {
-  title       = "Detect Key Vault Deletions"
+  title       = "Detect Key Vault Vault Deletions"
   description = "Detect Azure Key Vault vaults to check for deletions, which may lead to data or service loss."
   severity    = "high"
   query       = query.activity_logs_detect_keyvault_vault_deletions
@@ -35,7 +35,7 @@ detection "activity_logs_detect_keyvault_vault_deletions" {
 }
 
 detection "activity_logs_detect_keyvault_vault_access_policy_updates" {
-  title       = "Detect Key Vault Access Policy Updates"
+  title       = "Detect Key Vault Vault Access Policy Updates"
   description = "Detect Azure Key Vault vaults to check for access policy updates, which may impact security by changing permissions."
   severity    = "medium"
   query       = query.activity_logs_detect_keyvault_vault_access_policy_updates
@@ -47,7 +47,7 @@ detection "activity_logs_detect_keyvault_vault_access_policy_updates" {
 
 detection "activity_logs_detect_keyvault_secret_updates" {
   title       = "Detect Key Vault Secret Updates"
-  description = "Detect Azure Key Vault secrets to check for modifications, which may indicate changes to critical configurations or data."
+  description = "Detect Azure Key Vault secrets to check for updates, which may indicate changes to critical configurations or data."
   severity    = "medium"
   query       = query.activity_logs_detect_keyvault_secret_updates
 

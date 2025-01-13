@@ -1,5 +1,5 @@
 locals {
-  mitre_v151_ta0040_t1565_common_tags = merge(local.mitre_v151_ta0002_common_tags, {
+  mitre_v151_ta0040_t1565_common_tags = merge(local.mitre_v151_ta0040_common_tags, {
     mitre_technique_id = "T1565"
   })
 }

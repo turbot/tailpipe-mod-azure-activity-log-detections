@@ -1,5 +1,5 @@
 locals {
-  mitre_v151_ta0003_t1078_common_tags = merge(local.mitre_v151_ta0002_common_tags, {
+  mitre_v151_ta0003_t1078_common_tags = merge(local.mitre_v151_ta0003_common_tags, {
     mitre_technique_id = "T1078"
   })
 }
@@ -30,10 +30,10 @@ benchmark "mitre_v151_ta0003_t1078_004" {
   type          = "detection"
   documentation = file("./mitre_v151/docs/ta0003_t1078_004.md")
   children = [
-    detection.activity_logs_detect_authorization_role_assignment_updations,
+    detection.activity_logs_detect_iam_authorization_role_assignment_updations,
     detection.activity_logs_detect_keyvault_secret_restore_operations,
     detection.activity_logs_detect_keyvault_vault_access_policy_updates,
     detection.activity_logs_detect_sql_role_assignment_changes,
-    detection.activity_logs_detect_vm_role_assignment_changes,
+    detection.activity_logs_detect_compute_vm_role_assignment_changes,
   ]
 }
