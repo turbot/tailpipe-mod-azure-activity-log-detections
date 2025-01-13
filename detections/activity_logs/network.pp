@@ -209,3 +209,229 @@ detection "activity_logs_detect_dns_zone_deletions" {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
+
+# Queries
+
+query "activity_logs_detect_application_gateway_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/applicationGateways/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_application_security_group_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/applicationSecurityGroups/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_updates" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/azureFirewalls/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/azureFirewalls/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_network_security_group_updates" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/networkSecurityGroups/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_network_security_group_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/networkSecurityGroups/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_virtual_networks_modified" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/virtualNetworks/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_virtual_network_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/virtualNetworks/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_vpn_connection_updates" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/vpnGateways/vpnConnections/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_vpn_connection_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/vpnGateways/vpnConnections/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_network_watcher_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/networkWatchers/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_policy_updates" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/firewallPolicies/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_policy_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/firewallPolicies/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_rule_updates" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/firewallPolicies/ruleGroups/write'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_firewall_rule_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/firewallPolicies/ruleGroups/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}
+
+query "activity_logs_detect_dns_zone_deletions" {
+  sql = <<-EOQ
+    select
+      ${local.common_activity_logs_sql}
+    from
+      azure_activity_log
+    where
+      operation_name = 'Microsoft.Network/dnsZones/delete'
+      ${local.activity_logs_detection_where_conditions}
+    order by
+      timestamp desc;
+  EOQ
+}

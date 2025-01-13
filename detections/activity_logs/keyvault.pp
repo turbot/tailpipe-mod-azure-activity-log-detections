@@ -74,7 +74,7 @@ detection "activity_logs_detect_keyvault_secret_restore_operations" {
   query       = query.activity_logs_detect_keyvault_secret_restore_operations
 
   tags = merge(local.activity_log_detection_common_tags, {
-    mitre_attack_ids = "TA0003:T1537"
+    mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 
