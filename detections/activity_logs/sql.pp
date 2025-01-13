@@ -1,18 +1,22 @@
 locals {
-  activity_log_automation_detection_common_tags = merge(local.activity_log_detection_common_tags, {
+  activity_log_sql_detection_common_tags = merge(local.activity_log_detection_common_tags, {
     service = "Azure/SQL"
   })
 }
 
-benchmark "activity_logs_automation_detections" {
+benchmark "activity_logs_sql_detections" {
   title       = "SQL Detections"
   description = "This detection benchmark contains recommendations when scanning Azure SQL activity logs."
   type        = "detection"
   children = [
-    
+    detection.activity_logs_detect_sql_server_deletions,
+    detection.activity_logs_detect_sql_firewall_rule_modifications,
+    detection.activity_logs_detect_sql_database_deletions,
+    detection.activity_logs_detect_sql_role_assignment_changes,
+    detection.activity_logs_detect_sql_tde_disabling
   ]
 
-  tags = merge(local.activity_log_automation_detection_common_tags, {
+  tags = merge(local.activity_log_sql_detection_common_tags, {
     type    = "Benchmark"
   })
 }

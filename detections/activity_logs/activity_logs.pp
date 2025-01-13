@@ -10,7 +10,7 @@ benchmark "activity_log" {
   type = "detection"
   children = [
     benchmark.activity_logs_automation_detections,
-    # benchmark.activity_logs_compute_detections,
+    benchmark.activity_logs_compute_detections,
     benchmark.activity_logs_container_registry_detections,
     benchmark.activity_logs_event_hub_detections,
     benchmark.activity_logs_frontdoor_detections,
@@ -20,6 +20,7 @@ benchmark "activity_log" {
     benchmark.activity_logs_monitor_detections,
     benchmark.activity_logs_network_detections,
     benchmark.activity_logs_resource_group_detections,
+    benchmark.activity_logs_sql_detections,
     benchmark.activity_logs_storage_detections
   ]
 
