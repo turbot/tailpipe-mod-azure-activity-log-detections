@@ -1,5 +1,5 @@
 locals {
-  activity_log_sql_detection_common_tags = merge(local.activity_log_detection_common_tags, {
+  sql_common_tags = merge(local.azure_activity_log_detections_common_tags, {
     service = "Azure/SQL"
   })
 }
@@ -22,56 +22,61 @@ benchmark "activity_logs_sql_detections" {
 }
 
 detection "activity_logs_detect_sql_server_deletions" {
-  title       = "Detect SQL Server Deletions"
-  description = "Detect the deletions of Azure SQL Servers, providing visibility into significant changes that may impact automation and orchestration."
-  severity    = "low"
-  query       = query.activity_logs_detect_sql_server_deletions
+  title           = "Detect SQL Server Deletions"
+  description     = "Detect the deletions of Azure SQL Servers, providing visibility into significant changes that may impact automation and orchestration."
+  severity        = "low"
+  display_columns = local.detection_display_columns
+  query           = query.activity_logs_detect_sql_server_deletions
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
 detection "activity_logs_detect_sql_firewall_rule_updates" {
-  title       = "Detect SQL Server Firewall Rule Updates"
-  description = "Detect Azure SQL Servers to check for firewall rule updates, which may expose the server to unauthorized connections."
-  severity    = "medium"
-  query       = query.activity_logs_detect_sql_firewall_rule_updates
+  title           = "Detect SQL Server Firewall Rule Updates"
+  description     = "Detect Azure SQL Servers to check for firewall rule updates, which may expose the server to unauthorized connections."
+  severity        = "medium"
+  display_columns = local.detection_display_columns
+  query           = query.activity_logs_detect_sql_firewall_rule_updates
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
 detection "activity_logs_detect_sql_database_deletions" {
-  title       = "Detect SQL Database Deletions"
-  description = "Detect Azure SQL Databases to check for deletions that may result in data loss or service disruption."
-  severity    = "high"
-  query       = query.activity_logs_detect_sql_database_deletions
+  title           = "Detect SQL Database Deletions"
+  description     = "Detect Azure SQL Databases to check for deletions that may result in data loss or service disruption."
+  severity        = "high"
+  display_columns = local.detection_display_columns
+  query           = query.activity_logs_detect_sql_database_deletions
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
 detection "activity_logs_detect_sql_role_assignment_changes" {
-  title       = "Detect SQL Server Role Assignment Changes"
-  description = "Detect Azure SQL Servers to check for role assignment changes, which may grant elevated privileges."
-  severity    = "medium"
-  query       = query.activity_logs_detect_sql_role_assignment_changes
+  title           = "Detect SQL Server Role Assignment Changes"
+  description     = "Detect Azure SQL Servers to check for role assignment changes, which may grant elevated privileges."
+  severity        = "medium"
+  display_columns = local.detection_display_columns
+  query           = query.activity_logs_detect_sql_role_assignment_changes
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 
 detection "activity_logs_detect_sql_tde_updates" {
-  title       = "Detect SQL Database TDE Updates"
-  description = "Detect Azure SQL Databases to check for Transparent Data Encryption (TDE) updates, which may expose sensitive data."
-  severity    = "high"
-  query       = query.activity_logs_detect_sql_tde_updates
+  title           = "Detect SQL Database TDE Updates"
+  description     = "Detect Azure SQL Databases to check for Transparent Data Encryption (TDE) updates, which may expose sensitive data."
+  severity        = "high"
+  display_columns = local.detection_display_columns
+  query           = query.activity_logs_detect_sql_tde_updates
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
@@ -79,12 +84,12 @@ detection "activity_logs_detect_sql_tde_updates" {
 query "activity_logs_detect_sql_tde_updates" {
   sql = <<-EOQ
     select
-      ${local.common_activity_logs_sql}
+      ${local.detection_sql_columns}
     from
       azure_activity_log
     where
       operation_name = 'Microsoft.Sql/servers/databases/encryptionProtector/write'
-      ${local.activity_logs_detection_where_conditions}
+      ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -93,13 +98,13 @@ query "activity_logs_detect_sql_tde_updates" {
 query "activity_logs_detect_sql_role_assignment_changes" {
   sql = <<-EOQ
     select
-      ${local.common_activity_logs_sql}
+      ${local.detection_sql_columns}
     from
       azure_activity_log
     where
       operation_name = 'Microsoft.Authorization/roleAssignments/write'
       and resource_type = 'Microsoft.Sql/servers'
-      ${local.activity_logs_detection_where_conditions}
+      ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -108,12 +113,12 @@ query "activity_logs_detect_sql_role_assignment_changes" {
 query "activity_logs_detect_sql_database_deletions" {
   sql = <<-EOQ
     select
-      ${local.common_activity_logs_sql}
+      ${local.detection_sql_columns}
     from
       azure_activity_log
     where
       operation_name = 'Microsoft.Sql/servers/databases/delete'
-      ${local.activity_logs_detection_where_conditions}
+      ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -122,12 +127,12 @@ query "activity_logs_detect_sql_database_deletions" {
 query "activity_logs_detect_sql_firewall_rule_updates" {
   sql = <<-EOQ
     select
-      ${local.common_activity_logs_sql}
+      ${local.detection_sql_columns}
     from
       azure_activity_log
     where
       operation_name = 'Microsoft.Sql/servers/firewallRules/write'
-      ${local.activity_logs_detection_where_conditions}
+      ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
   EOQ
@@ -136,12 +141,12 @@ query "activity_logs_detect_sql_firewall_rule_updates" {
 query "activity_logs_detect_sql_server_deletions" {
   sql = <<-EOQ
     select
-      ${local.common_activity_logs_sql}
+      ${local.detection_sql_columns}
     from
       azure_activity_log
     where
       operation_name = 'Microsoft.Sql/servers/delete'
-      ${local.activity_logs_detection_where_conditions}
+      ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
   EOQ

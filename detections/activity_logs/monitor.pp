@@ -1,5 +1,5 @@
 locals {
-  activity_log_monitor_detection_common_tags = merge(local.activity_log_detection_common_tags, {
+  monitor_common_tags = merge(local.azure_activity_log_detections_common_tags, {
     service = "Azure/Monitor"
   })
 }
@@ -12,19 +12,20 @@ benchmark "activity_logs_monitor_detections" {
     detection.activity_logs_detect_diagnostic_setting_deletions,
   ]
 
-  tags = merge(local.activity_log_detection_common_tags, {
-    type    = "Benchmark"
+  tags = merge(local.monitor_common_tags, {
+    type = "Benchmark"
   })
 }
 
 detection "activity_logs_detect_diagnostic_setting_deletions" {
-  title       = "Detect Diagnostic Setting Deletions"
-  description = "Detects the deletion of Azure diagnostic settings, providing visibility into significant changes that may impact monitoring and alerting."
-  severity    = "medium"
-  query       = query.activity_logs_detect_diagnostic_setting_deletions
+  title           = "Detect Diagnostic Setting Deletions"
+  description     = "Detects the deletion of Azure diagnostic settings, providing visibility into significant changes that may impact monitoring and alerting."
+  severity        = "medium"
+  display_columns = local.detection_display_columns
+  query           = query.activity_logs_detect_diagnostic_setting_deletions
 
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.monitor_common_tags, {
     mitre_attack_ids = "TA0040:T1565.001"
   })
 }
@@ -32,12 +33,12 @@ detection "activity_logs_detect_diagnostic_setting_deletions" {
 query "activity_logs_detect_diagnostic_setting_deletions" {
   sql = <<-EOQ
     select
-      ${local.common_activity_logs_sql}
+      ${local.detection_sql_columns}
     from
       azure_activity_log
     where
       operation_name = 'microsoft.insights/diagnosticSettings/delete'
-      ${local.activity_logs_detection_where_conditions}
+      ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
   EOQ

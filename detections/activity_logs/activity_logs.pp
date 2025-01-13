@@ -7,7 +7,7 @@ locals {
 benchmark "activity_log" {
   title       = "Activity Log Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Activity logs."
-  type = "detection"
+  type        = "detection"
   children = [
     benchmark.activity_logs_automation_detections,
     benchmark.activity_logs_compute_detections,
@@ -24,7 +24,7 @@ benchmark "activity_log" {
     benchmark.activity_logs_storage_detections
   ]
 
-  tags = merge(local.activity_log_detection_common_tags, {
+  tags = merge(local.azure_activity_log_detections_common_tags, {
     type = "Benchmark"
   })
 }
