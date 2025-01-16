@@ -20,6 +20,7 @@ benchmark "monitor_detections" {
 detection "detect_diagnostic_setting_deletions" {
   title           = "Detect Diagnostic Setting Deletions"
   description     = "Detects the deletion of Azure diagnostic settings, providing visibility into significant changes that may impact monitoring and alerting."
+  documentation   = file("./detections/docs/detect_diagnostic_setting_deletions.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_diagnostic_setting_deletions

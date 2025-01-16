@@ -20,6 +20,7 @@ benchmark "kubernetes_detections" {
 detection "detect_kubernetes_cluster_deletions" {
   title           = "Detect Kubernetes Cluster Deletions"
   description     = "Detects when a Azure Kubernetes Cluster is created or deleted."
+  documentation   = file("./detections/docs/detect_kubernetes_cluster_deletions.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_kubernetes_cluster_deletions

@@ -12,7 +12,7 @@ benchmark "sql_detections" {
     detection.detect_sql_server_deletions,
     detection.detect_sql_firewall_rule_updates,
     detection.detect_sql_database_deletions,
-    detection.detect_sql_role_assignment_changes,
+    detection.detect_sql_role_assignment_updates,
     detection.detect_sql_tde_updates
   ]
 
@@ -24,6 +24,7 @@ benchmark "sql_detections" {
 detection "detect_sql_server_deletions" {
   title           = "Detect SQL Server Deletions"
   description     = "Detect the deletions of Azure SQL Servers, providing visibility into significant changes that may impact automation and orchestration."
+  documentation   = file("./detections/docs/detect_sql_server_deletions.md")
   severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.detect_sql_server_deletions
@@ -36,6 +37,7 @@ detection "detect_sql_server_deletions" {
 detection "detect_sql_firewall_rule_updates" {
   title           = "Detect SQL Server Firewall Rule Updates"
   description     = "Detect Azure SQL Servers to check for firewall rule updates, which may expose the server to unauthorized connections."
+  documentation   = file("./detections/docs/detect_sql_firewall_rule_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_sql_firewall_rule_updates
@@ -48,6 +50,7 @@ detection "detect_sql_firewall_rule_updates" {
 detection "detect_sql_database_deletions" {
   title           = "Detect SQL Database Deletions"
   description     = "Detect Azure SQL Databases to check for deletions that may result in data loss or service disruption."
+  documentation   = file("./detections/docs/detect_sql_database_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_sql_database_deletions
@@ -57,12 +60,13 @@ detection "detect_sql_database_deletions" {
   })
 }
 
-detection "detect_sql_role_assignment_changes" {
+detection "detect_sql_role_assignment_updates" {
   title           = "Detect SQL Server Role Assignment Changes"
   description     = "Detect Azure SQL Servers to check for role assignment changes, which may grant elevated privileges."
+  documentation   = file("./detections/docs/detect_sql_role_assignment_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_sql_role_assignment_changes
+  query           = query.detect_sql_role_assignment_updates
 
   tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
@@ -72,6 +76,7 @@ detection "detect_sql_role_assignment_changes" {
 detection "detect_sql_tde_updates" {
   title           = "Detect SQL Database TDE Updates"
   description     = "Detect Azure SQL Databases to check for Transparent Data Encryption (TDE) updates, which may expose sensitive data."
+  documentation   = file("./detections/docs/detect_sql_tde_updates.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_sql_tde_updates
@@ -95,7 +100,7 @@ query "detect_sql_tde_updates" {
   EOQ
 }
 
-query "detect_sql_role_assignment_changes" {
+query "detect_sql_role_assignment_updates" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

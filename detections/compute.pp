@@ -9,7 +9,7 @@ benchmark "compute_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Compute activity logs."
   type        = "detection"
   children = [
-    detection.detect_compute_vm_role_assignment_changes,
+    detection.detect_compute_vm_role_assignment_updates,
     detection.detect_compute_disk_deletions,
     detection.detect_compute_snapshot_deletions,
   ]
@@ -19,12 +19,13 @@ benchmark "compute_detections" {
   })
 }
 
-detection "detect_compute_vm_role_assignment_changes" {
-  title           = "Detect Compute VM Role Assignment Changes"
+detection "detect_compute_vm_role_assignment_updates" {
+  title           = "Detect Compute VM Role Assignment Updates"
   description     = "Detect Azure Virtual Machines to check for role assignment changes, which may impact security and access controls."
+  documentation   = file("./detections/docs/detect_compute_vm_role_assignment_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_compute_vm_role_assignment_changes
+  query           = query.detect_compute_vm_role_assignment_updates
 
   tags = merge(local.compute_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
@@ -34,6 +35,7 @@ detection "detect_compute_vm_role_assignment_changes" {
 detection "detect_compute_disk_deletions" {
   title           = "Detect Compute Disk Deletions"
   description     = "Detect Azure Managed Disks to check for deletions that may lead to data loss or operational impact."
+  documentation   = file("./detections/docs/detect_compute_disk_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_compute_disk_deletions
@@ -46,6 +48,7 @@ detection "detect_compute_disk_deletions" {
 detection "detect_compute_snapshot_deletions" {
   title           = "Detect Compute Snapshot Deletions"
   description     = "Detect Azure Managed Disk Snapshots to check for deletions that may indicate malicious activity or result in data loss."
+  documentation   = file("./detections/docs/detect_compute_snapshot_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_compute_snapshot_deletions
@@ -55,7 +58,7 @@ detection "detect_compute_snapshot_deletions" {
   })
 }
 
-query "detect_compute_vm_role_assignment_changes" {
+query "detect_compute_vm_role_assignment_updates" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

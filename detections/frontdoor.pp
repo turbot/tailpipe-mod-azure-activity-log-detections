@@ -20,6 +20,7 @@ benchmark "frontdoor_detections" {
 detection "detect_frontdoor_firewall_policy_deletions" {
   title           = "Detect Front Door Policy Deletions"
   description     = "Detect the deletions of Front Door policies, providing insight into changes that may impact security."
+  documentation   = file("./detections/docs/detect_frontdoor_firewall_policy_deletions.md")
   severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.detect_frontdoor_firewall_policy_deletions

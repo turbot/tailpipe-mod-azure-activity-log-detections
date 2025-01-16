@@ -21,6 +21,7 @@ benchmark "event_hub_detections" {
 detection "detect_event_hub_auth_rule_updates" {
   title           = "Detect Event Hub Auth Rule Updates"
   description     = "Detect when a Azure Event HubsAuth Rules are updated, providing visibility into significant changes that may impact security."
+  documentation   = file("./detections/docs/detect_event_hub_auth_rule_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_event_hub_auth_rule_updates
@@ -33,6 +34,7 @@ detection "detect_event_hub_auth_rule_updates" {
 detection "detect_event_hub_deletions" {
   title           = "Detect Event Hub Deletions"
   description     = "Detect the deletions of Azure Event Hub, providing visibility into significant changes that may impact security."
+  documentation   = file("./detections/docs/detect_event_hub_deletions.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_event_hub_deletions

@@ -33,7 +33,7 @@ benchmark "mitre_v161_ta0003_t1078_004" {
     detection.detect_iam_authorization_role_assignment_updates,
     detection.detect_keyvault_secret_restore_operations,
     detection.detect_keyvault_vault_access_policy_updates,
-    detection.detect_sql_role_assignment_changes,
-    detection.detect_compute_vm_role_assignment_changes,
+    detection.detect_sql_role_assignment_updates,
+    detection.detect_compute_vm_role_assignment_updates,
   ]
 }

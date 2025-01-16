@@ -20,6 +20,7 @@ benchmark "resource_group_detections" {
 detection "detect_resource_group_deletions" {
   title           = "Detect Resource Group Deletions"
   description     = "Detects the deletion of Azure Resource Group, providing visibility into significant changes that may impact resources."
+  documentation   = file("./detections/docs/detect_resource_group_deletions.md")
   severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.detect_resource_group_deletions

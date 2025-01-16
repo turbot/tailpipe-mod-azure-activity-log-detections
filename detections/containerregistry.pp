@@ -20,6 +20,7 @@ benchmark "container_registry_detections" {
 detection "detect_container_registry_deletions" {
   title           = "Detect Container Registry Deletions"
   description     = "Detect the deletions of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
+  documentation   = file("./detections/docs/detect_container_registry_deletions.md")
   severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.detect_container_registry_deletions

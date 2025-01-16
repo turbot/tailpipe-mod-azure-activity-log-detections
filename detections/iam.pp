@@ -20,6 +20,7 @@ benchmark "iam_detections" {
 detection "detect_iam_authorization_role_assignment_updates" {
   title           = "Detect IAM Authorization Role Assignment Updates"
   description     = "Detect when Azure role assignments are updated, providing visibility into significant changes that may impact security."
+  documentation   = file("./detections/docs/detect_iam_authorization_role_assignment_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_iam_authorization_role_assignment_updates

@@ -12,7 +12,7 @@ benchmark "mitre_v161_ta0040_t1485" {
     benchmark.mitre_v161_ta0040_t1485_001,
     detection.detect_network_application_gateway_deletions,
     detection.detect_network_application_security_group_deletions,
-    detection.detect_automation_runbook_deletions,
+    detection.detect_automation_account_runbook_deletions,
     detection.detect_container_registry_deletions,
     detection.detect_compute_disk_deletions,
     detection.detect_network_dns_zone_deletions,

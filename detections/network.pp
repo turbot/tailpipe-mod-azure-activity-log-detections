@@ -37,6 +37,7 @@ benchmark "network_detections" {
 detection "detect_network_application_gateway_deletions" {
   title           = "Detect Network Application Gateway Deletions"
   description     = "Detect Azure Application Gateway to check for deletions that may disrupt application traffic delivery."
+  documentation   = file("./detections/docs/detect_network_application_gateway_deletions.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_application_gateway_deletions
@@ -49,6 +50,7 @@ detection "detect_network_application_gateway_deletions" {
 detection "detect_network_application_security_group_deletions" {
   title           = "Detect Network Application Security Group Deletions"
   description     = "Detect Azure Application Security Group to check for deletions that may impact security or disrupt application delivery."
+  documentation   = file("./detections/docs/detect_network_application_security_group_deletions.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_application_security_group_deletions
@@ -61,6 +63,7 @@ detection "detect_network_application_security_group_deletions" {
 detection "detect_network_firewall_updates" {
   title           = "Detect Network Firewall Updates"
   description     = "Detect Azure Firewall to check for write operations that may indicate configuration changes impacting network security."
+  documentation   = file("./detections/docs/detect_network_firewall_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_firewall_updates
@@ -73,6 +76,7 @@ detection "detect_network_firewall_updates" {
 detection "detect_network_firewall_deletions" {
   title           = "Detect Network Firewall Deletions"
   description     = "Detect Azure Firewall to check for deletions that may leave your network vulnerable."
+  documentation   = file("./detections/docs/detect_network_firewall_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_network_firewall_deletions
@@ -85,6 +89,7 @@ detection "detect_network_firewall_deletions" {
 detection "detect_network_security_group_updates" {
   title           = "Detect Network Security Group Updates"
   description     = "Detect Azure Network Security Group to check for write operations that may impact security rules and network posture."
+  documentation   = file("./detections/docs/detect_network_security_group_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_security_group_updates
@@ -97,6 +102,7 @@ detection "detect_network_security_group_updates" {
 detection "detect_network_security_group_deletions" {
   title           = "Detect Network Security Group Deletions"
   description     = "Detect Azure Network Security Group to check for deletions that may disrupt traffic filtering and increase risk of exposure."
+  documentation   = file("./detections/docs/detect_network_security_group_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_network_security_group_deletions
@@ -109,6 +115,7 @@ detection "detect_network_security_group_deletions" {
 detection "detect_virtual_network_updates" {
   title           = "Detect Virtual Network Updates"
   description     = "Detect Azure Virtual Networks to check for configuration updates that may impact connectivity and security."
+  documentation   = file("./detections/docs/detect_virtual_network_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_virtual_network_updates
@@ -121,6 +128,7 @@ detection "detect_virtual_network_updates" {
 detection "detect_virtual_network_deletions" {
   title           = "Detect Virtual Network Deletions"
   description     = "Detect Azure Virtual Network to check for deletions that may disrupt connectivity or result in loss of critical configurations."
+  documentation   = file("./detections/docs/detect_virtual_network_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_virtual_network_deletions
@@ -133,6 +141,7 @@ detection "detect_virtual_network_deletions" {
 detection "detect_vpn_connection_updates" {
   title           = "Detect VPN Connection Updates"
   description     = "Detect Azure VPN Connection to check for write operations that may alter network connectivity or introduce risks."
+  documentation   = file("./detections/docs/detect_vpn_connection_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_vpn_connection_updates
@@ -145,6 +154,7 @@ detection "detect_vpn_connection_updates" {
 detection "detect_network_vpn_connection_deletions" {
   title           = "Detect VPN Connection Deletions"
   description     = "Detect Azure VPN Connection to check for deletions that may disrupt network connectivity."
+  documentation   = file("./detections/docs/detect_network_vpn_connection_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_network_vpn_connection_deletions
@@ -157,6 +167,7 @@ detection "detect_network_vpn_connection_deletions" {
 detection "detect_network_watcher_deletions" {
   title           = "Detect Network Watcher Deletions"
   description     = "Detect Azure Network Watcher to check for deletions that may reduce network monitoring capabilities."
+  documentation   = file("./detections/docs/detect_network_watcher_deletions.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_watcher_deletions
@@ -169,6 +180,7 @@ detection "detect_network_watcher_deletions" {
 detection "detect_network_firewall_policy_updates" {
   title           = "Detect Network Firewall Policy Updates"
   description     = "Detect Azure Firewall Policy to check for write operations that may impact network security configurations."
+  documentation   = file("./detections/docs/detect_network_firewall_policy_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_firewall_policy_updates
@@ -181,6 +193,7 @@ detection "detect_network_firewall_policy_updates" {
 detection "detect_network_firewall_policy_deletions" {
   title           = "Detect Network Firewall Policy Deletions"
   description     = "Detect Azure Firewall Policy to check for deletions that may leave the network unprotected."
+  documentation   = file("./detections/docs/detect_network_firewall_policy_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_network_firewall_policy_deletions
@@ -193,6 +206,7 @@ detection "detect_network_firewall_policy_deletions" {
 detection "detect_network_firewall_rule_updates" {
   title           = "Detect Network Firewall Rule Updates"
   description     = "Detect Azure Firewall Rule to check for write operations that may change network traffic filtering."
+  documentation   = file("./detections/docs/detect_network_firewall_rule_updates.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.detect_network_firewall_rule_updates
@@ -205,6 +219,7 @@ detection "detect_network_firewall_rule_updates" {
 detection "detect_network_firewall_rule_deletions" {
   title           = "Detect Network Firewall Rule Deletions"
   description     = "Detect Azure Firewall Rule to check for deletions that may expose the network to unfiltered traffic."
+  documentation   = file("./detections/docs/detect_network_firewall_rule_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_network_firewall_rule_deletions
@@ -217,6 +232,7 @@ detection "detect_network_firewall_rule_deletions" {
 detection "detect_network_dns_zone_deletions" {
   title           = "Detect Network DNS Zone Deletions"
   description     = "Detect Azure DNS Zone to check for deletions that may disrupt domain name resolution and availability."
+  documentation   = file("./detections/docs/detect_network_dns_zone_deletions.md")
   severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.detect_network_dns_zone_deletions
