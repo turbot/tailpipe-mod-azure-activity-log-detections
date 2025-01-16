@@ -1,0 +1,39 @@
+locals {
+  mitre_v161_ta0003_t1078_common_tags = merge(local.mitre_v161_ta0003_common_tags, {
+    mitre_technique_id = "T1078"
+  })
+}
+
+benchmark "mitre_v161_ta0003_t1078" {
+  title         = "T1078 Valid Accounts"
+  type          = "detection"
+  documentation = file("./mitre_v161/docs/ta0003_t1078.md")
+  children = [
+    benchmark.mitre_v161_ta0003_t1078_001,
+    benchmark.mitre_v161_ta0003_t1078_004,
+  ]
+
+  tags = local.mitre_v161_ta0003_t1078_common_tags
+}
+
+benchmark "mitre_v161_ta0003_t1078_001" {
+  title         = "T1078.001 Valid Accounts: Default Accounts"
+  type          = "detection"
+  documentation = file("./mitre_v161/docs/ta0003_t1078_001.md")
+  children = [
+    detection.detect_event_hub_auth_rule_updates,
+  ]
+}
+
+benchmark "mitre_v161_ta0003_t1078_004" {
+  title         = "T1078.004 Valid Accounts: Cloud Accounts"
+  type          = "detection"
+  documentation = file("./mitre_v161/docs/ta0003_t1078_004.md")
+  children = [
+    detection.detect_iam_authorization_role_assignment_updates,
+    detection.detect_keyvault_secret_restore_operations,
+    detection.detect_keyvault_vault_access_policy_updates,
+    detection.detect_sql_role_assignment_changes,
+    detection.detect_compute_vm_role_assignment_changes,
+  ]
+}
