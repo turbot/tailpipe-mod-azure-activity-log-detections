@@ -31,7 +31,7 @@ benchmark "mitre_v161_ta0003_t1078_004" {
   documentation = file("./mitre_v161/docs/ta0003_t1078_004.md")
   children = [
     detection.iam_role_assignment_updated,
-    detection.keyvault_access_policy_updated,
+    detection.key_vault_access_policy_updated,
     detection.sql_server_role_assignment_updated,
     detection.compute_vm_role_assignment_updated,
   ]
