@@ -9,7 +9,7 @@ benchmark "container_registry_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Container Registry activity logs."
   type        = "detection"
   children = [
-    detection.detect_container_registry_deletions,
+    detection.container_registry_deleted,
   ]
 
   tags = merge(local.container_registry_common_tags, {
@@ -17,20 +17,20 @@ benchmark "container_registry_detections" {
   })
 }
 
-detection "detect_container_registry_deletions" {
-  title           = "Detect Container Registry Deletions"
-  description     = "Detect the deletions of a Container Registry, providing visibility into significant changes that may impact container management and deployment."
-  documentation   = file("./detections/docs/detect_container_registry_deletions.md")
+detection "container_registry_deleted" {
+  title           = "Container Registry Deleted"
+  description     = "Detect when a container registry was deleted, providing visibility into significant changes that may impact container management, deployment, or operational workflows."
+  documentation   = file("./detections/docs/container_registry_deleted.md")
   severity        = "low"
   display_columns = local.detection_display_columns
-  query           = query.detect_container_registry_deletions
+  query           = query.container_registry_deleted
 
   tags = merge(local.container_registry_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "detect_container_registry_deletions" {
+query "container_registry_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

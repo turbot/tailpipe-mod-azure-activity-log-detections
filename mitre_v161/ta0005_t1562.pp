@@ -20,12 +20,10 @@ benchmark "mitre_v161_ta0005_t1562_007" {
   type          = "detection"
   documentation = file("./mitre_v161/docs/ta0005_t1562_007.md")
   children = [
-    detection.detect_network_firewall_policy_updates,
-    detection.detect_network_firewall_rule_updates,
-    detection.detect_network_firewall_updates,
-    detection.detect_network_security_group_updates,
-    detection.detect_sql_firewall_rule_updates,
-    detection.detect_virtual_network_updates,
-    detection.detect_vpn_connection_updates,
+    detection.network_firewall_rule_updated,
+    detection.network_security_group_updated,
+    detection.sql_server_firewall_rule_updated,
+    detection.virtual_network_updated,
+    detection.network_vpn_connection_updated,
   ]
 }

@@ -9,7 +9,7 @@ benchmark "automation_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Automation activity logs."
   type        = "detection"
   children = [
-    detection.detect_automation_account_runbook_deletions,
+    detection.automation_account_runbook_deleted,
   ]
 
   tags = merge(local.automation_common_tags, {
@@ -17,20 +17,20 @@ benchmark "automation_detections" {
   })
 }
 
-detection "detect_automation_account_runbook_deletions" {
-  title           = "Detect Automation Account Runbook Deletions"
-  description     = "Detect the deletions of Azure Automation account runbook, providing visibility into significant changes that may impact automation and orchestration."
-  documentation   = file("./detections/docs/detect_automation_account_runbook_deletions.md")
+detection "automation_account_runbook_deleted" {
+  title           = "Automation Account Runbook Deleted"
+  description     = "Detect when an Azure Automation account runbook was deleted, providing visibility into significant changes that may impact automation, orchestration, or operational workflows."
+  documentation   = file("./detections/docs/automation_account_runbook_deleted.md")
   severity        = "low"
   display_columns = local.detection_display_columns
-  query           = query.detect_automation_account_runbook_deletions
+  query           = query.automation_account_runbook_deleted
 
   tags = merge(local.automation_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "detect_automation_account_runbook_deletions" {
+query "automation_account_runbook_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

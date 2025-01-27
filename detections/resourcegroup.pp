@@ -9,7 +9,7 @@ benchmark "resource_group_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Resource Group activity logs."
   type        = "detection"
   children = [
-    detection.detect_resource_group_deletions
+    detection.resource_group_deleted
   ]
 
   tags = merge(local.resource_group_common_tags, {
@@ -17,20 +17,20 @@ benchmark "resource_group_detections" {
   })
 }
 
-detection "detect_resource_group_deletions" {
-  title           = "Detect Resource Group Deletions"
-  description     = "Detects the deletion of Azure Resource Group, providing visibility into significant changes that may impact resources."
-  documentation   = file("./detections/docs/detect_resource_group_deletions.md")
+detection "resource_group_deleted" {
+  title           = "Resource Group Deleted"
+  description     = "Detect when an Azure Resource Group is deleted, potentially impacting associated resources, disrupting operations, and leading to loss of critical configurations or data."
+  documentation   = file("./detections/docs/resource_group_deleted.md")
   severity        = "low"
   display_columns = local.detection_display_columns
-  query           = query.detect_resource_group_deletions
+  query           = query.resource_group_deleted
 
   tags = merge(local.resource_group_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "detect_resource_group_deletions" {
+query "resource_group_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

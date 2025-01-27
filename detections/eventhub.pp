@@ -9,8 +9,8 @@ benchmark "event_hub_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Event Hub activity logs."
   type        = "detection"
   children = [
-    detection.detect_event_hub_auth_rule_updates,
-    detection.detect_event_hub_deletions,
+    detection.event_hub_namespace_rule_authorized,
+    detection.event_hub_namespace_deleted,
   ]
 
   tags = merge(local.event_hub_registry_common_tags, {
@@ -18,33 +18,33 @@ benchmark "event_hub_detections" {
   })
 }
 
-detection "detect_event_hub_auth_rule_updates" {
-  title           = "Detect Event Hub Auth Rule Updates"
-  description     = "Detect when a Azure Event HubsAuth Rules are updated, providing visibility into significant changes that may impact security."
-  documentation   = file("./detections/docs/detect_event_hub_auth_rule_updates.md")
+detection "event_hub_namespace_rule_authorized" {
+  title           = "Event Hub Namespace Rule Authorized"
+  description     = "Detect when an Azure Event Hub namespace authorization rule was created/updated, providing visibility into significant changes that may impact security, such as unauthorized access or privilege escalation."
+  documentation   = file("./detections/docs/event_hub_namespace_rule_authorized.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_event_hub_auth_rule_updates
+  query           = query.event_hub_namespace_rule_authorized
 
   tags = merge(local.event_hub_registry_common_tags, {
     mitre_attack_ids = "TA0003:T1078.001"
   })
 }
 
-detection "detect_event_hub_deletions" {
-  title           = "Detect Event Hub Deletions"
-  description     = "Detect the deletions of Azure Event Hub, providing visibility into significant changes that may impact security."
-  documentation   = file("./detections/docs/detect_event_hub_deletions.md")
+detection "event_hub_namespace_deleted" {
+  title           = "Event Hub Namespace Deleted"
+  description     = "Detect when an Azure Event Hub namespace was deleted, providing visibility into significant changes that may impact security, operational workflows, or data availability."
+  documentation   = file("./detections/docs/event_hub_namespace_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_event_hub_deletions
+  query           = query.event_hub_namespace_deleted
 
   tags = merge(local.event_hub_registry_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "detect_event_hub_auth_rule_updates" {
+query "event_hub_namespace_rule_authorized" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -58,7 +58,7 @@ query "detect_event_hub_auth_rule_updates" {
   EOQ
 }
 
-query "detect_event_hub_deletions" {
+query "event_hub_namespace_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

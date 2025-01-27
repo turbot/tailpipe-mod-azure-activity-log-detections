@@ -9,22 +9,20 @@ benchmark "network_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Network activity logs."
   type        = "detection"
   children = [
-    detection.detect_network_application_gateway_deletions,
-    detection.detect_network_application_security_group_deletions,
-    detection.detect_network_firewall_updates,
-    detection.detect_network_firewall_deletions,
-    detection.detect_network_security_group_updates,
-    detection.detect_network_security_group_deletions,
-    detection.detect_virtual_network_updates,
-    detection.detect_virtual_network_deletions,
-    detection.detect_vpn_connection_updates,
-    detection.detect_network_vpn_connection_deletions,
-    detection.detect_network_watcher_deletions,
-    detection.detect_network_firewall_policy_updates,
-    detection.detect_network_firewall_policy_deletions,
-    detection.detect_network_firewall_rule_updates,
-    detection.detect_network_firewall_rule_deletions,
-    detection.detect_network_dns_zone_deletions
+    detection.network_application_gateway_deleted,
+    detection.network_application_security_group_deleted,
+    detection.network_firewall_deleted,
+    detection.network_security_group_updated,
+    detection.network_security_group_deleted,
+    detection.virtual_network_updated,
+    detection.virtual_network_deleted,
+    detection.network_vpn_connection_updated,
+    detection.network_vpn_connection_deleted,
+    detection.network_watcher_deleted,
+    detection.network_firewall_policy_deleted,
+    detection.network_firewall_rule_updated,
+    detection.network_firewall_rule_deleted,
+    detection.network_dns_zone_deleted
   ]
 
   tags = merge(local.network_common_tags, {
@@ -34,208 +32,182 @@ benchmark "network_detections" {
 
 # Detections
 
-detection "detect_network_application_gateway_deletions" {
-  title           = "Detect Network Application Gateway Deletions"
-  description     = "Detect Azure Application Gateway to check for deletions that may disrupt application traffic delivery."
-  documentation   = file("./detections/docs/detect_network_application_gateway_deletions.md")
+detection "network_application_gateway_deleted" {
+  title           = "Network Application Gateway Deleted"
+  description     = "Detect when an Azure Application Gateway was deleted, which may disrupt application traffic delivery and impact availability or security controls."
+  documentation   = file("./detections/docs/network_application_gateway_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_application_gateway_deletions
+  query           = query.network_application_gateway_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "detect_network_application_security_group_deletions" {
-  title           = "Detect Network Application Security Group Deletions"
-  description     = "Detect Azure Application Security Group to check for deletions that may impact security or disrupt application delivery."
-  documentation   = file("./detections/docs/detect_network_application_security_group_deletions.md")
+detection "network_application_security_group_deleted" {
+  title           = "Network Application Security Group Deleted"
+  description     = "Detect when an Azure Application Security Group was deleted, which may impact security by disrupting access controls or application delivery."
+  documentation   = file("./detections/docs/network_application_security_group_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_application_security_group_deletions
+  query           = query.network_application_security_group_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "detect_network_firewall_updates" {
-  title           = "Detect Network Firewall Updates"
-  description     = "Detect Azure Firewall to check for write operations that may indicate configuration changes impacting network security."
-  documentation   = file("./detections/docs/detect_network_firewall_updates.md")
+detection "network_firewall_deleted" {
+  title           = "Network Firewall Deleted"
+  description     = "Detect when an Azure Firewall is deleted, potentially leaving your network vulnerable by removing critical security controls and exposing resources to unauthorized access or threats."
+  documentation   = file("./detections/docs/network_firewall_deleted.md")
+  severity        = "high"
+  display_columns = local.detection_display_columns
+  query           = query.network_firewall_deleted
+
+  tags = merge(local.network_common_tags, {
+    mitre_attack_ids = "TA0040:T1485"
+  })
+}
+
+detection "network_security_group_updated" {
+  title           = "Network Security Group Updated"
+  description     = "Detect when an Azure Network Security Group is updated, which may impact security rules and network posture by altering traffic filtering or access controls."
+  documentation   = file("./detections/docs/network_security_group_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_firewall_updates
+  query           = query.network_security_group_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "detect_network_firewall_deletions" {
-  title           = "Detect Network Firewall Deletions"
-  description     = "Detect Azure Firewall to check for deletions that may leave your network vulnerable."
-  documentation   = file("./detections/docs/detect_network_firewall_deletions.md")
+detection "network_security_group_deleted" {
+  title           = "Network Security Group Deleted"
+  description     = "Detect when an Azure Network Security Group was deleted, which may disrupt traffic filtering and increase the risk of exposure to unauthorized access or threats."
+  documentation   = file("./detections/docs/network_security_group_deleted.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_firewall_deletions
+  query           = query.network_security_group_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "detect_network_security_group_updates" {
-  title           = "Detect Network Security Group Updates"
-  description     = "Detect Azure Network Security Group to check for write operations that may impact security rules and network posture."
-  documentation   = file("./detections/docs/detect_network_security_group_updates.md")
+detection "virtual_network_updated" {
+  title           = "Virtual Network Updated"
+  description     = "Detect when an Azure Virtual Network was updated, which may impact connectivity and security by modifying configurations such as subnets, peerings, or access controls."
+  documentation   = file("./detections/docs/virtual_network_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_security_group_updates
+  query           = query.virtual_network_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "detect_network_security_group_deletions" {
-  title           = "Detect Network Security Group Deletions"
-  description     = "Detect Azure Network Security Group to check for deletions that may disrupt traffic filtering and increase risk of exposure."
-  documentation   = file("./detections/docs/detect_network_security_group_deletions.md")
+detection "virtual_network_deleted" {
+  title           = "Virtual Network Deleted"
+  description     = "Detect when an Azure Virtual Network was deleted, potentially disrupting connectivity, removing critical configurations, and exposing resources to communication failures or security risks."
+  documentation   = file("./detections/docs/virtual_network_deleted.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_security_group_deletions
+  query           = query.virtual_network_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "detect_virtual_network_updates" {
-  title           = "Detect Virtual Network Updates"
-  description     = "Detect Azure Virtual Networks to check for configuration updates that may impact connectivity and security."
-  documentation   = file("./detections/docs/detect_virtual_network_updates.md")
+detection "network_vpn_connection_updated" {
+  title           = "Network VPN Connection Updated"
+  description     = "Detect when an Azure VPN connection was updated, which may alter network connectivity, modify security configurations, or introduce risks such as unauthorized access or disrupted communication."
+  documentation   = file("./detections/docs/network_vpn_connection_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_virtual_network_updates
+  query           = query.network_vpn_connection_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "detect_virtual_network_deletions" {
-  title           = "Detect Virtual Network Deletions"
-  description     = "Detect Azure Virtual Network to check for deletions that may disrupt connectivity or result in loss of critical configurations."
-  documentation   = file("./detections/docs/detect_virtual_network_deletions.md")
+detection "network_vpn_connection_deleted" {
+  title           = "Network VPN Connection Deleted"
+  description     = "Detect when an Azure VPN connection was deleted, potentially disrupting network connectivity and impacting communication between on-premises and cloud resources or between different networks."
+  documentation   = file("./detections/docs/network_vpn_connection_deleted.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_virtual_network_deletions
+  query           = query.network_vpn_connection_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "detect_vpn_connection_updates" {
-  title           = "Detect VPN Connection Updates"
-  description     = "Detect Azure VPN Connection to check for write operations that may alter network connectivity or introduce risks."
-  documentation   = file("./detections/docs/detect_vpn_connection_updates.md")
+detection "network_watcher_deleted" {
+  title           = "Network Watcher Deleted"
+  description     = "Detect when an Azure Network Watcher was deleted, which may reduce network monitoring capabilities, impair visibility into traffic patterns, and hinder troubleshooting efforts."
+  documentation   = file("./detections/docs/network_watcher_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_vpn_connection_updates
+  query           = query.network_watcher_deleted
+
+  tags = merge(local.network_common_tags, {
+    mitre_attack_ids = "TA0040:T1485"
+  })
+}
+
+detection "network_firewall_policy_deleted" {
+  title           = "Network Firewall Policy Deleted"
+  description     = "Detect when an Azure Firewall policy was deleted, potentially leaving the network unprotected by removing critical security configurations, exposing resources to unauthorized access or threats."
+  documentation   = file("./detections/docs/network_firewall_policy_deleted.md")
+  severity        = "high"
+  display_columns = local.detection_display_columns
+  query           = query.network_firewall_policy_deleted
+
+  tags = merge(local.network_common_tags, {
+    mitre_attack_ids = "TA0040:T1485"
+  })
+}
+
+detection "network_firewall_rule_updated" {
+  title           = "Network Firewall Rule Updated"
+  description     = "Detect when an Azure Firewall rule is updated, potentially altering network traffic filtering, modifying access controls, or introducing risks such as weakened security defenses."
+  documentation   = file("./detections/docs/network_firewall_rule_updated.md")
+  severity        = "medium"
+  display_columns = local.detection_display_columns
+  query           = query.network_firewall_rule_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "detect_network_vpn_connection_deletions" {
-  title           = "Detect VPN Connection Deletions"
-  description     = "Detect Azure VPN Connection to check for deletions that may disrupt network connectivity."
-  documentation   = file("./detections/docs/detect_network_vpn_connection_deletions.md")
+detection "network_firewall_rule_deleted" {
+  title           = "Network Firewall Rule Deleted"
+  description     = "Detect when an Azure Firewall rule was deleted, potentially exposing the network to unfiltered traffic by removing critical traffic filtering and access controls."
+  documentation   = file("./detections/docs/network_firewall_rule_deleted.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_vpn_connection_deletions
+  query           = query.network_firewall_rule_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-detection "detect_network_watcher_deletions" {
-  title           = "Detect Network Watcher Deletions"
-  description     = "Detect Azure Network Watcher to check for deletions that may reduce network monitoring capabilities."
-  documentation   = file("./detections/docs/detect_network_watcher_deletions.md")
-  severity        = "medium"
-  display_columns = local.detection_display_columns
-  query           = query.detect_network_watcher_deletions
-
-  tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
-  })
-}
-
-detection "detect_network_firewall_policy_updates" {
-  title           = "Detect Network Firewall Policy Updates"
-  description     = "Detect Azure Firewall Policy to check for write operations that may impact network security configurations."
-  documentation   = file("./detections/docs/detect_network_firewall_policy_updates.md")
-  severity        = "medium"
-  display_columns = local.detection_display_columns
-  query           = query.detect_network_firewall_policy_updates
-
-  tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0005:T1562.007"
-  })
-}
-
-detection "detect_network_firewall_policy_deletions" {
-  title           = "Detect Network Firewall Policy Deletions"
-  description     = "Detect Azure Firewall Policy to check for deletions that may leave the network unprotected."
-  documentation   = file("./detections/docs/detect_network_firewall_policy_deletions.md")
+detection "network_dns_zone_deleted" {
+  title           = "Network DNS Zone Deleted"
+  description     = "Detect when an Azure DNS Zone was deleted, which may disrupt domain name resolution, impact application availability, and interrupt communication between resources."
+  documentation   = file("./detections/docs/network_dns_zone_deleted.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_network_firewall_policy_deletions
-
-  tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
-  })
-}
-
-detection "detect_network_firewall_rule_updates" {
-  title           = "Detect Network Firewall Rule Updates"
-  description     = "Detect Azure Firewall Rule to check for write operations that may change network traffic filtering."
-  documentation   = file("./detections/docs/detect_network_firewall_rule_updates.md")
-  severity        = "medium"
-  display_columns = local.detection_display_columns
-  query           = query.detect_network_firewall_rule_updates
-
-  tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0005:T1562.007"
-  })
-}
-
-detection "detect_network_firewall_rule_deletions" {
-  title           = "Detect Network Firewall Rule Deletions"
-  description     = "Detect Azure Firewall Rule to check for deletions that may expose the network to unfiltered traffic."
-  documentation   = file("./detections/docs/detect_network_firewall_rule_deletions.md")
-  severity        = "high"
-  display_columns = local.detection_display_columns
-  query           = query.detect_network_firewall_rule_deletions
-
-  tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
-  })
-}
-
-detection "detect_network_dns_zone_deletions" {
-  title           = "Detect Network DNS Zone Deletions"
-  description     = "Detect Azure DNS Zone to check for deletions that may disrupt domain name resolution and availability."
-  documentation   = file("./detections/docs/detect_network_dns_zone_deletions.md")
-  severity        = "high"
-  display_columns = local.detection_display_columns
-  query           = query.detect_network_dns_zone_deletions
+  query           = query.network_dns_zone_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
@@ -244,7 +216,7 @@ detection "detect_network_dns_zone_deletions" {
 
 # Queries
 
-query "detect_network_application_gateway_deletions" {
+query "network_application_gateway_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -258,7 +230,7 @@ query "detect_network_application_gateway_deletions" {
   EOQ
 }
 
-query "detect_network_application_security_group_deletions" {
+query "network_application_security_group_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -272,7 +244,7 @@ query "detect_network_application_security_group_deletions" {
   EOQ
 }
 
-query "detect_network_firewall_updates" {
+query "network_firewall_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -286,7 +258,7 @@ query "detect_network_firewall_updates" {
   EOQ
 }
 
-query "detect_network_firewall_deletions" {
+query "network_firewall_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -300,7 +272,7 @@ query "detect_network_firewall_deletions" {
   EOQ
 }
 
-query "detect_network_security_group_updates" {
+query "network_security_group_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -314,7 +286,7 @@ query "detect_network_security_group_updates" {
   EOQ
 }
 
-query "detect_network_security_group_deletions" {
+query "network_security_group_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -328,7 +300,7 @@ query "detect_network_security_group_deletions" {
   EOQ
 }
 
-query "detect_virtual_network_updates" {
+query "virtual_network_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -342,7 +314,7 @@ query "detect_virtual_network_updates" {
   EOQ
 }
 
-query "detect_virtual_network_deletions" {
+query "virtual_network_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -356,7 +328,7 @@ query "detect_virtual_network_deletions" {
   EOQ
 }
 
-query "detect_vpn_connection_updates" {
+query "network_vpn_connection_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -370,7 +342,7 @@ query "detect_vpn_connection_updates" {
   EOQ
 }
 
-query "detect_network_vpn_connection_deletions" {
+query "network_vpn_connection_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -384,7 +356,7 @@ query "detect_network_vpn_connection_deletions" {
   EOQ
 }
 
-query "detect_network_watcher_deletions" {
+query "network_watcher_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -398,7 +370,7 @@ query "detect_network_watcher_deletions" {
   EOQ
 }
 
-query "detect_network_firewall_policy_updates" {
+query "network_firewall_policy_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -412,7 +384,7 @@ query "detect_network_firewall_policy_updates" {
   EOQ
 }
 
-query "detect_network_firewall_policy_deletions" {
+query "network_firewall_policy_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -426,7 +398,7 @@ query "detect_network_firewall_policy_deletions" {
   EOQ
 }
 
-query "detect_network_firewall_rule_updates" {
+query "network_firewall_rule_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -440,7 +412,7 @@ query "detect_network_firewall_rule_updates" {
   EOQ
 }
 
-query "detect_network_firewall_rule_deletions" {
+query "network_firewall_rule_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -454,7 +426,7 @@ query "detect_network_firewall_rule_deletions" {
   EOQ
 }
 
-query "detect_network_dns_zone_deletions" {
+query "network_dns_zone_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

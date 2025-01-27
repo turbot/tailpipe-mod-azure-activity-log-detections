@@ -9,7 +9,7 @@ benchmark "monitor_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Monitor activity logs."
   type        = "detection"
   children = [
-    detection.detect_diagnostic_setting_deletions,
+    detection.diagnostic_setting_deleted,
   ]
 
   tags = merge(local.monitor_common_tags, {
@@ -17,21 +17,20 @@ benchmark "monitor_detections" {
   })
 }
 
-detection "detect_diagnostic_setting_deletions" {
-  title           = "Detect Diagnostic Setting Deletions"
-  description     = "Detects the deletion of Azure diagnostic settings, providing visibility into significant changes that may impact monitoring and alerting."
-  documentation   = file("./detections/docs/detect_diagnostic_setting_deletions.md")
+detection "diagnostic_setting_deleted" {
+  title           = "Diagnostic Setting Deleted"
+  description     = "Detect when an Azure diagnostic setting is deleted, potentially impacting monitoring, logging, and alerting capabilities, which may reduce visibility into resource activities."
+  documentation   = file("./detections/docs/diagnostic_setting_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_diagnostic_setting_deletions
-
+  query           = query.diagnostic_setting_deleted
 
   tags = merge(local.monitor_common_tags, {
     mitre_attack_ids = "TA0040:T1565.001"
   })
 }
 
-query "detect_diagnostic_setting_deletions" {
+query "diagnostic_setting_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

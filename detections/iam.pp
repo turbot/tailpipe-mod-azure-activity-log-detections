@@ -9,7 +9,7 @@ benchmark "iam_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure IAM activity logs."
   type        = "detection"
   children = [
-    detection.detect_iam_authorization_role_assignment_updates,
+    detection.iam_role_assignment_updated,
   ]
 
   tags = merge(local.iam_common_tags, {
@@ -17,21 +17,20 @@ benchmark "iam_detections" {
   })
 }
 
-detection "detect_iam_authorization_role_assignment_updates" {
-  title           = "Detect IAM Authorization Role Assignment Updates"
-  description     = "Detect when Azure role assignments are updated, providing visibility into significant changes that may impact security."
-  documentation   = file("./detections/docs/detect_iam_authorization_role_assignment_updates.md")
+detection "iam_role_assignment_updated" {
+  title           = "IAM Role Assignment Updated"
+  description     = "Detect when an Azure IAM role assignment was updated, providing visibility into significant changes that may impact security, such as unauthorized access or privilege escalation."
+  documentation   = file("./detections/docs/iam_role_assignment_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_iam_authorization_role_assignment_updates
-
+  query           = query.iam_role_assignment_updated
 
   tags = merge(local.iam_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 
-query "detect_iam_authorization_role_assignment_updates" {
+query "iam_role_assignment_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

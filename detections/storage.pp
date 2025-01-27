@@ -9,9 +9,9 @@ benchmark "storage_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Storage activity logs."
   type        = "detection"
   children = [
-    detection.detect_storage_account_keys_regenerated,
-    detection.detect_lifecycle_policy_updates,
-    detection.detect_storage_account_deletions,
+    detection.storage_account_key_regenerated,
+    detection.storage_account_lifecycle_policy_updated,
+    detection.storage_account_deleted,
   ]
 
   tags = merge(local.storage_common_tags, {
@@ -19,43 +19,46 @@ benchmark "storage_detections" {
   })
 }
 
-detection "detect_storage_account_keys_regenerated" {
-  title           = "Detect Storage Account Keys Regenerated"
-  description     = "Detects the regeneration of Storage account keys, providing visibility into significant changes that may impact security."
+detection "storage_account_key_regenerated" {
+  title           = "Storage Account Key Regenerated"
+  description     = "Detect when Azure Storage Account key was regenerated, which may impact security by enabling unauthorized access to the account or disrupting dependent applications using the old keys."
+  documentation   = file("./detections/docs/storage_account_key_regenerated.md")
   severity        = "low"
   display_columns = local.detection_display_columns
-  query           = query.detect_storage_account_keys_regenerated
+  query           = query.storage_account_key_regenerated
 
   tags = merge(local.storage_common_tags, {
     mitre_attack_ids = "TA0006:T1552.001"
   })
 }
 
-detection "detect_lifecycle_policy_updates" {
-  title           = "Detect Azure Storage Lifecycle Policy Updates"
-  description     = "Detect changes to Azure Storage lifecycle policies, which could result in data destruction by setting rules that trigger unintended deletions."
+detection "storage_account_lifecycle_policy_updated" {
+  title           = "Storage Account Lifecycle Policy Updated"
+  description     = "Detect when Azure Storage Account lifecycle policies are updated, potentially leading to data destruction by modifying rules that trigger unintended deletions or move data to less secure storage tiers."
+  documentation   = file("./detections/docs/storage_account_lifecycle_policy_updated.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_lifecycle_policy_updates
+  query           = query.storage_account_lifecycle_policy_updated
 
   tags = merge(local.storage_common_tags, {
     mitre_attack_ids = "TA0040:T1485.001"
   })
 }
 
-detection "detect_storage_account_deletions" {
-  title           = "Detect Storage Account Deletions"
-  description     = "Detect the deletions of Azure Storage accounts, providing visibility into significant changes that may impact storage management."
-  severity        = "low"
+detection "storage_account_deleted" {
+  title           = "Storage Account Deleted"
+  description     = "Detect when an Azure Storage Account is deleted, potentially disrupting storage management, causing data loss, and impacting dependent applications or workflows."
+  documentation   = file("./detections/docs/storage_account_deleted.md")
+  severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.detect_storage_account_deletions
+  query           = query.storage_account_deleted
 
   tags = merge(local.storage_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "detect_storage_account_deletions" {
+query "storage_account_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -69,7 +72,7 @@ query "detect_storage_account_deletions" {
   EOQ
 }
 
-query "detect_lifecycle_policy_updates" {
+query "storage_account_lifecycle_policy_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -83,7 +86,7 @@ query "detect_lifecycle_policy_updates" {
   EOQ
 }
 
-query "detect_storage_account_keys_regenerated" {
+query "storage_account_key_regenerated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

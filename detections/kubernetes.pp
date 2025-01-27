@@ -9,7 +9,7 @@ benchmark "kubernetes_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Kubernetes activity logs."
   type        = "detection"
   children = [
-    detection.detect_kubernetes_cluster_deletions
+    detection.kubernetes_cluster_deleted
   ]
 
   tags = merge(local.kubernetes_common_tags, {
@@ -17,20 +17,20 @@ benchmark "kubernetes_detections" {
   })
 }
 
-detection "detect_kubernetes_cluster_deletions" {
-  title           = "Detect Kubernetes Cluster Deletions"
-  description     = "Detects when a Azure Kubernetes Cluster is created or deleted."
-  documentation   = file("./detections/docs/detect_kubernetes_cluster_deletions.md")
+detection "kubernetes_cluster_deleted" {
+  title           = "Kubernetes Cluster Deleted"
+  description     = "Detect when an Azure Kubernetes Cluster was deleted, which may lead to operational disruptions, loss of workloads, and reduced application availability."
+  documentation   = file("./detections/docs/kubernetes_cluster_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.detect_kubernetes_cluster_deletions
+  query           = query.kubernetes_cluster_deleted
 
   tags = merge(local.kubernetes_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "detect_kubernetes_cluster_deletions" {
+query "kubernetes_cluster_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
