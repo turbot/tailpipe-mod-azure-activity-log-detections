@@ -26,7 +26,7 @@ detection "front_door_firewall_policy_deleted" {
   query           = query.front_door_firewall_policy_deleted
 
   tags = merge(local.front_door_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
+    mitre_attack_ids = "TA0005:T1562"
   })
 }
 

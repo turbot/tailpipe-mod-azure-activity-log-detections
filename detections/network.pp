@@ -41,7 +41,7 @@ detection "network_application_gateway_deleted" {
   query           = query.network_application_gateway_deleted
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
+    mitre_attack_ids = "TA0040:T1485, TA0040:T1531"
   })
 }
 
@@ -80,7 +80,7 @@ detection "network_security_group_created_or_updated" {
   query           = query.network_security_group_created_or_updated
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0005:T1562.007"
+    mitre_attack_ids = "TA0004:T1078"
   })
 }
 
@@ -93,7 +93,7 @@ detection "network_security_group_deleted" {
   query           = query.network_security_group_deleted
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
+    mitre_attack_ids = "TA0005:T1562"
   })
 }
 
@@ -184,7 +184,7 @@ detection "network_firewall_rule_created_or_updated" {
   query           = query.network_firewall_rule_created_or_updated
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0005:T1562.007"
+    mitre_attack_ids = "TA0004:T1078"
   })
 }
 

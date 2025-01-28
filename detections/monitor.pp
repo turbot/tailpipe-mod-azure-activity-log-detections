@@ -26,7 +26,7 @@ detection "diagnostic_setting_deleted" {
   query           = query.diagnostic_setting_deleted
 
   tags = merge(local.monitor_common_tags, {
-    mitre_attack_ids = "TA0040:T1565.001"
+    mitre_attack_ids = "TA0040:T1565.001, TA0005:T1562.002"
   })
 }
 
