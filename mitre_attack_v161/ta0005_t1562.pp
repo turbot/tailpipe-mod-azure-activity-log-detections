@@ -20,10 +20,10 @@ benchmark "mitre_attack_v161_ta0005_t1562_007" {
   type          = "detection"
   documentation = file("./mitre_attack_v161/docs/ta0005_t1562_007.md")
   children = [
-    detection.network_firewall_rule_updated,
-    detection.network_security_group_updated,
-    detection.sql_server_firewall_rule_updated,
-    detection.virtual_network_updated,
-    detection.network_vpn_connection_updated,
+    detection.network_firewall_rule_created_or_updated,
+    detection.network_security_group_created_or_updated,
+    detection.sql_server_firewall_rule_created_or_updated,
+    detection.virtual_network_created_or_updated,
+    detection.network_vpn_connection_created_or_updated,
   ]
 }
