@@ -1,15 +1,15 @@
 locals {
-  mitre_v161_ta0040_t1485_common_tags = merge(local.mitre_v161_ta0040_common_tags, {
+  mitre_attack_v161_ta0040_t1485_common_tags = merge(local.mitre_attack_v161_ta0040_common_tags, {
     mitre_technique_id = "T1485"
   })
 }
 
-benchmark "mitre_v161_ta0040_t1485" {
+benchmark "mitre_attack_v161_ta0040_t1485" {
   title         = "T1485 Data Destruction"
   type          = "detection"
-  documentation = file("./mitre_v161/docs/ta0040_t1485.md")
+  documentation = file("./mitre_attack_v161/docs/ta0040_t1485.md")
   children = [
-    benchmark.mitre_v161_ta0040_t1485_001,
+    benchmark.mitre_attack_v161_ta0040_t1485_001,
     detection.network_application_gateway_deleted,
     detection.network_application_security_group_deleted,
     detection.automation_account_runbook_deleted,
@@ -35,13 +35,13 @@ benchmark "mitre_v161_ta0040_t1485" {
     detection.network_vpn_connection_deleted,
   ]
 
-  tags = local.mitre_v161_ta0040_t1485_common_tags
+  tags = local.mitre_attack_v161_ta0040_t1485_common_tags
 }
 
-benchmark "mitre_v161_ta0040_t1485_001" {
+benchmark "mitre_attack_v161_ta0040_t1485_001" {
   title         = "T1485.001 Data Destruction: Lifecycle-Triggered Deletion"
   type          = "detection"
-  documentation = file("./mitre_v161/docs/ta0040_t1485_001.md")
+  documentation = file("./mitre_attack_v161/docs/ta0040_t1485_001.md")
   children = [
     detection.storage_account_lifecycle_policy_updated,
   ]
