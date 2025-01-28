@@ -37,7 +37,7 @@ query "front_door_firewall_policy_deleted" {
     from
       azure_activity_log
     where
-      operation_name = 'Microsoft.Network/frontDoorWebApplicationFirewallPolicies/delete'
+      operation_name = 'Microsoft.Network/frontdoorWebApplicationFirewallPolicies/delete'
       ${local.detection_sql_where_conditions}
     order by
       timestamp DESC;
