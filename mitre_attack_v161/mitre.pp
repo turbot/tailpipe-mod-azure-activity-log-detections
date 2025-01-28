@@ -1,7 +1,6 @@
 locals {
   mitre_attack_v161_common_tags = merge(local.azure_activity_log_detections_common_tags, {
-    mitre         = "true"
-    mitre_version = "v16.1"
+    mitre_attack_version = "v16.1"
   })
 }
 
