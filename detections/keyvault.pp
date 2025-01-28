@@ -9,8 +9,8 @@ benchmark "key_vault_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Key Vault activity logs."
   type        = "detection"
   children = [
-    detection.key_vault_deleted,
-    detection.key_vault_access_policy_updated
+    detection.key_vault_access_policy_updated,
+    detection.key_vault_deleted
   ]
 
   tags = merge(local.key_vault_common_tags, {

@@ -20,7 +20,7 @@ benchmark "mitre_attack_v161_ta0040_t1485" {
     detection.network_firewall_deleted,
     detection.network_firewall_policy_deleted,
     detection.network_firewall_rule_deleted,
-    detection.frontdoor_firewall_policy_deleted,
+    detection.front_door_firewall_policy_deleted,
     detection.key_vault_deleted,
     detection.kubernetes_cluster_deleted,
     detection.network_security_group_deleted,

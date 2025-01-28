@@ -7,7 +7,7 @@ benchmark "activity_log" {
     benchmark.compute_detections,
     benchmark.container_registry_detections,
     benchmark.event_hub_detections,
-    benchmark.frontdoor_detections,
+    benchmark.front_door_detections,
     benchmark.iam_detections,
     benchmark.key_vault_detections,
     benchmark.kubernetes_detections,

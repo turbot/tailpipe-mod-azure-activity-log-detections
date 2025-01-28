@@ -9,11 +9,11 @@ benchmark "sql_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure SQL activity logs."
   type        = "detection"
   children = [
+    detection.sql_database_deleted,
+    detection.sql_database_tde_updated,
     detection.sql_server_deleted,
     detection.sql_server_firewall_rule_updated,
-    detection.sql_database_deleted,
-    detection.sql_server_role_assignment_updated,
-    detection.sql_database_tde_updated
+    detection.sql_server_role_assignment_updated
   ]
 
   tags = merge(local.sql_common_tags, {

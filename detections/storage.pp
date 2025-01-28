@@ -9,9 +9,9 @@ benchmark "storage_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Storage activity logs."
   type        = "detection"
   children = [
-    detection.storage_account_key_regenerated,
-    detection.storage_account_lifecycle_policy_updated,
     detection.storage_account_deleted,
+    detection.storage_account_key_regenerated,
+    detection.storage_account_lifecycle_policy_updated
   ]
 
   tags = merge(local.storage_common_tags, {

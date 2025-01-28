@@ -11,18 +11,18 @@ benchmark "network_detections" {
   children = [
     detection.network_application_gateway_deleted,
     detection.network_application_security_group_deleted,
+    detection.network_dns_zone_deleted,
     detection.network_firewall_deleted,
-    detection.network_security_group_updated,
-    detection.network_security_group_deleted,
-    detection.virtual_network_updated,
-    detection.virtual_network_deleted,
-    detection.network_vpn_connection_updated,
-    detection.network_vpn_connection_deleted,
-    detection.network_watcher_deleted,
     detection.network_firewall_policy_deleted,
-    detection.network_firewall_rule_updated,
     detection.network_firewall_rule_deleted,
-    detection.network_dns_zone_deleted
+    detection.network_firewall_rule_updated,
+    detection.network_security_group_deleted,
+    detection.network_security_group_updated,
+    detection.network_vpn_connection_deleted,
+    detection.network_vpn_connection_updated,
+    detection.network_watcher_deleted,
+    detection.virtual_network_deleted,
+    detection.virtual_network_updated
   ]
 
   tags = merge(local.network_common_tags, {
