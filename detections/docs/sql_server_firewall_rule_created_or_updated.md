@@ -1,6 +1,6 @@
 ## Overview
 
-Detect when an Azure SQL server firewall rule was updated. Firewall rules control network access to SQL servers, and changes to these rules can impact database connectivity or security. Monitoring these updates helps ensure proper access control and prevents unauthorized modifications that could compromise data security.
+Detect when an Azure SQL server firewall rule was created or updated. Firewall rules control network access to SQL servers, and changes to these rules can impact database connectivity or security. Monitoring these updates helps ensure proper access control and prevents unauthorized modifications that could compromise data security.
 
 **References**:
 - [Azure SQL Database Firewall Rules](https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure?view=azuresql)

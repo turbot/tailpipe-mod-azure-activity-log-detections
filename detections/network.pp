@@ -15,14 +15,14 @@ benchmark "network_detections" {
     detection.network_firewall_deleted,
     detection.network_firewall_policy_deleted,
     detection.network_firewall_rule_deleted,
-    detection.network_firewall_rule_updated,
+    detection.network_firewall_rule_created_or_updated,
     detection.network_security_group_deleted,
-    detection.network_security_group_updated,
+    detection.network_security_group_created_or_updated,
     detection.network_vpn_connection_deleted,
-    detection.network_vpn_connection_updated,
+    detection.network_vpn_connection_created_or_updated,
     detection.network_watcher_deleted,
     detection.virtual_network_deleted,
-    detection.virtual_network_updated
+    detection.virtual_network_created_or_updated
   ]
 
   tags = merge(local.network_common_tags, {
@@ -71,13 +71,13 @@ detection "network_firewall_deleted" {
   })
 }
 
-detection "network_security_group_updated" {
-  title           = "Network Security Group Updated"
-  description     = "Detect when an Azure Network Security Group is updated, which may impact security rules and network posture by altering traffic filtering or access controls."
-  documentation   = file("./detections/docs/network_security_group_updated.md")
+detection "network_security_group_created_or_updated" {
+  title           = "Network Security Group Created or Updated"
+  description     = "Detect when an Azure Network Security Group was created or updated, which may impact security rules and network posture by altering traffic filtering or access controls."
+  documentation   = file("./detections/docs/network_security_group_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.network_security_group_updated
+  query           = query.network_security_group_created_or_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -97,13 +97,13 @@ detection "network_security_group_deleted" {
   })
 }
 
-detection "virtual_network_updated" {
-  title           = "Virtual Network Updated"
-  description     = "Detect when an Azure Virtual Network was updated, which may impact connectivity and security by modifying configurations such as subnets, peerings, or access controls."
-  documentation   = file("./detections/docs/virtual_network_updated.md")
+detection "virtual_network_created_or_updated" {
+  title           = "Virtual Network Created or Updated"
+  description     = "Detect when an Azure Virtual Network was created or updated, which may impact connectivity and security by modifying configurations such as subnets, peerings, or access controls."
+  documentation   = file("./detections/docs/virtual_network_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.virtual_network_updated
+  query           = query.virtual_network_created_or_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -123,13 +123,13 @@ detection "virtual_network_deleted" {
   })
 }
 
-detection "network_vpn_connection_updated" {
-  title           = "Network VPN Connection Updated"
-  description     = "Detect when an Azure VPN connection was updated, which may alter network connectivity, modify security configurations, or introduce risks such as unauthorized access or disrupted communication."
-  documentation   = file("./detections/docs/network_vpn_connection_updated.md")
+detection "network_vpn_connection_created_or_updated" {
+  title           = "Network VPN Connection Created or Updated"
+  description     = "Detect when an Azure VPN connection was created or updated, which may alter network connectivity, modify security configurations, or introduce risks such as unauthorized access or disrupted communication."
+  documentation   = file("./detections/docs/network_vpn_connection_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.network_vpn_connection_updated
+  query           = query.network_vpn_connection_created_or_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -175,13 +175,13 @@ detection "network_firewall_policy_deleted" {
   })
 }
 
-detection "network_firewall_rule_updated" {
-  title           = "Network Firewall Rule Updated"
-  description     = "Detect when an Azure Firewall rule is updated, potentially altering network traffic filtering, modifying access controls, or introducing risks such as weakened security defenses."
-  documentation   = file("./detections/docs/network_firewall_rule_updated.md")
+detection "network_firewall_rule_created_or_updated" {
+  title           = "Network Firewall Rule Created or Updated"
+  description     = "Detect when an Azure Firewall rule was created or updated, potentially altering network traffic filtering, modifying access controls, or introducing risks such as weakened security defenses."
+  documentation   = file("./detections/docs/network_firewall_rule_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.network_firewall_rule_updated
+  query           = query.network_firewall_rule_created_or_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -272,7 +272,7 @@ query "network_firewall_deleted" {
   EOQ
 }
 
-query "network_security_group_updated" {
+query "network_security_group_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -300,7 +300,7 @@ query "network_security_group_deleted" {
   EOQ
 }
 
-query "virtual_network_updated" {
+query "virtual_network_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -328,7 +328,7 @@ query "virtual_network_deleted" {
   EOQ
 }
 
-query "network_vpn_connection_updated" {
+query "network_vpn_connection_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -398,7 +398,7 @@ query "network_firewall_policy_deleted" {
   EOQ
 }
 
-query "network_firewall_rule_updated" {
+query "network_firewall_rule_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

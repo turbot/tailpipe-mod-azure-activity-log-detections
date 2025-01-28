@@ -9,7 +9,7 @@ benchmark "compute_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Compute activity logs."
   type        = "detection"
   children = [
-    detection.compute_vm_role_assignment_updated,
+    detection.compute_vm_role_assignment_created_or_updated,
     detection.compute_disk_deleted,
     detection.compute_snapshot_deleted,
   ]
@@ -19,13 +19,13 @@ benchmark "compute_detections" {
   })
 }
 
-detection "compute_vm_role_assignment_updated" {
-  title           = "Compute VM Role Assignment Updated"
-  description     = "Detect when a role assignment was updated for an Azure Virtual Machine, which may impact security and access controls by granting or revoking permissions."
-  documentation   = file("./detections/docs/compute_vm_role_assignment_updated.md")
+detection "compute_vm_role_assignment_created_or_updated" {
+  title           = "Compute VM Role Assignment Created or Updated"
+  description     = "Detect when a role assignment was created or updated for an Azure Virtual Machine, which may impact security and access controls by granting or revoking permissions."
+  documentation   = file("./detections/docs/compute_vm_role_assignment_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.compute_vm_role_assignment_updated
+  query           = query.compute_vm_role_assignment_created_or_updated
 
   tags = merge(local.compute_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
@@ -58,7 +58,7 @@ detection "compute_snapshot_deleted" {
   })
 }
 
-query "compute_vm_role_assignment_updated" {
+query "compute_vm_role_assignment_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

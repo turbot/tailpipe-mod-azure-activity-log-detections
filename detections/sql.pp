@@ -10,10 +10,10 @@ benchmark "sql_detections" {
   type        = "detection"
   children = [
     detection.sql_database_deleted,
-    detection.sql_database_tde_updated,
+    detection.sql_database_tde_created_or_updated,
     detection.sql_server_deleted,
-    detection.sql_server_firewall_rule_updated,
-    detection.sql_server_role_assignment_updated
+    detection.sql_server_firewall_rule_created_or_updated,
+    detection.sql_server_role_assignment_created_or_updated
   ]
 
   tags = merge(local.sql_common_tags, {
@@ -34,13 +34,13 @@ detection "sql_server_deleted" {
   })
 }
 
-detection "sql_server_firewall_rule_updated" {
-  title           = "SQL Server Firewall Rule Updated"
-  description     = "Detect when an Azure SQL Server firewall rule was updated, which may expose the server to unauthorized connections by altering access controls or allowing unrestricted IP ranges."
-  documentation   = file("./detections/docs/sql_server_firewall_rule_updated.md")
+detection "sql_server_firewall_rule_created_or_updated" {
+  title           = "SQL Server Firewall Rule Created or Updated"
+  description     = "Detect when an Azure SQL Server firewall rule was created or updated, which may expose the server to unauthorized connections by altering access controls or allowing unrestricted IP ranges."
+  documentation   = file("./detections/docs/sql_server_firewall_rule_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.sql_server_firewall_rule_updated
+  query           = query.sql_server_firewall_rule_created_or_updated
 
   tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
@@ -60,33 +60,33 @@ detection "sql_database_deleted" {
   })
 }
 
-detection "sql_server_role_assignment_updated" {
-  title           = "SQL Server Role Assignment Updated"
-  description     = "Detect when an Azure SQL Server role assignment was updated, which may grant elevated privileges or unauthorized access, potentially impacting the security of databases and sensitive data."
-  documentation   = file("./detections/docs/sql_server_role_assignment_updated.md")
+detection "sql_server_role_assignment_created_or_updated" {
+  title           = "SQL Server Role Assignment Created or Updated"
+  description     = "Detect when an Azure SQL Server role assignment was created or updated, which may grant elevated privileges or unauthorized access, potentially impacting the security of databases and sensitive data."
+  documentation   = file("./detections/docs/sql_server_role_assignment_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.sql_server_role_assignment_updated
+  query           = query.sql_server_role_assignment_created_or_updated
 
   tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
   })
 }
 
-detection "sql_database_tde_updated" {
-  title           = "SQL Database TDE Updated"
-  description     = "Detect when Transparent Data Encryption (TDE) was updated for an Azure SQL Database, which may expose sensitive data by disabling encryption or altering encryption settings."
-  documentation   = file("./detections/docs/sql_database_tde_updated.md")
+detection "sql_database_tde_created_or_updated" {
+  title           = "SQL Database TDE Created or Updated"
+  description     = "Detect when Transparent Data Encryption (TDE) was created or updated for an Azure SQL Database, which may expose sensitive data by disabling encryption or altering encryption settings."
+  documentation   = file("./detections/docs/sql_database_tde_created_or_updated.md")
   severity        = "high"
   display_columns = local.detection_display_columns
-  query           = query.sql_database_tde_updated
+  query           = query.sql_database_tde_created_or_updated
 
   tags = merge(local.sql_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
   })
 }
 
-query "sql_database_tde_updated" {
+query "sql_database_tde_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -100,7 +100,7 @@ query "sql_database_tde_updated" {
   EOQ
 }
 
-query "sql_server_role_assignment_updated" {
+query "sql_server_role_assignment_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -129,7 +129,7 @@ query "sql_database_deleted" {
   EOQ
 }
 
-query "sql_server_firewall_rule_updated" {
+query "sql_server_firewall_rule_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

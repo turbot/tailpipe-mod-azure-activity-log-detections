@@ -9,7 +9,7 @@ benchmark "key_vault_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Key Vault activity logs."
   type        = "detection"
   children = [
-    detection.key_vault_access_policy_updated,
+    detection.key_vault_access_policy_created_or_updated,
     detection.key_vault_deleted
   ]
 
@@ -33,13 +33,13 @@ detection "key_vault_deleted" {
   })
 }
 
-detection "key_vault_access_policy_updated" {
-  title           = "Key Vault Access Policy Updated"
-  description     = "Detect when an Azure Key Vault access policy is updated, which may impact security by changing permissions and potentially allowing unauthorized access or privilege escalation."
-  documentation   = file("./detections/docs/key_vault_access_policy_updated.md")
+detection "key_vault_access_policy_created_or_updated" {
+  title           = "Key Vault Access Policy Created or Updated"
+  description     = "Detect when an Azure Key Vault access policy was created or updated, which may impact security by changing permissions and potentially allowing unauthorized access or privilege escalation."
+  documentation   = file("./detections/docs/key_vault_access_policy_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.key_vault_access_policy_updated
+  query           = query.key_vault_access_policy_created_or_updated
 
   tags = merge(local.key_vault_common_tags, {
     mitre_attack_ids = "TA0003:T1078.004"
@@ -62,7 +62,7 @@ query "key_vault_deleted" {
   EOQ
 }
 
-query "key_vault_access_policy_updated" {
+query "key_vault_access_policy_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

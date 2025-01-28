@@ -1,6 +1,6 @@
 ## Overview
 
-Detect when a role assignment in Azure Microsoft Entra was updated. Role assignment changes can modify access permissions, potentially granting or revoking critical resource access. Monitoring these updates helps ensure proper governance and prevents unauthorized access to sensitive resources.
+Detect when a role assignment in Azure IAM was created or updated. Role assignment changes can modify access permissions, potentially granting or revoking critical resource access. Monitoring these updates helps ensure proper governance and prevents unauthorized access to sensitive resources.
 
 **References**:
 - [Azure Role Assignments](https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal)
