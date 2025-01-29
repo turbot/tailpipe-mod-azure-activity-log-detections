@@ -22,7 +22,7 @@ detection "event_hub_namespace_rule_authorized" {
   title           = "Event Hub Namespace Rule Authorized"
   description     = "Detect when an Azure Event Hub namespace authorization rule was created/updated, providing visibility into significant changes that may impact security, such as unauthorized access or privilege escalation."
   documentation   = file("./detections/docs/event_hub_namespace_rule_authorized.md")
-  severity        = "medium"
+  severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.event_hub_namespace_rule_authorized
 

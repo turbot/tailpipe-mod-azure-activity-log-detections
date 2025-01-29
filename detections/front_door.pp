@@ -21,7 +21,7 @@ detection "front_door_firewall_policy_deleted" {
   title           = "Front Door Firewall Policy Deleted"
   description     = "Detect when a Front Door firewall policy was deleted, providing visibility into significant changes that may impact security by removing protections against malicious traffic."
   documentation   = file("./detections/docs/front_door_firewall_policy_deleted.md")
-  severity        = "low"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.front_door_firewall_policy_deleted
 

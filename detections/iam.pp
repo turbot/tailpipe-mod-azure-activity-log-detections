@@ -21,7 +21,7 @@ detection "iam_role_assignment_created_or_updated" {
   title           = "IAM Role Assignment Created or Updated"
   description     = "Detect when an Azure IAM role assignment was created or updated, providing visibility into significant changes that may impact security, such as unauthorized access or privilege escalation."
   documentation   = file("./detections/docs/iam_role_assignment_created_or_updated.md")
-  severity        = "medium"
+  severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.iam_role_assignment_created_or_updated
 

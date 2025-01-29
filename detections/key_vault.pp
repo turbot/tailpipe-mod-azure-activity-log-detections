@@ -24,7 +24,7 @@ detection "key_vault_deleted" {
   title           = "Key Vault Deleted"
   description     = "Detect when an Azure Key Vault was deleted, potentially leading to data or service loss and impacting the availability of critical secrets, keys, or certificates."
   documentation   = file("./detections/docs/key_vault_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.key_vault_deleted
 
@@ -37,7 +37,7 @@ detection "key_vault_access_policy_created_or_updated" {
   title           = "Key Vault Access Policy Created or Updated"
   description     = "Detect when an Azure Key Vault access policy was created or updated, which may impact security by changing permissions and potentially allowing unauthorized access or privilege escalation."
   documentation   = file("./detections/docs/key_vault_access_policy_created_or_updated.md")
-  severity        = "medium"
+  severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.key_vault_access_policy_created_or_updated
 

@@ -23,7 +23,7 @@ detection "storage_account_key_regenerated" {
   title           = "Storage Account Key Regenerated"
   description     = "Detect when Azure Storage Account key was regenerated, which may impact security by enabling unauthorized access to the account or disrupting dependent applications using the old keys."
   documentation   = file("./detections/docs/storage_account_key_regenerated.md")
-  severity        = "low"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.storage_account_key_regenerated
 
@@ -36,7 +36,7 @@ detection "storage_account_lifecycle_policy_updated" {
   title           = "Storage Account Lifecycle Policy Updated"
   description     = "Detect when Azure Storage Account lifecycle policies are updated, potentially leading to data destruction by modifying rules that trigger unintended deletions or move data to less secure storage tiers."
   documentation   = file("./detections/docs/storage_account_lifecycle_policy_updated.md")
-  severity        = "high"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.storage_account_lifecycle_policy_updated
 
@@ -49,7 +49,7 @@ detection "storage_account_deleted" {
   title           = "Storage Account Deleted"
   description     = "Detect when an Azure Storage Account is deleted, potentially disrupting storage management, causing data loss, and impacting dependent applications or workflows."
   documentation   = file("./detections/docs/storage_account_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.storage_account_deleted
 

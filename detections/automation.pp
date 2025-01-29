@@ -21,7 +21,7 @@ detection "automation_account_runbook_deleted" {
   title           = "Automation Account Runbook Deleted"
   description     = "Detect when an Azure Automation account runbook was deleted, providing visibility into significant changes that may impact automation, orchestration, or operational workflows."
   documentation   = file("./detections/docs/automation_account_runbook_deleted.md")
-  severity        = "low"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.automation_account_runbook_deleted
 

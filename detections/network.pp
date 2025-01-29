@@ -114,7 +114,7 @@ detection "virtual_network_deleted" {
   title           = "Virtual Network Deleted"
   description     = "Detect when an Azure Virtual Network was deleted, potentially disrupting connectivity, removing critical configurations, and exposing resources to communication failures or security risks."
   documentation   = file("./detections/docs/virtual_network_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.virtual_network_deleted
 
@@ -140,7 +140,7 @@ detection "network_vpn_connection_deleted" {
   title           = "Network VPN Connection Deleted"
   description     = "Detect when an Azure VPN connection was deleted, potentially disrupting network connectivity and impacting communication between on-premises and cloud resources or between different networks."
   documentation   = file("./detections/docs/network_vpn_connection_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_vpn_connection_deleted
 
@@ -179,7 +179,7 @@ detection "network_firewall_rule_created_or_updated" {
   title           = "Network Firewall Rule Created or Updated"
   description     = "Detect when an Azure Firewall rule was created or updated, potentially altering network traffic filtering, modifying access controls, or introducing risks such as weakened security defenses."
   documentation   = file("./detections/docs/network_firewall_rule_created_or_updated.md")
-  severity        = "medium"
+  severity        = "high"
   display_columns = local.detection_display_columns
   query           = query.network_firewall_rule_created_or_updated
 
@@ -205,7 +205,7 @@ detection "network_dns_zone_deleted" {
   title           = "Network DNS Zone Deleted"
   description     = "Detect when an Azure DNS Zone was deleted, which may disrupt domain name resolution, impact application availability, and interrupt communication between resources."
   documentation   = file("./detections/docs/network_dns_zone_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_dns_zone_deleted
 
