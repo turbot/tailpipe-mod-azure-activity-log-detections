@@ -9,9 +9,9 @@ benchmark "compute_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Compute activity logs."
   type        = "detection"
   children = [
-    detection.compute_vm_role_assignment_created_or_updated,
     detection.compute_disk_deleted,
     detection.compute_snapshot_deleted,
+    detection.compute_vm_role_assignment_created_or_updated,
   ]
 
   tags = merge(local.compute_common_tags, {

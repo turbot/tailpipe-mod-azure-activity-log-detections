@@ -13,7 +13,7 @@ benchmark "sql_detections" {
     detection.sql_database_tde_created_or_updated,
     detection.sql_server_deleted,
     detection.sql_server_firewall_rule_created_or_updated,
-    detection.sql_server_role_assignment_created_or_updated
+    detection.sql_server_role_assignment_created_or_updated,
   ]
 
   tags = merge(local.sql_common_tags, {

@@ -9,8 +9,8 @@ benchmark "event_hub_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Event Hub activity logs."
   type        = "detection"
   children = [
-    detection.event_hub_namespace_rule_authorized,
     detection.event_hub_namespace_deleted,
+    detection.event_hub_namespace_rule_authorized,
   ]
 
   tags = merge(local.event_hub_registry_common_tags, {

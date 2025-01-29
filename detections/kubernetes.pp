@@ -9,7 +9,7 @@ benchmark "kubernetes_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Kubernetes activity logs."
   type        = "detection"
   children = [
-    detection.kubernetes_cluster_deleted
+    detection.kubernetes_cluster_deleted,
   ]
 
   tags = merge(local.kubernetes_common_tags, {

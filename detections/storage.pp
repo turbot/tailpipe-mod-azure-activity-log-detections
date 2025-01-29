@@ -11,7 +11,7 @@ benchmark "storage_detections" {
   children = [
     detection.storage_account_deleted,
     detection.storage_account_key_regenerated,
-    detection.storage_account_lifecycle_policy_updated
+    detection.storage_account_lifecycle_policy_updated,
   ]
 
   tags = merge(local.storage_common_tags, {

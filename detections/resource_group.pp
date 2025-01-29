@@ -9,7 +9,7 @@ benchmark "resource_group_detections" {
   description = "This detection benchmark contains recommendations when scanning Azure Resource Group activity logs."
   type        = "detection"
   children = [
-    detection.resource_group_deleted
+    detection.resource_group_deleted,
   ]
 
   tags = merge(local.resource_group_common_tags, {
