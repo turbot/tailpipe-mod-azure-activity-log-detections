@@ -93,7 +93,7 @@ detection "network_security_group_deleted" {
   query           = query.network_security_group_deleted
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0005:T1562"
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 

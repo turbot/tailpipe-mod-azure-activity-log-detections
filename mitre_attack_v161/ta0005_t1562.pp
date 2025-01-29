@@ -11,7 +11,6 @@ benchmark "mitre_attack_v161_ta0005_t1562" {
   children = [
     benchmark.mitre_attack_v161_ta0005_t1562_007,
     benchmark.mitre_attack_v161_ta0005_t1562_002,
-    detection.network_security_group_deleted,
   ]
 
   tags = local.mitre_attack_v161_ta0005_t1562_common_tags
@@ -25,6 +24,7 @@ benchmark "mitre_attack_v161_ta0005_t1562_007" {
     detection.front_door_firewall_policy_deleted,
     detection.network_firewall_rule_created_or_updated,
     detection.network_security_group_created_or_updated,
+    detection.network_security_group_deleted,
     detection.network_vpn_connection_created_or_updated,
     detection.sql_server_firewall_rule_created_or_updated,
     detection.virtual_network_created_or_updated,
