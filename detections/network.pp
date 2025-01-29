@@ -21,8 +21,8 @@ benchmark "network_detections" {
     detection.network_vpn_connection_created_or_updated,
     detection.network_vpn_connection_deleted,
     detection.network_watcher_deleted,
-    detection.virtual_network_created_or_updated,
-    detection.virtual_network_deleted,
+    detection.network_virtual_network_created_or_updated,
+    detection.network_virtual_network_deleted,
   ]
 
   tags = merge(local.network_common_tags, {
@@ -97,26 +97,26 @@ detection "network_security_group_deleted" {
   })
 }
 
-detection "virtual_network_created_or_updated" {
-  title           = "Virtual Network Created or Updated"
-  description     = "Detect when an Azure Virtual Network was created or updated, which may impact connectivity and security by modifying configurations such as subnets, peerings, or access controls."
-  documentation   = file("./detections/docs/virtual_network_created_or_updated.md")
+detection "network_virtual_network_created_or_updated" {
+  title           = "Network Virtual Network Created or Updated"
+  description     = "Detect when an Azure Network Virtual Network was created or updated, which may impact connectivity and security by modifying configurations such as subnets, peerings, or access controls."
+  documentation   = file("./detections/docs/network_virtual_network_created_or_updated.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.virtual_network_created_or_updated
+  query           = query.network_virtual_network_created_or_updated
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
-detection "virtual_network_deleted" {
-  title           = "Virtual Network Deleted"
-  description     = "Detect when an Azure Virtual Network was deleted, potentially disrupting connectivity, removing critical configurations, and exposing resources to communication failures or security risks."
-  documentation   = file("./detections/docs/virtual_network_deleted.md")
+detection "network_virtual_network_deleted" {
+  title           = "Network Virtual Network Deleted"
+  description     = "Detect when an Azure Network Virtual Network was deleted, potentially disrupting connectivity, removing critical configurations, and exposing resources to communication failures or security risks."
+  documentation   = file("./detections/docs/network_virtual_network_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
-  query           = query.virtual_network_deleted
+  query           = query.network_virtual_network_deleted
 
   tags = merge(local.network_common_tags, {
     mitre_attack_ids = "TA0040:T1485"
@@ -300,7 +300,7 @@ query "network_security_group_deleted" {
   EOQ
 }
 
-query "virtual_network_created_or_updated" {
+query "network_virtual_network_created_or_updated" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}
@@ -314,7 +314,7 @@ query "virtual_network_created_or_updated" {
   EOQ
 }
 
-query "virtual_network_deleted" {
+query "network_virtual_network_deleted" {
   sql = <<-EOQ
     select
       ${local.detection_sql_columns}

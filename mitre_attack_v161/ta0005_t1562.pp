@@ -31,7 +31,7 @@ benchmark "mitre_attack_v161_ta0005_t1562_002" {
   type          = "detection"
   documentation = file("./mitre_attack_v161/docs/ta0005_t1562_002.md")
   children = [
-    detection.diagnostic_setting_deleted,
+    detection.monitor_diagnostic_setting_deleted,
   ]
 }
 
@@ -46,6 +46,6 @@ benchmark "mitre_attack_v161_ta0005_t1562_007" {
     detection.network_security_group_deleted,
     detection.network_vpn_connection_created_or_updated,
     detection.sql_server_firewall_rule_created_or_updated,
-    detection.virtual_network_created_or_updated,
+    detection.network_virtual_network_created_or_updated,
   ]
 }

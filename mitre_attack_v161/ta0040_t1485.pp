@@ -28,7 +28,7 @@ benchmark "mitre_attack_v161_ta0040_t1485" {
     detection.sql_server_deleted,
     detection.sql_database_tde_created_or_updated,
     detection.storage_account_deleted,
-    detection.virtual_network_deleted,
+    detection.network_virtual_network_deleted,
     detection.network_vpn_connection_deleted,
   ]
 

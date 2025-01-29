@@ -20,6 +20,6 @@ benchmark "mitre_attack_v161_ta0040_t1565_001" {
   type          = "detection"
   documentation = file("./mitre_attack_v161/docs/ta0040_t1565_001.md")
   children = [
-    detection.diagnostic_setting_deleted,
+    detection.monitor_diagnostic_setting_deleted,
   ]
 }
