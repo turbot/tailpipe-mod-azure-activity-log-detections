@@ -1,4 +1,4 @@
-benchmark "activity_log" {
+benchmark "activity_log_detections" {
   title       = "Activity Log Detections"
   description = "This detection benchmark contains recommendations when scanning Azure Activity logs."
   type        = "detection"
