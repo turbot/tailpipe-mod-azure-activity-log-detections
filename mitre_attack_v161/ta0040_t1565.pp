@@ -22,4 +22,8 @@ benchmark "mitre_attack_v161_ta0040_t1565_001" {
   children = [
     detection.monitor_diagnostic_setting_deleted,
   ]
+
+  tags = merge(local.mitre_attack_v161_ta0040_t1565_common_tags, {
+    mitre_attack_technique_id = "T1565.001"
+  })
 }
