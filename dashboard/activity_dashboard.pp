@@ -1,5 +1,5 @@
 dashboard "activity_dashboard" {
-  title = "ActivityLog Activity Dashboard"
+  title = "Activity Log Activity Dashboard"
 
   tags = {
     type    = "Dashboard"
@@ -32,7 +32,7 @@ dashboard "activity_dashboard" {
 
     chart {
       title = "Top 10 Actors"
-      query = query.activity_dashboard_logs_by_actors
+      query = query.activity_dashboard_logs_by_actor
       type  = "table"
       width = 6
     }
@@ -45,8 +45,15 @@ dashboard "activity_dashboard" {
     }
 
     chart {
-      title = "Top 10 Operations"
-      query = query.activity_dashboard_logs_by_operation
+      title = "Top 10 Services"
+      query = query.activity_dashboard_logs_by_service
+      type  = "table"
+      width = 6
+    }
+
+    chart {
+      title = "Top 10 Events"
+      query = query.activity_dashboard_logs_by_event
       type  = "table"
       width = 6
     }
@@ -59,11 +66,11 @@ dashboard "activity_dashboard" {
 # -----------------------------
 
 query "activity_dashboard_total_logs" {
-  title = "Total Log Count"
+  title = "Log Count"
 
   sql = <<-EOQ
     select
-      count(*) as "total logs"
+      count(*) as "Total Logs"
     from
       azure_activity_log;
   EOQ
@@ -107,7 +114,7 @@ query "activity_dashboard_logs_by_subscription" {
   EOQ
 }
 
-query "activity_dashboard_logs_by_actors" {
+query "activity_dashboard_logs_by_actor" {
   title = "Top 10 Actors"
 
   sql = <<-EOQ
@@ -145,12 +152,31 @@ query "activity_dashboard_logs_by_source_ip" {
   EOQ
 }
 
-query "activity_dashboard_logs_by_operation" {
-  title = "Top 10 Operations"
+query "activity_dashboard_logs_by_service" {
+  title = "Top 10 Service"
 
   sql = <<-EOQ
     select
-      operation_name as "Operation Name",
+      resource_provider_name as "Service",
+      count(*) as "Logs"
+    from
+      azure_activity_log
+    where
+      resource_provider_name is not null
+    group by
+      resource_provider_name
+    order by
+      count(*) desc
+    limit 10;
+  EOQ
+}
+
+query "activity_dashboard_logs_by_event" {
+  title = "Top 10 Events"
+
+  sql = <<-EOQ
+    select
+      operation_name as "Event",
       count(*) as "Logs"
     from
       azure_activity_log
