@@ -82,7 +82,7 @@ detection "sql_database_tde_created_or_updated" {
   query           = query.sql_database_tde_created_or_updated
 
   tags = merge(local.sql_common_tags, {
-    mitre_attack_ids = "TA0040:T1485"
+    mitre_attack_ids = "TA0040:T1490"
   })
 }
 

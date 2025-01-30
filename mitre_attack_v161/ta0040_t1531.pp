@@ -9,7 +9,6 @@ benchmark "mitre_attack_v161_ta0040_t1531" {
   type          = "detection"
   documentation = file("./mitre_attack_v161/docs/ta0040_t1531.md")
   children = [
-    detection.automation_account_runbook_deleted,
   ]
 
   tags = local.mitre_attack_v161_ta0040_t1531_common_tags

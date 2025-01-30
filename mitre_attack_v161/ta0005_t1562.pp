@@ -44,8 +44,8 @@ benchmark "mitre_attack_v161_ta0005_t1562_007" {
     detection.network_firewall_rule_created_or_updated,
     detection.network_security_group_created_or_updated,
     detection.network_security_group_deleted,
+    detection.network_virtual_network_created_or_updated,
     detection.network_vpn_connection_created_or_updated,
     detection.sql_server_firewall_rule_created_or_updated,
-    detection.network_virtual_network_created_or_updated,
   ]
 }
