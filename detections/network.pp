@@ -60,7 +60,7 @@ detection "network_application_security_group_deleted" {
 
 detection "network_firewall_deleted" {
   title           = "Network Firewall Deleted"
-  description     = "Detect when an Azure Firewall is deleted, potentially leaving your network vulnerable by removing critical security controls and exposing resources to unauthorized access or threats."
+  description     = "Detect when an Azure Firewall was deleted, potentially leaving your network vulnerable by removing critical security controls and exposing resources to unauthorized access or threats."
   documentation   = file("./detections/docs/network_firewall_deleted.md")
   severity        = "high"
   display_columns = local.detection_display_columns

@@ -19,7 +19,7 @@ benchmark "resource_group_detections" {
 
 detection "resource_group_deleted" {
   title           = "Resource Group Deleted"
-  description     = "Detect when an Azure Resource Group is deleted, potentially impacting associated resources, disrupting operations, and leading to loss of critical configurations or data."
+  description     = "Detect when an Azure Resource Group was deleted, potentially impacting associated resources, disrupting operations, and leading to loss of critical configurations or data."
   documentation   = file("./detections/docs/resource_group_deleted.md")
   severity        = "low"
   display_columns = local.detection_display_columns
