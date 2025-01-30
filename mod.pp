@@ -1,16 +1,16 @@
 mod "azure_activity_log_detections" {
   # hub metadata
   title         = "Azure Activity Log Detections"
-  description   = "Search your Azure activity logs for high risk actions using Tailpipe."
+  description   = "Run detections and view dashboards for your Azure activity logs to monitor and analyze activity across your Azure subscriptions using Powerpipe and Tailpipe."
   color         = "#191717"
-  #documentation = file("./docs/index.md")
-  #icon          = "/images/mods/turbot/azure.svg"
+  documentation = file("./docs/index.md")
+  icon          = "/images/mods/turbot/azure-activity-log-detections.svg"
   categories    = ["azure", "dashboard", "detections", "public cloud"]
   database      = var.database
 
   opengraph {
-    title       = "Tailpipe Mod for Azure Activity Log Detections"
-    description = "Search your Azure activity logs for high risk actions using Tailpipe."
-    #image       = "/images/mods/turbot/azure-social-graphic.png"
+    title       = "Powerpipe Mod for Azure Activity Log Detections"
+    description = "Run detections and view dashboards for your Azure activity logs to monitor and analyze activity across your Azure subscriptions using Powerpipe and Tailpipe."
+    image       = "/images/mods/turbot/azure-activity-log-detections-social-graphic.png"
   }
 }
