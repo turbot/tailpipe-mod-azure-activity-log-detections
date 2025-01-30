@@ -62,7 +62,7 @@ detection "network_firewall_deleted" {
   title           = "Network Firewall Deleted"
   description     = "Detect when an Azure Firewall is deleted, potentially leaving your network vulnerable by removing critical security controls and exposing resources to unauthorized access or threats."
   documentation   = file("./detections/docs/network_firewall_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_firewall_deleted
 
@@ -88,7 +88,7 @@ detection "network_security_group_deleted" {
   title           = "Network Security Group Deleted"
   description     = "Detect when an Azure Network Security Group was deleted, which may disrupt traffic filtering and increase the risk of exposure to unauthorized access or threats."
   documentation   = file("./detections/docs/network_security_group_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_security_group_deleted
 
@@ -166,7 +166,7 @@ detection "network_firewall_policy_deleted" {
   title           = "Network Firewall Policy Deleted"
   description     = "Detect when an Azure Firewall policy was deleted, potentially leaving the network unprotected by removing critical security configurations, exposing resources to unauthorized access or threats."
   documentation   = file("./detections/docs/network_firewall_policy_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_firewall_policy_deleted
 
@@ -179,7 +179,7 @@ detection "network_firewall_rule_created_or_updated" {
   title           = "Network Firewall Rule Created or Updated"
   description     = "Detect when an Azure Firewall rule was created or updated, potentially altering network traffic filtering, modifying access controls, or introducing risks such as weakened security defenses."
   documentation   = file("./detections/docs/network_firewall_rule_created_or_updated.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_firewall_rule_created_or_updated
 
@@ -192,7 +192,7 @@ detection "network_firewall_rule_deleted" {
   title           = "Network Firewall Rule Deleted"
   description     = "Detect when an Azure Firewall rule was deleted, potentially exposing the network to unfiltered traffic by removing critical traffic filtering and access controls."
   documentation   = file("./detections/docs/network_firewall_rule_deleted.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.network_firewall_rule_deleted
 

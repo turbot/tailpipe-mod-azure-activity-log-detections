@@ -49,7 +49,7 @@ detection "storage_account_deleted" {
   title           = "Storage Account Deleted"
   description     = "Detect when an Azure Storage Account is deleted, potentially disrupting storage management, causing data loss, and impacting dependent applications or workflows."
   documentation   = file("./detections/docs/storage_account_deleted.md")
-  severity        = "medium"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.storage_account_deleted
 

@@ -21,7 +21,7 @@ detection "monitor_diagnostic_setting_deleted" {
   title           = "Monitor Diagnostic Setting Deleted"
   description     = "Detect when an Azure monitor diagnostic setting was deleted, potentially impacting monitoring, logging, and alerting capabilities, which may reduce visibility into resource activities."
   documentation   = file("./detections/docs/monitor_diagnostic_setting_deleted.md")
-  severity        = "medium"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.monitor_diagnostic_setting_deleted
 

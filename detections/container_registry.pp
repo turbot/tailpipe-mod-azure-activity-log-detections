@@ -21,7 +21,7 @@ detection "container_registry_deleted" {
   title           = "Container Registry Deleted"
   description     = "Detect when a container registry was deleted, providing visibility into significant changes that may impact container management, deployment, or operational workflows."
   documentation   = file("./detections/docs/container_registry_deleted.md")
-  severity        = "medium"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.container_registry_deleted
 

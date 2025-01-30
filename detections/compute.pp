@@ -23,7 +23,7 @@ detection "compute_vm_role_assignment_created_or_updated" {
   title           = "Compute VM Role Assignment Created or Updated"
   description     = "Detect when a role assignment was created or updated for an Azure Virtual Machine, which may impact security and access controls by granting or revoking permissions."
   documentation   = file("./detections/docs/compute_vm_role_assignment_created_or_updated.md")
-  severity        = "high"
+  severity        = "medium"
   display_columns = local.detection_display_columns
   query           = query.compute_vm_role_assignment_created_or_updated
 
@@ -36,7 +36,7 @@ detection "compute_disk_deleted" {
   title           = "Compute Disk Deleted"
   description     = "Detect when an Azure Managed Disk was deleted, which may lead to data loss or operational disruptions, impacting business continuity or recovery efforts."
   documentation   = file("./detections/docs/compute_disk_deleted.md")
-  severity        = "medium"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.compute_disk_deleted
 
@@ -49,7 +49,7 @@ detection "compute_snapshot_deleted" {
   title           = "Compute Snapshot Deleted"
   description     = "Detect when an Azure Managed Disk Snapshot was deleted, which may indicate malicious activity or result in data loss, impacting recovery and backup processes."
   documentation   = file("./detections/docs/compute_snapshot_deleted.md")
-  severity        = "medium"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.compute_snapshot_deleted
 

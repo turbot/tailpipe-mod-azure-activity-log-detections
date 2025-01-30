@@ -21,7 +21,7 @@ detection "kubernetes_cluster_deleted" {
   title           = "Kubernetes Cluster Deleted"
   description     = "Detect when an Azure Kubernetes Cluster was deleted, which may lead to operational disruptions, loss of workloads, and reduced application availability."
   documentation   = file("./detections/docs/kubernetes_cluster_deleted.md")
-  severity        = "medium"
+  severity        = "low"
   display_columns = local.detection_display_columns
   query           = query.kubernetes_cluster_deleted
 
