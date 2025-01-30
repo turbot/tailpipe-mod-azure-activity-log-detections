@@ -1,5 +1,5 @@
 dashboard "activity_dashboard" {
-  title = "Activity Log Activity Dashboard"
+  title = "ActivityLog Activity Dashboard"
 
   tags = {
     type    = "Dashboard"
@@ -17,29 +17,22 @@ dashboard "activity_dashboard" {
   container {
 
     chart {
-      title = "Logs by Level"
-      query = query.activity_dashboard_logs_by_level
+      title = "Logs by Subscription"
+      query = query.activity_dashboard_logs_by_subscription
       type  = "column"
       width = 6
     }
 
     chart {
-      title = "Logs by Category"
-      query = query.activity_dashboard_logs_by_category
+      title = "Logs by Resource Group"
+      query = query.activity_dashboard_logs_by_resource_group
       type  = "column"
       width = 6
     }
 
     chart {
-      title = "Logs by Operation"
-      query = query.activity_dashboard_logs_by_operation
-      type  = "column"
-      width = 6
-    }
-
-    chart {
-      title = "Top 10 Callers"
-      query = query.activity_dashboard_logs_by_caller
+      title = "Top 10 Actors"
+      query = query.activity_dashboard_logs_by_actors
       type  = "table"
       width = 6
     }
@@ -52,8 +45,8 @@ dashboard "activity_dashboard" {
     }
 
     chart {
-      title = "Top 10 Resources"
-      query = query.activity_dashboard_logs_by_resource
+      title = "Top 10 Operations"
+      query = query.activity_dashboard_logs_by_operation
       type  = "table"
       width = 6
     }
@@ -76,70 +69,51 @@ query "activity_dashboard_total_logs" {
   EOQ
 }
 
-query "activity_dashboard_logs_by_level" {
-  title = "Logs by Level"
+query "activity_dashboard_logs_by_resource_group" {
+  title = "Logs by Resource Group"
 
   sql = <<-EOQ
     select
-      level as "level",
-      count(*) as "logs"
+      resource_group_name as "Resource Group",
+      count(*) as "Logs"
     from
       azure_activity_log
     where
-      level is not null
+      resource_group_name is not null
     group by
-      level
+      resource_group_name
     order by
       count(*) desc
     limit 10;
   EOQ
 }
 
-query "activity_dashboard_logs_by_category" {
-  title = "Logs by Category"
+query "activity_dashboard_logs_by_subscription" {
+  title = "Logs by Subscription"
 
   sql = <<-EOQ
     select
-      category as "category",
-      count(*) as "logs"
+      subscription_id as "Subscription",
+      count(*) as "Logs"
     from
       azure_activity_log
     where
-      category is not null
+      subscription_id is not null
     group by
-      category
+      subscription_id
     order by
       count(*) desc
     limit 10;
   EOQ
 }
 
-query "activity_dashboard_logs_by_operation" {
-  title = "Logs by Operation"
+query "activity_dashboard_logs_by_actors" {
+  title = "Top 10 Actors"
 
   sql = <<-EOQ
     select
-      operation_name as "operation name",
-      count(*) as "logs"
-    from
-      azure_activity_log
-    where
-      operation_name is not null
-    group by
-      operation_name
-    order by
-      count(*) desc
-    limit 10;
-  EOQ
-}
-
-query "activity_dashboard_logs_by_caller" {
-  title = "Top 10 Callers"
-
-  sql = <<-EOQ
-    select
-      caller as "caller",
-      count(*) as "logs"
+      caller as "Actor",
+      count(*) as "Logs"
     from
       azure_activity_log
     where
@@ -157,8 +131,8 @@ query "activity_dashboard_logs_by_source_ip" {
 
   sql = <<-EOQ
     select
-      tp_source_ip as "source ip",
-      count(*) as "logs"
+      tp_source_ip as "Source IP",
+      count(*) as "Logs"
     from
       azure_activity_log
     where
@@ -171,19 +145,19 @@ query "activity_dashboard_logs_by_source_ip" {
   EOQ
 }
 
-query "activity_dashboard_logs_by_resource" {
-  title = "Top 10 Resources"
+query "activity_dashboard_logs_by_operation" {
+  title = "Top 10 Operations"
 
   sql = <<-EOQ
     select
-      resource_id as "resource",
-      count(*) as "logs"
+      operation_name as "Operation Name",
+      count(*) as "Logs"
     from
       azure_activity_log
     where
-      resource_id is not null
+      operation_name is not null
     group by
-      resource_id
+      operation_name
     order by
       count(*) desc
     limit 10;
