@@ -244,20 +244,6 @@ query "network_application_security_group_deleted" {
   EOQ
 }
 
-query "network_firewall_updated" {
-  sql = <<-EOQ
-    select
-      ${local.detection_sql_columns}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/azureFirewalls/write'
-      ${local.detection_sql_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
 query "network_firewall_deleted" {
   sql = <<-EOQ
     select
@@ -364,20 +350,6 @@ query "network_watcher_deleted" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Network/networkWatchers/delete'
-      ${local.detection_sql_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "network_firewall_policy_updated" {
-  sql = <<-EOQ
-    select
-      ${local.detection_sql_columns}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/firewallPolicies/write'
       ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
