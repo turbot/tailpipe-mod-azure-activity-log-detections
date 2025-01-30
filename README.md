@@ -4,7 +4,7 @@
 
 [Azure](https://azure.microsoft.com) provides on-demand cloud computing platforms and APIs to authenticated customers on a metered pay-as-you-go basis.
 
-The [Azure Activity Log Detections Mod](https://hub.powerpipe.mods/turbot/tailpipe-mod-azure-activity-log-detections) contains pre-built dashboards and detections, which can be used to monitor and analyze activity across your Azure subscriptions.
+The [Azure Activity Log Detections Mod](https://hub.powerpipe.io/mods/turbot/tailpipe-mod-azure-activity-log-detections) contains pre-built dashboards and detections, which can be used to monitor and analyze activity across your Azure subscriptions.
 
 Run detection benchmarks:
 ![image](docs/images/azure_activity_log_mitre_dashboard.png)
