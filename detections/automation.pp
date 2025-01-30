@@ -26,7 +26,7 @@ detection "automation_account_runbook_deleted" {
   query           = query.automation_account_runbook_deleted
 
   tags = merge(local.automation_common_tags, {
-    mitre_attack_ids = "TA0040:T1485, TA0040:T1531"
+    mitre_attack_ids = "TA0040:T1485"
   })
 }
 

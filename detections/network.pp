@@ -60,7 +60,7 @@ detection "network_application_security_group_deleted" {
 
 detection "network_firewall_deleted" {
   title           = "Network Firewall Deleted"
-  description     = "Detect when an Azure Firewall is deleted, potentially leaving your network vulnerable by removing critical security controls and exposing resources to unauthorized access or threats."
+  description     = "Detect when an Azure Firewall was deleted, potentially leaving your network vulnerable by removing critical security controls and exposing resources to unauthorized access or threats."
   documentation   = file("./detections/docs/network_firewall_deleted.md")
   severity        = "medium"
   display_columns = local.detection_display_columns
@@ -80,7 +80,7 @@ detection "network_security_group_created_or_updated" {
   query           = query.network_security_group_created_or_updated
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0004:T1078"
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -184,7 +184,7 @@ detection "network_firewall_rule_created_or_updated" {
   query           = query.network_firewall_rule_created_or_updated
 
   tags = merge(local.network_common_tags, {
-    mitre_attack_ids = "TA0004:T1078"
+    mitre_attack_ids = "TA0005:T1562.007"
   })
 }
 
@@ -238,20 +238,6 @@ query "network_application_security_group_deleted" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Network/applicationSecurityGroups/delete'
-      ${local.detection_sql_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "network_firewall_updated" {
-  sql = <<-EOQ
-    select
-      ${local.detection_sql_columns}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/azureFirewalls/write'
       ${local.detection_sql_where_conditions}
     order by
       timestamp desc;
@@ -364,20 +350,6 @@ query "network_watcher_deleted" {
       azure_activity_log
     where
       operation_name = 'Microsoft.Network/networkWatchers/delete'
-      ${local.detection_sql_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
-
-query "network_firewall_policy_updated" {
-  sql = <<-EOQ
-    select
-      ${local.detection_sql_columns}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.Network/firewallPolicies/write'
       ${local.detection_sql_where_conditions}
     order by
       timestamp desc;

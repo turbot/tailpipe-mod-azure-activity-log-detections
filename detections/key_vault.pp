@@ -75,17 +75,3 @@ query "key_vault_access_policy_created_or_updated" {
       timestamp desc;
   EOQ
 }
-
-query "detect_key_vault_secret_restore_operations" {
-  sql = <<-EOQ
-    select
-      ${local.detection_sql_columns}
-    from
-      azure_activity_log
-    where
-      operation_name = 'Microsoft.KeyVault/vaults/secrets/restore/action'
-      ${local.detection_sql_where_conditions}
-    order by
-      timestamp desc;
-  EOQ
-}
