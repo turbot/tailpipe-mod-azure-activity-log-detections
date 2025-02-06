@@ -1,3 +1,9 @@
+## v0.2.0 [2025-02-06]
+
+_Enhancements_
+
+- Added documentation for `activity_dashboard` dashboard. ([#5](https://github.com/turbot/tailpipe-mod-azure-activity-log-detections/pull/5))
+
 ## v0.1.1 [2025-01-30]
 
 _Bug fixes_
