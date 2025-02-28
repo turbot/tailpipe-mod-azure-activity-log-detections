@@ -1,5 +1,6 @@
 locals {
   key_vault_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Key Vault"
     service = "Azure/KeyVault"
   })
 }
@@ -60,6 +61,8 @@ query "key_vault_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.key_vault_common_tags
 }
 
 query "key_vault_access_policy_created_or_updated" {
@@ -74,4 +77,6 @@ query "key_vault_access_policy_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.key_vault_common_tags
 }

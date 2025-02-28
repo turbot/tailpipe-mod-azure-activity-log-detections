@@ -1,5 +1,6 @@
 locals {
   event_hub_registry_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Event Hub"
     service = "Azure/EventHub"
   })
 }
@@ -56,6 +57,8 @@ query "event_hub_namespace_rule_authorized" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.event_hub_registry_common_tags
 }
 
 query "event_hub_namespace_deleted" {
@@ -70,4 +73,6 @@ query "event_hub_namespace_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.event_hub_registry_common_tags
 }

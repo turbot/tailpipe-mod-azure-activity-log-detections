@@ -1,5 +1,6 @@
 locals {
   sql_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "SQL"
     service = "Azure/SQL"
   })
 }
@@ -98,6 +99,8 @@ query "sql_database_tde_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.sql_common_tags
 }
 
 query "sql_server_role_assignment_created_or_updated" {
@@ -113,6 +116,8 @@ query "sql_server_role_assignment_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.sql_common_tags
 }
 
 query "sql_database_deleted" {
@@ -127,6 +132,8 @@ query "sql_database_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.sql_common_tags
 }
 
 query "sql_server_firewall_rule_created_or_updated" {
@@ -141,6 +148,8 @@ query "sql_server_firewall_rule_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.sql_common_tags
 }
 
 query "sql_server_deleted" {
@@ -155,4 +164,6 @@ query "sql_server_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.sql_common_tags
 }

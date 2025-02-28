@@ -1,5 +1,6 @@
 locals {
   network_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Network"
     service = "Azure/Network"
   })
 }
@@ -228,6 +229,8 @@ query "network_application_gateway_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_application_security_group_deleted" {
@@ -242,6 +245,8 @@ query "network_application_security_group_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_firewall_deleted" {
@@ -256,6 +261,8 @@ query "network_firewall_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_security_group_created_or_updated" {
@@ -270,6 +277,8 @@ query "network_security_group_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_security_group_deleted" {
@@ -284,6 +293,8 @@ query "network_security_group_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_virtual_network_created_or_updated" {
@@ -298,6 +309,8 @@ query "network_virtual_network_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_virtual_network_deleted" {
@@ -312,6 +325,8 @@ query "network_virtual_network_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_vpn_connection_created_or_updated" {
@@ -326,6 +341,8 @@ query "network_vpn_connection_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_vpn_connection_deleted" {
@@ -340,6 +357,8 @@ query "network_vpn_connection_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_watcher_deleted" {
@@ -354,6 +373,8 @@ query "network_watcher_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_firewall_policy_deleted" {
@@ -368,6 +389,8 @@ query "network_firewall_policy_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_firewall_rule_created_or_updated" {
@@ -382,6 +405,8 @@ query "network_firewall_rule_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_firewall_rule_deleted" {
@@ -396,6 +421,8 @@ query "network_firewall_rule_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }
 
 query "network_dns_zone_deleted" {
@@ -410,4 +437,6 @@ query "network_dns_zone_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.network_common_tags
 }

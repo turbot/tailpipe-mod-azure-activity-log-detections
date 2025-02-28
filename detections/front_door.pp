@@ -1,5 +1,6 @@
 locals {
   front_door_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Front Door"
     service = "Azure/FrontDoor"
   })
 }
@@ -42,4 +43,6 @@ query "front_door_firewall_policy_deleted" {
     order by
       timestamp DESC;
   EOQ
+
+  tags = local.front_door_common_tags
 }

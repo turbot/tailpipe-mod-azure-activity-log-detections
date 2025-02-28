@@ -1,5 +1,6 @@
 locals {
   storage_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Storage"
     service = "Azure/Storage"
   })
 }
@@ -70,6 +71,8 @@ query "storage_account_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.storage_common_tags
 }
 
 query "storage_account_lifecycle_policy_updated" {
@@ -84,6 +87,8 @@ query "storage_account_lifecycle_policy_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.storage_common_tags
 }
 
 query "storage_account_key_regenerated" {
@@ -98,4 +103,6 @@ query "storage_account_key_regenerated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.storage_common_tags
 }
