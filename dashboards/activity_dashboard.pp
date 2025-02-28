@@ -68,7 +68,8 @@ dashboard "activity_dashboard" {
 # -----------------------------
 
 query "activity_dashboard_total_logs" {
-  title = "Log Count"
+  title       = "Log Count"
+  description = "Count the total log entries."
 
   sql = <<-EOQ
     select
@@ -76,10 +77,15 @@ query "activity_dashboard_total_logs" {
     from
       azure_activity_log;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
 
 query "activity_dashboard_logs_by_resource_group" {
-  title = "Logs by Resource Group"
+  title       = "Logs by Resource Group"
+  description = "Count log entries grouped by resource group."
 
   sql = <<-EOQ
     select
@@ -95,10 +101,15 @@ query "activity_dashboard_logs_by_resource_group" {
       count(*) desc
     limit 10;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
 
 query "activity_dashboard_logs_by_subscription" {
-  title = "Logs by Subscription"
+  title       = "Logs by Subscription"
+  description = "Count log entries grouped by subscription."
 
   sql = <<-EOQ
     select
@@ -114,10 +125,15 @@ query "activity_dashboard_logs_by_subscription" {
       count(*) desc
     limit 10;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
 
 query "activity_dashboard_logs_by_actor" {
-  title = "Top 10 Actors"
+  title       = "Top 10 Actors"
+  description = "List the top 10 actors by frequency of log entries."
 
   sql = <<-EOQ
     select
@@ -133,10 +149,15 @@ query "activity_dashboard_logs_by_actor" {
       count(*) desc
     limit 10;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
 
 query "activity_dashboard_logs_by_source_ip" {
-  title = "Top 10 Source IPs"
+  title       = "Top 10 Source IPs"
+  description = "List the top 10 source IPs by frequency of log entries."
 
   sql = <<-EOQ
     select
@@ -152,10 +173,15 @@ query "activity_dashboard_logs_by_source_ip" {
       count(*) desc
     limit 10;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
 
 query "activity_dashboard_logs_by_service" {
-  title = "Top 10 Service"
+  title       = "Top 10 Service"
+  description = "List the top 10 services by frequency of log entries."
 
   sql = <<-EOQ
     select
@@ -171,10 +197,15 @@ query "activity_dashboard_logs_by_service" {
       count(*) desc
     limit 10;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
 
 query "activity_dashboard_logs_by_event" {
-  title = "Top 10 Events"
+  title       = "Top 10 Events"
+  description = "List the top 10 events by frequency of log entries."
 
   sql = <<-EOQ
     select
@@ -190,4 +221,8 @@ query "activity_dashboard_logs_by_event" {
       count(*) desc
     limit 10;
   EOQ
+
+  tags = {
+    folder = "Account"
+  }
 }
