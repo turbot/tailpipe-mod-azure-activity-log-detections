@@ -79,7 +79,7 @@ query "activity_dashboard_total_logs" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
 
@@ -103,7 +103,7 @@ query "activity_dashboard_logs_by_resource_group" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
 
@@ -127,7 +127,7 @@ query "activity_dashboard_logs_by_subscription" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
 
@@ -151,7 +151,7 @@ query "activity_dashboard_logs_by_actor" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
 
@@ -175,7 +175,7 @@ query "activity_dashboard_logs_by_source_ip" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
 
@@ -199,7 +199,7 @@ query "activity_dashboard_logs_by_service" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
 
@@ -223,6 +223,6 @@ query "activity_dashboard_logs_by_event" {
   EOQ
 
   tags = {
-    folder = "Account"
+    folder = "Subscription"
   }
 }
