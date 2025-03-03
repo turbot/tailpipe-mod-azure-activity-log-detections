@@ -1,5 +1,6 @@
 locals {
   compute_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Compute"
     service = "Azure/Compute"
   })
 }
@@ -71,6 +72,8 @@ query "compute_vm_role_assignment_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.compute_common_tags
 }
 
 query "compute_disk_deleted" {
@@ -85,6 +88,8 @@ query "compute_disk_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.compute_common_tags
 }
 
 query "compute_snapshot_deleted" {
@@ -99,4 +104,6 @@ query "compute_snapshot_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.compute_common_tags
 }

@@ -1,5 +1,6 @@
 locals {
   iam_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "IAM"
     service = "Azure/IAM"
   })
 }
@@ -42,4 +43,6 @@ query "iam_role_assignment_created_or_updated" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.iam_common_tags
 }
