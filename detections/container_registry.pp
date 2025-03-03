@@ -1,5 +1,6 @@
 locals {
   container_registry_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Container Registry"
     service = "Azure/ContainerRegistry"
   })
 }
@@ -42,4 +43,6 @@ query "container_registry_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.container_registry_common_tags
 }

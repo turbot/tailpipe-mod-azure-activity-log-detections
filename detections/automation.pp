@@ -1,5 +1,6 @@
 locals {
   automation_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Automation"
     service = "Azure/Automation"
   })
 }
@@ -42,4 +43,6 @@ query "automation_account_runbook_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.automation_common_tags
 }

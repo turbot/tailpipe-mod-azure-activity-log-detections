@@ -1,5 +1,6 @@
 locals {
   resource_group_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Resource Group"
     service = "Azure/ResourceGroup"
   })
 }
@@ -42,4 +43,6 @@ query "resource_group_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.resource_group_common_tags
 }

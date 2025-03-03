@@ -1,5 +1,6 @@
 locals {
   kubernetes_common_tags = merge(local.azure_activity_log_detections_common_tags, {
+    folder  = "Kubernetes"
     service = "Azure/KubernetesService"
   })
 }
@@ -42,4 +43,6 @@ query "kubernetes_cluster_deleted" {
     order by
       timestamp desc;
   EOQ
+
+  tags = local.kubernetes_common_tags
 }
